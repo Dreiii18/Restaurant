@@ -22,5 +22,12 @@ $pages = [
         'html' => ['customer.html'],
         'css'  => ['customer.css'],
         'js'   => ['customer.js'],
+    ],
+
+    // Order page
+    'o' => [
+        'html' => ['order.html'],
+        'css'  => ['order.css'],
+        'js'   => ['order.js'],
     ]
 ];
