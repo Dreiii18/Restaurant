@@ -32,6 +32,18 @@
               </nav>
 
         <main>
+            <button id="toCart" onclick="cart.html">To Cart -></button>
+
+            <section>
+              <h2>Filters</h2>
+              <a href="#fullMenu">Full Menu</a>
+              <a href="#starters">Starters</a>
+              <a href="#entrees">Entrees</a>
+              <a href="#sides">Sides</a>
+              <a href="#desserts">Desserts</a>
+              <a href="#beverages">Beverages</a>
+            </section>
+
             <h2>Recently Ordered</h2>
             <div id="recent"></div>
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -42,13 +54,13 @@
                 </ol>
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img class="d-block w-100" src="../images/jalapenoPoppers.jpg" alt="First slide">
+                    <img class="d-block w-100" src="./frontend/images/jalapenoPoppers.jpg" alt="First slide">
                   </div>
                   <div class="carousel-item">
-                    <img class="d-block w-100" src="../images/smokedbrisket.jpg" alt="Second slide">
+                    <img class="d-block w-100" src="./frontend/images/smokedbrisket.jpg" alt="Second slide">
                   </div>
                   <div class="carousel-item">
-                    <img class="d-block w-100" src="../images/truffleMacCheeseBalls.jpg" alt="Third slide">
+                    <img class="d-block w-100" src="./frontend/images/truffleMacCheeseBalls.jpg" alt="Third slide">
                   </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -117,31 +129,46 @@
                 </a>
               </div>
             <h2>Full Menu</h2>
-            <button id="fullMenu">Full Menu</button>
+            <button id="fullMenu" >Full Menu</button>
             <div id="menu">
                 <div id="starters">
                     <h2>Starters</h2>
                     <dl>
-                        <dt>Jalapeno Poppers</dt><img src="../images/jalapenoPoppers.jpg"></dt>
+                        <dt>Jalapeno Poppers</dt><img src="./frontend/images/jalapenoPoppers.jpg"></dt>
                           <dd>Jalapeños stuffed with lobster and cream cheese, wrapped in bacon, with a chipotle aioli. $61.99</dd>
                           <button id="subtract">-</button>
                           <text class="itemCount" id="2">0</text>
                           <button id="add">+</button>
-                        <dt>Truffel Mac and Cheese Balls<img src="../images/truffleMacCheeseBalls.jpg"></dt>
+                        <dt>Truffel Mac and Cheese Balls<img src="./frontend/images/truffleMacCheeseBalls.jpg"></dt>
                           <dd>Deep-fried mac and cheese with a rich truffle béchamel sauce. $25.99</dd>
+                          <button id="subtract">-</button>
+                          <text class="itemCount" id="3">0</text>
+                          <button id="add">+</button>
                         <dt>Foie Gras Cornbread Muffins</dt>
                           <dd>Sweet cornbread muffins with a foie gras butter drizzle. $49.99</dd>
+                          <button id="subtract">-</button>
+                          <text class="itemCount" id="4">0</text>
+                          <button id="add">+</button>
                     </dl>
                 </div>
                 <div id="entrees">
                   <h2>Entrees</h2>
                   <dl>
-                    <dt>BBQ Bone In Tomahawk Steak<img src="../images/tomahawkSteak.jpg"></dt>
+                    <dt>BBQ Bone In Tomahawk Steak<img src="./frontend/images/tomahawkSteak.jpg"></dt>
                       <dd>A massive tomahawk steak, chargrilled with a house-made rub, paired with smoked garlic butter. $359.99</dd>
-                    <dt>Dry-Aged Porkchop</dt>
-                      <dd>Thick-cut, dry-aged pork chop with apple cider glaze, served with caramelized shallots. $68.99</dd>
-                    <dt>Gourment BBQ Chicken</dt>
-                      <dd>Organic chicken smoked with hickory wood, served with a rosemary honey glaze. $55.99</dd>
+                      <button id="subtract">-</button>
+                      <text class="itemCount" id="5">0</text>
+                      <button id="add">+</button>
+                      <dt>Dry-Aged Porkchop</dt>
+                        <dd>Thick-cut, dry-aged pork chop with apple cider glaze, served with caramelized shallots. $68.99</dd>
+                        <button id="subtract">-</button>
+                        <text class="itemCount" id="7">0</text>
+                        <button id="add">+</button>
+                      <dt>Gourment BBQ Chicken</dt>
+                        <dd>Organic chicken smoked with hickory wood, served with a rosemary honey glaze. $55.99</dd>
+                        <button id="subtract">-</button>
+                        <text class="itemCount" id="8">0</text>
+                        <button id="add">+</button>
                   </dl>
                 </div>
                 <div id="sides">
@@ -149,14 +176,29 @@
                   <dl>
                     <dt>Truffle Parmesan Fries</dt>
                       <dd> Hand-cut fries with white truffle oil and shaved Parmesan. $21.99</dd>
+                      <button id="subtract">-</button>
+                      <text class="itemCount" id="10">0</text>
+                      <button id="add">+</button>
                     <dt>Smoked Gouda Mac & Cheese</dt>
                       <dd>Creamy mac and cheese made with smoked Gouda and aged cheddar. $31.99</dd>
+                      <button id="subtract">-</button>
+                      <text class="itemCount" id="11">0</text>
+                      <button id="add">+</button>
                     <dt>Charred Brussels Sprouts</dt>
                       <dd>Roasted Brussel sprouts with pancetta and balasmic glaze. $14.99</dd>
+                      <button id="subtract">-</button>
+                      <text class="itemCount" id="12">0</text>
+                      <button id="add">+</button>
                     <dt>Caviar Potato Salad</dt>
                       <dd>Yukon gold potato salad with crème fraîche, topped with premium caviar. $259.99</dd>
+                      <button id="subtract">-</button>
+                      <text class="itemCount" id="13">0</text>
+                      <button id="add">+</button>
                     <dt>Lobster Cornbread</dt>
                       <dd>Sweet cornbread with chunks of lobster and jalapeño honey butter. $44.99</dd>
+                      <button id="subtract">-</button>
+                      <text class="itemCount" id="14">0</text>
+                      <button id="add">+</button>
                   </dl>
                 </div>
                 <div id="desserts">
@@ -164,10 +206,19 @@
                   <dl>
                     <dt>Maple Bacon Ice Cream Sundae</dt>
                       <dd>Maple-flavored ice cream with candied bacon, bourbon caramel, and pecan brittle. $18.99</dd>
+                      <button id="subtract">-</button>
+                      <text class="itemCount" id="20">0</text>
+                      <button id="add">+</button>
                     <dt>BBQ Bourbon Pecan Pie</dt>
                       <dd>A rich pecan pie with bourbon-infused caramel and smoked sea salt. $19.99</dd>
+                      <button id="subtract">-</button>
+                      <text class="itemCount" id="21">0</text>
+                      <button id="add">+</button>
                     <dt>Smoked Chocolate Lava Cake</dt>
                       <dd> Molten chocolate cake with a hint of smoked chili, served with vanilla bean ice cream. $17.99</dd>
+                      <button id="subtract">-</button>
+                      <text class="itemCount" id="22">0</text>
+                      <button id="add">+</button>
                   </dl>
                 </div>
                 <div id="beverages">
@@ -175,15 +226,30 @@
                   <dl>
                       <dt>Craft Whiskey Flight</dt>
                         <dd>A selection of premium, small-batch whiskeys. $149.99</dd>
+                        <button id="subtract">-</button>
+                        <text class="itemCount" id="15">0</text>
+                        <button id="add">+</button>
                       <dt>Smoked Old Fashioned</dt>
                         <dd>Classic Old Fashioned cocktail, smoked with hickory wood. $34.99</dd>
+                        <button id="subtract">-</button>
+                        <text class="itemCount" id="16">0</text>
+                        <button id="add">+</button>
                       <dt>Smoked Berry Fizz</dt>
                         <dd>Smoky blackberry, rosemary, and lemon, topped with sparkling water; refreshing and bold. $11.99</dd>
+                        <button id="subtract">-</button>
+                        <text class="itemCount" id="17">0</text>
+                        <button id="add">+</button>
                       <dt>Caviar Lime Spritz</dt>
                         <dd>Bright elderflower and cucumber with a pop of lime pearls; light, crisp, and sophisticated. $13.99</dd>
+                        <button id="subtract">-</button>
+                        <text class="itemCount" id="18">0</text>
+                        <button id="add">+</button>
                       <dt>Gourmet Lemonade Trio</dt>
                         <dd>Unique flavors like lavender, rosemary, and hibiscus. $10.99</dd>
-                  </dl>
+                        <button id="subtract">-</button>
+                        <text class="itemCount" id="19">0</text>
+                        <button id="add">+</button>
+                    </dl>
                 </div>
                 
             </div>
@@ -191,5 +257,11 @@
         </main>
 
     </body>
+
+    <footer>
+      <p>
+        Copyright @Smoke & Caviar 2024
+      </p>
+    </footer>
 </html>
 
