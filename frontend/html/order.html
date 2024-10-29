@@ -5,43 +5,47 @@
         <title>Smoke & Caviar</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="css\order.css">
+        <!--Icon for shopping cart-->
+        <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
     </head>
 
     <body>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">Navbar</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                  <ul class="navbar-nav">
-                    <li class="nav-item active">
-                      <a class="nav-link" href="reservation.html">Reservation <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="menu.html">Menu</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="about.html">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link disabled" href="login.html">Sign In / Sign Up</a>
-                    </li>
-                  </ul>
-                </div>
-              </nav>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="#">Navbar</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item active">
+                <a class="nav-link" href="reservation.html">Reservation <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="menu.html">Menu</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about.html">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="login.html">Sign In / Sign Up</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
 
         <main>
+            <i class="fa badge fa-lg" value=8>&#xf07a;</i>
             <button id="toCart" onclick="cart.html">To Cart -></button>
 
             <section>
               <h2>Filters</h2>
-              <a href="#fullMenu">Full Menu</a>
-              <a href="#starters">Starters</a>
-              <a href="#entrees">Entrees</a>
-              <a href="#sides">Sides</a>
-              <a href="#desserts">Desserts</a>
-              <a href="#beverages">Beverages</a>
+              <div id="filterContainer">
+                <label><input type="checkbox" rel="starters">Starters</label>
+                <label><input type="checkbox" rel="entrees">Entrees</label>
+                <label><input type="checkbox" rel="sides">Sides</label>
+                <label><input type="checkbox" rel="desserts">Desserts</label>
+                <label><input type="checkbox" rel="Beverages">Beverages</label>
+              </div>
             </section>
 
             <h2>Recently Ordered</h2>
