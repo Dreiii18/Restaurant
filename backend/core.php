@@ -38,14 +38,14 @@ class Core
     }
 
     public function getMenuList() {
-        $sql = "SELECT * FROM menu";
+        // $sql = "SELECT * FROM menu";
         
-		$query = $this->db->query($sql);
-		$results = $this->db->getResults($query);
+		// $query = $this->db->query($sql);
+		// $results = $this->db->getResults($query);
 
 
 
-        return $results;
+        // return $results;
     }
     public function addOrder() {}
     public function getCustomerInfo() {}
