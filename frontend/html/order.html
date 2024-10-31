@@ -14,6 +14,7 @@
     </head>
 
     <body>
+      
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <a class="navbar-brand" href="#">Navbar</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,11 +39,12 @@
         </nav>
 
         <main>
+          <aside class="col-1 bg-light p-3">
           <div class="cart-checkout">
             <i class="fa badge fa-lg" value=8>&#xf07a;</i>
             <button id="checkout" onclick="cart.html">Checkout</button>
           </div>
-
+          </aside>
           <div id ="recommended">
             <h2 class="carouselTitle">Recommened By the Chef</h2>
             <div id="carouselExampleInterval3" class="carousel slide" data-bs-ride="carousel">
@@ -57,7 +59,10 @@
                   <img src="frontend/images/truffleMacCheeseBalls.jpg" class="d-block w-100" alt="Truffle Mac & Cheese Balls">
                 </div>
               </div>
+<<<<<<< HEAD
               <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval3" data-bs-slide="prev">
+=======
+>>>>>>> b3746a4eba7a909118044e3db526177a7f2ff014
             </section>
 
             <h2>Recently Ordered</h2>
@@ -146,16 +151,17 @@
               </div>
             <h2>Full Menu</h2>
             <button id="fullMenu" >Full Menu</button>
-            <div id="menu">
+            <div class="col-10">
+              
                 <div id="starters">
                     <h2>Starters</h2>
                     <dl>
-                        <dt>Jalapeno Poppers</dt><img src="./frontend/images/jalapenoPoppers.jpg"></dt>
+                        <dt>Jalapeno Poppers</dt><img src="./frontend/images/jalapenoPoppers.jpg" width="100" height="75"></dt>
                           <dd>Jalapeños stuffed with lobster and cream cheese, wrapped in bacon, with a chipotle aioli. $61.99</dd>
                           <button class="subtract">-</button>
                           <text class="itemCount" id="2">0</text>
                           <button class="add">+</button>
-                        <dt>Truffel Mac and Cheese Balls<img src="./frontend/images/truffleMacCheeseBalls.jpg"></dt>
+                        <dt>Truffel Mac and Cheese Balls<img src="./frontend/images/truffleMacCheeseBalls.jpg" width="100" height="75"></dt>
                           <dd>Deep-fried mac and cheese with a rich truffle béchamel sauce. $25.99</dd>
                           <button class="subtract">-</button>
                           <text class="itemCount" id="3">0</text>
@@ -170,7 +176,7 @@
                 <div id="entrees">
                   <h2>Entrees</h2>
                   <dl>
-                    <dt>BBQ Bone In Tomahawk Steak<img src="./frontend/images/tomahawkSteak.jpg"></dt>
+                    <dt>BBQ Bone In Tomahawk Steak<img src="./frontend/images/tomahawkSteak.jpg" width="100" height="75"></dt>
                       <dd>A massive tomahawk steak, chargrilled with a house-made rub, paired with smoked garlic butter. $359.99</dd>
                       <button class="subtract">-</button>
                       <text class="itemCount" id="5">0</text>
@@ -302,6 +308,7 @@
                         <text class="itemCount" id="19">0</text>
                         <button class="add">+</button>
                     </dl>
+                    
                 </div>
                 
               <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -314,24 +321,28 @@
               </button>
             </div>
           </div>
-
-          <div id="filterFlexContainer">
+          <div class="container-fluid">
+          <div class="row">
+          <div class="col-1 bg-light p-3">
+      
             <h2>Filters</h2>
+
             <label><input type="checkbox" rel="starters"> Starters</label>
             <label><input type="checkbox" rel="entrees"> Entrees</label>
             <label><input type="checkbox" rel="sides"> Sides</label>
             <label><input type="checkbox" rel="desserts"> Desserts</label>
             <label><input type="checkbox" rel="Beverages"> Beverages</label>
           </div>
-            
+          </div>
+          </div>
           <div id="menu">
               <div id="starters">
                   <h2>Starters</h2>
                   <dl>
-                      <dt>Jalapeno Poppers</dt><img src="./frontend/images/jalapenoPoppers.jpg">
+                      <dt>Jalapeno Poppers</dt><img src="./frontend/images/jalapenoPoppers.jpg" width="100" height="75">
                         <dd>Jalapeños stuffed with lobster and cream cheese, wrapped in bacon, with a chipotle aioli. $61.99</dd>
                         <button class="add-to-cart">Add to Cart</button>
-                      <dt>Truffle Mac and Cheese Balls</dt><img src="./frontend/images/truffleMacCheeseBalls.jpg">
+                      <dt>Truffle Mac and Cheese Balls</dt><img src="./frontend/images/truffleMacCheeseBalls.jpg" width="100" height="75">
                         <dd>Deep-fried mac and cheese with a rich truffle béchamel sauce. $25.99</dd>
                         <button class="add-to-cart">Add to Cart</button>
                       <dt>Foie Gras Cornbread Muffins</dt>
@@ -343,7 +354,7 @@
               <div id="entrees">
                 <h2>Entrees</h2>
                 <dl>
-                  <dt>BBQ Bone In Tomahawk Steak</dt><img src="./frontend/images/tomahawkSteak.jpg">
+                  <dt>BBQ Bone In Tomahawk Steak</dt><img src="./frontend/images/tomahawkSteak.jpg" width="100" height="75">
                     <dd>A massive tomahawk steak, chargrilled with a house-made rub, paired with smoked garlic butter. $359.99</dd>
                     <button class="add-to-cart">Add to Cart</button>
                     <dt>Dry-Aged Porkchop</dt>
@@ -413,9 +424,9 @@
               </div>
                 
           </div>
-            
+            </div>
         </main>
-
+        
     </body>
 
     <footer>
