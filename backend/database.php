@@ -11,6 +11,10 @@ class Database
         $this->conn = mysqli_connect($config['db_host'],$config['db_user'], $config['db_pass'], $config['db_name']);
     }
 
+    public function escapeString($string) {
+        return mysqli_real_escape_string($this->conn, $string);
+    }
+
     public function query($query)
     {
         return mysqli_query( $this->conn,$query);
@@ -18,10 +22,10 @@ class Database
 
     public function insert($record, $table)
     {
-        foreach ($record as $key => $value) {
-            # code...
-        }
-        $query = "INSERT INTO ....";
+        $record = array_map([$this, 'escapeString'], $record);
+        $columns = implode(', ', array_keys($record));
+        $values = implode("', '", array_values($record));
+        $query = "INSERT INTO $table ($columns) VALUES ('$values')";
         return $this->query($query);
     }
 
