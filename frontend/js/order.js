@@ -33,3 +33,35 @@ function addOrder(orders) {
 function displayOrder() {
 
 }
+
+
+// let cartItems = []; 
+
+//     $('.add-button').on('click', function () {
+//         const itemId = $(this).data('menuid');
+//         const existingItem = cartItems.find(item => item.itemid === itemId);
+
+//         if (existingItem) {
+//             existingItem.quantity++;
+//         } else {
+//             cartItems.push({ itemid: itemId, quantity: 1 });
+//         }
+
+//         updateCartDisplay();
+//     });
+
+//     function updateCartDisplay() {
+//         $('#cart-items').empty();
+//         $.each(cartItems, function (index, item) {
+//             $('#cart-items').append(`<li>Item ID: ${item.itemid}, Quantity: ${item.quantity}</li>`); 
+//         });
+//     }
+
+//     $('#cart-button').on('click', function () {
+//         $('#cart-popup').toggle(); 
+//     });
+
+//     // Close cart popup
+//     $('#close-cart').on('click', function () {
+//         $('#cart-popup').hide();
+//     });

@@ -29,5 +29,12 @@ $pages = [
         'html' => ['order.html'],
         'css'  => ['order.css'],
         'js'   => ['order.js'],
+    ],
+
+    // Checkout page
+    'co' => [
+        'html' => ['checkout.html'],
+        'css'  => ['checkout.css'],
+        'js'   => ['checkout.js'],
     ]
 ];

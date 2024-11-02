@@ -4,11 +4,6 @@ require_once($config["path"] . "/backend/core.php");
 
 $core = new Core();
 
-$orderList = $_REQUEST['orders'];
+$transaction = $_REQUEST['transaction'];
 
-// $core->generateOrder();
-$order = $core->addOrder($orderList);
-?>
-<h1>
-    <?php echo $order ?>
-</h1>
+$core->addTransaction(array($transaction));

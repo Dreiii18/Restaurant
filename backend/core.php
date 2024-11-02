@@ -6,12 +6,13 @@ class Core
 {
     /** @var Database */
     protected $db;
-    protected $order_type;
+    protected $orderType;
+    const TAX_RATE = 0.12;
 
     public function __construct()
     {        
       $this->db = new Database();   
-      $this->order_type = 'Delivery';
+      $this->orderType = 'Delivery';
     }
 
     public function login($username, $password)
@@ -39,6 +40,113 @@ class Core
         return true;
     }
 
+    public function calculateTax($subTotal) {
+        return $subTotal * self::TAX_RATE;
+    }
+
+    public function calculateTotal($tax, $tip, $subTotal) {
+        return $tax + $tip + $subTotal;
+    }
+
+    public function getTableColumns($columns, $table, $condition) {
+        $sql = "SELECT {$columns} FROM {$table} WHERE {$condition}";
+        $result = $this->db->getResults($this->db->query($sql));
+        return $result ? $result : [];
+    }
+
+    public function getMaxTableNumberForDate($table, $numberColumn, $dateColumn) {
+        $today = date('Y-m-d');
+        $sql = "SELECT MAX($numberColumn) AS max_number FROM {$table} WHERE Date({$dateColumn}) = '{$today}'";
+        $query = $this->db->query($sql);
+        $results = $this->db->getResults($query);
+
+        return $results[0]['max_number'] ? $results[0]['max_number'] + 1 : 1;
+    }
+
+    // Get list of employees based on the order_type
+    public function autoAssignEmployeeToOrder($order_type) {
+        $roleId = $order_type == 'Delivery' ? 4 : [1, 2];
+        $roleCondition = is_array($roleId) ? "IN (" . implode(',', $roleId) . ")" : "{$roleId}";
+        
+        $results = $this->getTableColumns('employeeid', 'employee', "roleid = {$roleCondition}");
+
+        return $results[array_rand($results)]['employeeid'];
+    }
+
+    public function generateOrder() {
+        $orderNumber = $this->getMaxTableNumberForDate('order_table', 'order_number', 'order_datetime');
+        $orderType = $this->orderType;
+        $orderDateTime = date('Y-m-d H:i:s');
+        $employeeId = $this->autoAssignEmployeeToOrder($orderType);
+
+        $order = [
+                'order_number' => $orderNumber, 
+                'order_type' => $orderType, 
+                'order_datetime' => $orderDateTime,
+                'employeeid' => $employeeId
+            ]
+        ;
+        $this->db->insert($order, 'order_table');
+
+        // get the generated orderid
+        $result = $this->getTableColumns('orderid', 'order_table', "(order_number = '{$orderNumber}' AND order_datetime = '{$orderDateTime}')");
+
+        return [$result[0]['orderid'], $orderNumber];
+    }
+
+    public function addOrder($orders) {
+        [$orderId, $orderNumber] = $this->generateOrder();
+
+        foreach ($orders as $order) {
+            $data = [
+                'menu_itemid' => $order['menuid'],
+                'orderid' => $orderId,
+                'menu_item_quantity' => $order['quantity']
+            ];
+            $this->db->insert($data, 'contain');
+        }
+        return $orderNumber;
+    }
+
+    public function addTransaction($transaction) {
+        $transaction = $transaction[0];
+        $orderNumber = $transaction['orderNumber'];
+        $paymentType = $transaction['paymentType'];
+        $subTotal = $transaction['subTotal'];
+        $tip = $transaction['tip'];
+        $transactionNumber = $this->getMaxTableNumberForDate('order_transaction', 'transaction_number', 'transaction_datetime');
+        $transactionDateTime = date("Y-m-d H:i:s");
+        $tax = $this->calculateTax($subTotal);
+        $total = $this->calculateTotal($tax, $tip, $subTotal);
+        
+        // get associated orderid
+        $result = $this->getTableColumns('orderid', 'order_table', "(order_number = {$orderNumber} AND Date(order_datetime) = Date('{$transactionDateTime}'))");
+        $orderid = $result[0]['orderid'];
+
+        // insert to order_transaction table
+        $order_transaction = [
+            'transaction_number' => $transactionNumber,
+            'payment_type' => $paymentType,
+            'transaction_datetime' => $transactionDateTime,
+            'orderid' => $orderid
+        ];
+
+        $this->db->insert($order_transaction, 'order_transaction');
+
+        // insert to order_transaction_summary table
+        $order_transaction_summary = [
+            'transaction_number' => $transactionNumber,
+            'transaction_datetime' => $transactionDateTime,
+            'tax' => $tax,
+            'tip' => $tip,
+            'sub_total' => $subTotal,
+            'total' => $total
+        ];
+
+        $this->db->insert($order_transaction_summary, 'order_transaction_summary');
+
+    }
+
     public function getMenuList() {
         $sql = "SELECT * FROM menu_item";
         
@@ -46,79 +154,6 @@ class Core
 		$results = $this->db->getResults($query);
 
         return $results;
-    }
-
-    public function getOrderNumber() {
-        $today = date('Y-m-d');
-        $sql = "SELECT * FROM order_table WHERE Date(order_datetime) = '$today'";
-        $query = $this->db->query($sql);
-        $results = $this->db->getResults($query);
-
-        // Check if there is order_number within the day
-        if (count($results) == 0) {
-            // If no previous order_number then return 1 as default
-            return 1;
-        } else {
-            // Get last order_number and return the incremented value
-            $sql = "SELECT MAX(order_number) AS max_order_number FROM order_table WHERE Date(order_datetime) = '{$today}'";
-            $query = $this->db->query($sql);
-            $results = $this->db->getResults($query);
-          
-            return $results[0]['max_order_number'] + 1;
-        }
-    }
-
-    // Get list of employees based on the order_type
-    public function autoAssignEmployeeToOrder($order_type) {
-        if ($order_type == 'Delivery') {
-            // Get employees with roleid of 4 (Delivery Driver)
-            $sql = "SELECT employeeid FROM employee WHERE roleid=4";
-        }
-
-        if ($order_type == 'Dine In') {
-            // Get employees with roleid of either 1 (Manager) or 2 (Cashier)
-            $sql = "SELECT employeeid FROM employee WHERE (roleid=1 OR roleid=2)";
-        }
-
-        $query = $this->db->query($sql);
-        $results = $this->db->getResults($query);
-
-        return $results[array_rand($results)]['employeeid'];
-    }
-
-    public function generateOrder() {
-        $order_number = $this->getOrderNumber();
-        $order_type = $this->order_type;
-        $order_datetime = date('Y-m-d H:i:s');
-        $employeeid = $this->autoAssignEmployeeToOrder($order_type);
-
-        $order = [
-                'order_number' => $order_number, 
-                'order_type' => $order_type, 
-                'order_datetime' => $order_datetime,
-                'employeeid' => $employeeid
-            ]
-        ;
-        $this->db->insert($order, 'order_table');
-
-        // get the generated orderid
-        $sql = "SELECT orderid FROM order_table WHERE (order_number = '{$order_number}' AND order_datetime = '{$order_datetime}')";
-        $query = $this->db->query($sql);
-        $result = $this->db->getResults($query);
-
-        return $result[0]['orderid'];
-    }
-
-    public function addOrder($orders) {
-        $orderid = $this->generateOrder();
-        foreach ($orders as $order) {
-            $data = [
-                'menu_itemid' => $order['menuid'],
-                'orderid' => $orderid,
-                'menu_item_quantity' => $order['quantity']
-            ];
-            $this->db->insert($data, 'contain');
-        }
     }
     public function getCustomerInfo() {}
 }
