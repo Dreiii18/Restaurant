@@ -72,9 +72,10 @@ footer p{
 }
 
 #recent, #mostOrdered, #recommended{
-    margin: auto;
+    /* margin: auto; */
     max-width: 300px;
     border: 1px ;
+    /* overflow: hidden; */
 }
 
 .add-to-cart{
@@ -205,3 +206,21 @@ dd {
     min-height: 100vh;
     background-position: center;
 }
+
+.alignCentre {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    
+}
+
+.multipleImages {
+    max-width: 300px;
+    height: auto;
+}
+
+#carouselExample {
+    width: 100vw;
+}
+
