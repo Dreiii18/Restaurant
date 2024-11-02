@@ -42,4 +42,8 @@ $(document).ready(function () {
         // Display the total items in the cart side panel
         $("#cartTotalItems").text("Total items in cart: " + totalItems);
     });
+
+    $(".badge").on("click", function() {
+        $("#cart").toggle();
+    }) 
 });
