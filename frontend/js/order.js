@@ -45,5 +45,6 @@ $(document).ready(function () {
 
     $(".badge").on("click", function() {
         $("#cart").toggle();
+        $("#restaurant_background").toggle();
     }) 
 });
