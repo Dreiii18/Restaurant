@@ -42,181 +42,240 @@
             <!-- <button id="checkout" onclick="cart.html">Checkout</button> -->
         </div>
         <div class="row">
-			<div class="item1">
-				<h2 class="carouselTitle text-align-center">Recommened By the Chef</h2>
-				<div id ="recommended">
-				  
-				  <div id="carouselExample" class="carousel slide">
-					<div class="carousel-inner">
-					  <div class="carousel-item active">
-						  <div class="alignCentre">
-							<img class="multipleImages" src="frontend/images/jalapenoPoppers.jpg">
-							<img class="multipleImages" src="frontend/images/tomahawkSteak.jpg">
-							<img class="multipleImages" src="frontend/images/lavaCake.jpg">
-							<img class="multipleImages" src="frontend/images/cannedPop.jpg">
-							<img class="multipleImages" src="frontend/images/lobsterWagyu.jpg">
-						  </div>
-						</div>
-						<div class="carousel-item">
-							<div class="alignCentre">
-								<img class="multipleImages" src="frontend/images/smokedbrisket.jpg">
-								<img class="multipleImages" src="frontend/images/truffleMacCheeseBalls.jpg">
-								<img class="multipleImages" src="frontend/images/pecanPie.jpg">
-								<img class="multipleImages" src="frontend/images/brusselSprouts.jpg">
-								<img class="multipleImages" src="frontend/images/oldFashioned.png">
-							  </div>
-						</div>
-					  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-						<span class="visually-hidden">Previous</span>
-					  </button>
-					  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-						<span class="carousel-control-next-icon" aria-hidden="true"></span>
-						<span class="visually-hidden">Next</span>
-					  </button>
-					</div>
+        <div class="item1">
+          <h2 class="carouselTitle text-align-center">Recommened By the Chef</h2>
+          <div id ="recommended">
+            
+            <div id="carouselExample" class="carousel slide">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="alignCentre">
+                  <img class="multipleImages" src="frontend/images/jalapenoPoppers.jpg">
+                  <img class="multipleImages" src="frontend/images/tomahawkSteak.jpg">
+                  <img class="multipleImages" src="frontend/images/lavaCake.jpg">
+                  <img class="multipleImages" src="frontend/images/truffleFries.jpg">
+                  <img class="multipleImages" src="frontend/images/lobsterWagyu.jpg">
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="alignCentre">
+                  <img class="multipleImages" src="frontend/images/smokedbrisket.jpg">
+                  <img class="multipleImages" src="frontend/images/truffleMacCheeseBalls.jpg">
+                  <img class="multipleImages" src="frontend/images/pecanPie.jpg">
+                  <img class="multipleImages" src="frontend/images/brusselSprouts.jpg">
+                  <img class="multipleImages" src="frontend/images/oldFashioned.png">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+              </button>
+					  </div>
 				  </div>
 				</div>
-			  </div>
-		</div>
+			</div>
+
         <div class="row">
             <div class="col-8">
                 <div class="row">
                     <ul class="nav justify-content-center">
+                        <h2>Filters</h2>
                         <li class="nav-item">
-                          <a class="nav-link" href="#category1">Category1</a>
+                          <a class="nav-link" href="#starters">Starters</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="#category2">Category2</a>
+                          <a class="nav-link" href="#entrees">Entrees</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="#category3">Category3</a>
+                          <a class="nav-link" href="#sides">Sides</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="#category4">Category4</a>
+                          <a class="nav-link" href="#desserts">Desserts</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#beverages">Beverages</a>
                         </li>
                       </ul>
                 </div>
-                <div class="row" id="category1">
+                <div class="row" id="starters">
                     <div class="col text-align-center">
-                        <h2>CATEGORY1</h2>
+                        <h2 class="section-title">Starters</h2>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
-                        <img src="frontend/images/truffleMacCheeseBalls.jpg" class="d-block w-100" alt="Lobster & Wagyu Steak">
-                        <h2>Truffle Mac CheeseBalls</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur a voluptatibus ad quia perferendis eius ab magni itaque molestiae veniam dolore totam modi sunt harum, autem facilis vitae, ullam accusantium!</p>
-                        <input type="submit" value="Add to Cart">
+                    <div class="col feature-dish">
+                        <img src="frontend/images/truffleMacCheeseBalls.jpg" class="d-block w-100" alt="Deep fried truffle mac & cheese balls">
+                        <h2 data-menu-id="1">Truffle Mac CheeseBalls</h2>
+                        <p>Deep-fried mac and cheese with a rich truffle béchamel sauce. $25.99</p>
+                        <input type="submit" value="Add to Cart" class="add-to-cart">
                     </div>
                     <div class="col">
                         <dl>
-                            <dt>ITEM 1</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi necessitatibus soluta optio nesciunt maxime doloremque reiciendis at numquam natus? Nam praesentium ut iusto eos quasi! Hic culpa impedit facilis est?</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 2</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit dolore tenetur, aliquid vero qui totam dolorum! Architecto temporibus ipsa voluptatum repellendus officia cumque. Eaque, aperiam quos sed ipsum quis quasi.</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 3</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum fuga cupiditate facilis porro repellat pariatur cumque accusantium alias corrupti quis voluptatum quisquam quaerat, quae expedita quasi aliquid dolores reprehenderit quas!</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 4</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio maxime et recusandae dolor molestiae quaerat corporis tenetur a voluptates, ullam placeat, consequatur in doloremque asperiores, tempora itaque impedit porro quisquam!</dd>
-                            <input type="submit" value="Add to Cart">
+                            <dt data-menu-id="2">Jalapeno Poppers</dt>
+                            <dd>Jalapeños stuffed with lobster and cream cheese, wrapped in bacon, with a chipotle aioli. $61.99</dd>
+                            <button class="add-to-cart">Add to Cart</button>
+                            <dt data-menu-id="3">Foie Gras Cornbread Muffins</dt>
+                            <dd>Sweet cornbread muffins with a foie gras butter drizzle. $49.99</dd>
+                            <button class="add-to-cart">Add to Cart</button>
+                            <dt data-menu-id="4">Smoked Wagyu Brisket Bites</dt>
+                            <dd>Small bites of Wagyu beef brisket, smoked to perfection, served with truffle BBQ sauce. $52.99</dd>
+                            <button class="add-to-cart">Add to Cart</button>
                         </dl>
                     </div>
                 </div>
-                <div class="row" id="category2">
+                <div class="row" id="entrees">
                     <div class="row">
                         <div class="col text-align-center">
-                            <h2>CATEGORY2</h2>
+                            <h2 class="section-title">Entrees</h2>
                         </div>
                     </div>
-                    <div class="col">
-                        <img src="frontend/images/truffleMacCheeseBalls.jpg" class="d-block w-100" alt="Lobster & Wagyu Steak">
-                        <h2>Truffle Mac CheeseBalls</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur a voluptatibus ad quia perferendis eius ab magni itaque molestiae veniam dolore totam modi sunt harum, autem facilis vitae, ullam accusantium!</p>
-                        <input type="submit" value="Add to Cart">
+                    <div class="col feature-dish">
+                        <img src="frontend/images/tomahawkSteak.jpg" class="d-block w-100" alt="Tomahawk Steak">
+                        <h2 data-menu-id="5">BBQ Bone In Tomahawk Steak</h2>
+                        <p>A massive tomahawk steak, chargrilled with a house-made rub, paired with smoked garlic butter. $359.99</p>
+                        <input type="submit" value="Add to Cart" class="add-to-cart">
                     </div>
                     <div class="col">
                         <dl>
-                            <dt>ITEM 1</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi necessitatibus soluta optio nesciunt maxime doloremque reiciendis at numquam natus? Nam praesentium ut iusto eos quasi! Hic culpa impedit facilis est?</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 2</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit dolore tenetur, aliquid vero qui totam dolorum! Architecto temporibus ipsa voluptatum repellendus officia cumque. Eaque, aperiam quos sed ipsum quis quasi.</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 3</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum fuga cupiditate facilis porro repellat pariatur cumque accusantium alias corrupti quis voluptatum quisquam quaerat, quae expedita quasi aliquid dolores reprehenderit quas!</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 4</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio maxime et recusandae dolor molestiae quaerat corporis tenetur a voluptates, ullam placeat, consequatur in doloremque asperiores, tempora itaque impedit porro quisquam!</dd>
-                            <input type="submit" value="Add to Cart">
+                            <dt data-menu-id="6">Lobster & Wagyu Brisket Platter</dt>
+                            <dd>Surf and turf BBQ platter featuring Maine lobster tails and Wagyu brisket, with upscale sides. $259.99</dd>
+                            <input type="submit" value="Add to Cart" class="add-to-cart">
+                            <dt data-menu-id="7">Dry-Aged Porkchop</dt>
+                            <dd>Thick-cut, dry-aged pork chop with apple cider glaze, served with caramelized shallots. $68.99</dd>
+                            <input type="submit" value="Add to Cart" class="add-to-cart">
+                            <dt data-menu-id="8">Gourmet BBQ Chicken</dt> 
+                            <dd>Organic chicken smoked with hickory wood, served with a rosemary honey glaze. $59.99</dd>
+                            <input type="submit" value="Add to Cart" class="add-to-cart">
+                            <dt data-menu-id="9">24-Hour Smoked Short Ribs</dt>
+                            <dd>Tender, smoked short ribs, served with a bourbon glaze and gold leaf garnish. $59.99</dd>
+                            <input type="submit" value="Add to Cart" class="add-to-cart">
                         </dl>
                     </div>
                 </div>
-                <div class="row" id="category3">
+                <div class="row" id="sides">
                     <div class="row">
                         <div class="col text-align-center">
-                            <h2>CATEGORY3</h2>
+                            <h2 class="section-title">Sides</h2>
                         </div>
                     </div>
-                    <div class="col">
-                        <img src="frontend/images/truffleMacCheeseBalls.jpg" class="d-block w-100" alt="Lobster & Wagyu Steak">
-                        <h2>Truffle Mac CheeseBalls</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur a voluptatibus ad quia perferendis eius ab magni itaque molestiae veniam dolore totam modi sunt harum, autem facilis vitae, ullam accusantium!</p>
-                        <input type="submit" value="Add to Cart">
+                    <div class="col feature-dish">
+                        <img src="frontend/images/truffleFries.jpg" class="d-block w-100" alt="Truffle fries">
+                        <h2 data-menu-id="10">Truffle Parmesan Fries</h2>
+                        <p>Hand-cut fries with white truffle oil and shaved Parmesan. $21.99</p>
+                        <input type="submit" value="Add to Cart" class="add-to-cart">
                     </div>
                     <div class="col">
                         <dl>
-                            <dt>ITEM 1</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi necessitatibus soluta optio nesciunt maxime doloremque reiciendis at numquam natus? Nam praesentium ut iusto eos quasi! Hic culpa impedit facilis est?</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 2</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit dolore tenetur, aliquid vero qui totam dolorum! Architecto temporibus ipsa voluptatum repellendus officia cumque. Eaque, aperiam quos sed ipsum quis quasi.</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 3</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum fuga cupiditate facilis porro repellat pariatur cumque accusantium alias corrupti quis voluptatum quisquam quaerat, quae expedita quasi aliquid dolores reprehenderit quas!</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 4</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio maxime et recusandae dolor molestiae quaerat corporis tenetur a voluptates, ullam placeat, consequatur in doloremque asperiores, tempora itaque impedit porro quisquam!</dd>
-                            <input type="submit" value="Add to Cart">
+                            <dt data-menu-id="11">Smoked Gouda Mac & Cheese</dt>
+                            <dd>Creamy mac and cheese made with smoked Gouda and aged cheddar. $31.99</dd>
+                            <input type="submit" value="Add to Cart" class="add-to-cart">
+                            <dt data-menu-id="12">Charred Brussels Sprouts</dt>
+                            <dd>Roasted Brussel sprouts with pancetta and balasmic glaze. $14.99</dd>
+                            <input type="submit" value="Add to Cart" class="add-to-cart">
+                            <dt data-menu-id="13">Caviar Potato Salad</dt>
+                            <dd>Yukon gold potato salad with crème fraîche, topped with premium caviar. $259.99</dd>
+                            <input type="submit" value="Add to Cart" class="add-to-cart">
                         </dl>
                     </div>
                 </div>
-                <div class="row" id="category4">
+                <div class="row" id="desserts">
                     <div class="row">
                         <div class="col text-align-center">
-                            <h2>CATEGORY4</h2>
+                            <h2 class="section-title">Desserts</h2>
                         </div>
                     </div>
-                    <div class="col">
-                        <img src="frontend/images/truffleMacCheeseBalls.jpg" class="d-block w-100" alt="Lobster & Wagyu Steak">
-                        <h2>Truffle Mac CheeseBalls</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur a voluptatibus ad quia perferendis eius ab magni itaque molestiae veniam dolore totam modi sunt harum, autem facilis vitae, ullam accusantium!</p>
-                        <input type="submit" value="Add to Cart">
+                    <div class="col feature-dish">
+                        <img src="frontend/images/pecanPie.jpg" class="d-block w-100" alt="Pecan Pie">
+                        <h2 data-menu-id="14">BBQ Bourbon Pecan Pie</h2>
+                        <p>A rich pecan pie with bourbon-infused caramel and smoked sea salt. $19.99</p>
+                        <input type="submit" value="Add to Cart" class="add-to-cart">
                     </div>
                     <div class="col">
                         <dl>
-                            <dt>ITEM 1</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi necessitatibus soluta optio nesciunt maxime doloremque reiciendis at numquam natus? Nam praesentium ut iusto eos quasi! Hic culpa impedit facilis est?</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 2</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit dolore tenetur, aliquid vero qui totam dolorum! Architecto temporibus ipsa voluptatum repellendus officia cumque. Eaque, aperiam quos sed ipsum quis quasi.</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 3</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum fuga cupiditate facilis porro repellat pariatur cumque accusantium alias corrupti quis voluptatum quisquam quaerat, quae expedita quasi aliquid dolores reprehenderit quas!</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 4</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio maxime et recusandae dolor molestiae quaerat corporis tenetur a voluptates, ullam placeat, consequatur in doloremque asperiores, tempora itaque impedit porro quisquam!</dd>
-                            <input type="submit" value="Add to Cart">
+                            <dt data-menu-id="15">Maple Bacon Ice Cream Sundae</dt>
+                            <dd>Maple-flavored ice cream with candied bacon, bourbon caramel, and pecan brittle. $18.99</dd>
+                            <input type="submit" value="Add to Cart" class="add-to-cart">
+                            <dt data-menu-id="16">Smoked Chocolate Lava Cake</dt>
+                            <dd> Molten chocolate cake with a hint of smoked chili, served with vanilla bean ice cream. $17.99</dd>
+                            <input type="submit" value="Add to Cart" class="add-to-cart">
                         </dl>
                     </div>
                 </div>
+                <div class="row" id="beverages">
+                  <div class="row">
+                      <div class="col text-align-center">
+                          <h2 class="section-title">Beverages</h2>
+                      </div>
+                  </div>
+                  <div class="col feature-dish">
+                      <img src="frontend/images/whiskeyFlight.jpg" class="d-block w-100" alt="Whiskey Flight">
+                      <h2 data-menu-id="17">Craft Whiskey Flight</h2>
+                      <p>A selection of premium, small-batch whiskeys. $149.99</p>
+                      <input type="submit" value="Add to Cart" class="add-to-cart">
+                  </div>
+                  <div class="col">
+                      <dl>
+                          <dt data-menu-id="18">Smoked Old Fashioned</dt>
+                          <dd>Classic Old Fashioned cocktail, smoked with hickory wood. $34.99</dd>
+                          <input type="submit" value="Add to Cart" class="add-to-cart">
+                          <dt data-menu-id="19">Smoked Berry Fizz</dt>
+                          <dd>Smoky blackberry, rosemary, and lemon, topped with sparkling water; refreshing and bold. $11.99</dd>
+                          <input type="submit" value="Add to Cart" class="add-to-cart">
+                          <dt data-menu-id="20">Caviar Lime Spritz</dt>
+                          <dd>Bright elderflower and cucumber with a pop of lime pearls; light, crisp, and sophisticated. $13.99</dd>
+                          <input type="submit" value="Add to Cart" class="add-to-cart">
+                          <dt data-menu-id="21">Gourmet Lemonade Trio</dt>
+                          <dd>Unique flavors like lavender, rosemary, and hibiscus. $10.99</dd>
+                          <input type="submit" value="Add to Cart" class="add-to-cart">
+                      </dl>
+                  </div>
+              </div>
             </div>
+
             <div class="col-4" id="restaurant_background">
             </div>
             <div class="col-4" id="cart">
+              <h2>Order Summary</h2>
+              <!-- placeholder for layout -->
+              <div id="items-ordered">
+                <div class="menu-item">
+                  <div id="ordered-item">
+                    <h2>Tomahawk Steak</h2>
+                    <p>$359.99</p>
+                  </div>
+                  <div class="item-qty">
+                    <button type="button" onclick="subtract()">-</button>
+                    <input type="text" id="quantity" value="1">
+                    <button type="button" onclick="add()">+</button>
+                  </div>
+                </div>
+                <div id="costSummary">
+                  <h2>Cost</h2>
+                  <div class="cost-element">
+                     <span>Subtotal</span>
+                     <div id="subtotal-cost">$359.99</div>
+                  </div>
+                  <div class="cost-element">
+                    <span>Tax</span>
+                    <div id="tax-cost">$43.20</div>
+                  </div>
+                  <div class="cost-element">
+                    <span>Tip</span>
+                    <div id="tip-cost">$5.00</div>
+                  </div>
+                  <div class="cost-element">
+                    <span><strong>Total Cost</strong></span>
+                    <div id="total-cost">$408.19</div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-grid gap-2">
+                <button class="btn btn-primary" type="button">Proceed to Checkout</button>
+              </div>
             </div>
         </div>
 

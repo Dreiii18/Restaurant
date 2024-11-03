@@ -183,7 +183,8 @@ footer p{
 }
 
 #cart {
-    background-color: black;
+    background-color: white;
+    border: 1px solid slategrey;
     display: none;
 }
 
@@ -196,7 +197,7 @@ dt {
 }
 
 dd {
-    padding-bottom: 10px;
+    padding-bottom: 5px;
 }
 
 #restaurant_background {
@@ -224,3 +225,60 @@ dd {
     width: 100vw;
 }
 
+.nav {
+    border-bottom: 1px solid slategrey;
+}
+
+.nav h2 {
+    padding-right: 10px;
+}
+
+.nav a {
+    color: black;
+}
+
+.nav a:hover{
+    color: slategrey;
+}
+
+.section-title {
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.row .feature-dish {
+    margin-left: 10px;
+}
+
+/* for place holder in cart popout */
+.menu-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cost-element{
+    display: flex;
+    justify-content: space-between;
+}
+
+.item-qty {
+    display: inline-flex;
+    align-items: center;
+}
+
+.item-qty button {
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    border: none;
+    background-color: white;
+    color: #111;
+}
+
+.item-qty input {
+    width: 30px;
+    text-align: center;
+    font-size: 18px;
+    border: none;
+}
