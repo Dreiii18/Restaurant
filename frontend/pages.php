@@ -36,5 +36,12 @@ $pages = [
         'html' => ['checkout.html'],
         'css'  => ['checkout.css'],
         'js'   => ['checkout.js'],
+    ],
+
+    // Reservation page
+    'r' => [
+        'html' => ['reservation.html'],
+        'css'  => ['reservation.css'],
+        'js'   => ['reservation.js'],
     ]
 ];

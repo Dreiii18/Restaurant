@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once(dirname(__FILE__)."/../config/config.php");
 
 class Core
@@ -55,9 +55,13 @@ class Core
         return $result ? $result : [];
     }
 
-    public function getMaxTableNumberForDate($table, $numberColumn, $dateColumn) {
-        $today = date('Y-m-d');
-        $sql = "SELECT MAX($numberColumn) AS max_number FROM {$table} WHERE Date({$dateColumn}) = '{$today}'";
+    public function getMaxTableNumberForDate($table, $numberColumn, $dateColumn, $date = null) {
+        if ($date === null) {
+            $date = date('Y-m-d');
+        } else {
+            $date = date('Y-m-d', strtotime($date));
+        }
+        $sql = "SELECT MAX($numberColumn) AS max_number FROM {$table} WHERE Date({$dateColumn}) = '{$date}'";
         $query = $this->db->query($sql);
         $results = $this->db->getResults($query);
 
@@ -146,6 +150,39 @@ class Core
 
         $this->db->insert($order_transaction_summary, 'order_transaction_summary');
 
+    }
+
+    function addReservation($reservation) {
+        $reservation = $reservation[0];
+        $partySize = $reservation['partySize'];
+        $reservationDate = $reservation['reservationDate'];
+        $reservationTime = $reservation['reservationTime'];
+        $tableNumber = $reservation['tableNumber'];
+        $userId = $_SESSION['user']['userid'];
+        
+        // Concatenate and format reservation date and time
+        $dateTimeString = $reservationDate . ' ' . $reservationTime;
+        $reservationDateTime = DateTime::createFromFormat('Y-m-d H:i', $dateTimeString)->format('Y-m-d H:i:s');
+
+        $reservationNumber = $this->getMaxTableNumberForDate('reservation', 'reservation_number', 'reservation_datetime', $reservationDateTime);
+
+        // Get customer ID
+        $results = $this->getTableColumns('customerid', 'customer', "userid =  '{$userId}'");
+        $customerid = $results[0]['customerid'];
+
+        // Get table ID
+        $results = $this->getTableColumns('tableid', 'restaurant_table', "table_number = '{$tableNumber}'");
+        $tableId = $results[0]['tableid'];
+
+        $reservation_table = [
+            'reservation_number' => $reservationNumber,
+            'party_size' => $partySize,
+            'reservation_datetime' => $reservationDateTime,
+            'customerid' => $customerid,
+            'tableid' => $tableId
+        ];
+
+        $this->db->insert($reservation_table, 'reservation');
     }
 
     public function getMenuList() {
