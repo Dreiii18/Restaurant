@@ -1,0 +1,11 @@
+@media (min-width: 992px) {
+    .container-fluid {
+        overflow: visible;
+    }
+    
+    .navbar-expand-lg .navbar-nav .dropdown-menu {
+        left: auto;
+        right: 0;
+
+    }
+}

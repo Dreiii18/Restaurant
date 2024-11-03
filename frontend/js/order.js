@@ -14,7 +14,12 @@ $(document).ready(function() {
             quantity: 3
         }
     ]
-    addOrder(orders);    
+    addOrder(orders);   
+    
+    $(".badge").on("click", function() {
+        $("#cart").toggle();
+        $("#restaurant_background").toggle();
+    }) 
 });
 
 function addOrder(orders) {

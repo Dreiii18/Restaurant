@@ -1,0 +1,29 @@
+.cart-checkout{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    border: 10px solid slategrey;
+    background-color: slategrey;
+}
+
+#restaurant_background {
+    background-image: url("../images/restaurantbg.jpg");
+    background-size: cover;
+    min-height: 100vh;
+    background-position: center;
+}
+
+#cart {
+    background-color: black;
+    display: none;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+footer{
+    clear: both;
+    background-color: slategrey;
+    border: 3px solid slategrey;
+}
