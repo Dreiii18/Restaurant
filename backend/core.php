@@ -17,8 +17,9 @@ class Core
 
     public function login($username, $password)
 	{
-		$query = $this->db->query("SELECT ...");
-		$results = $this->db->getResults($query);
+		// $query = $this->db->query("SELECT ...");
+		// $results = $this->db->getResults($query);
+        $results = $this->getTableColumns('userid, username, password', 'user', "(username = '{$username}' AND password = '{$password}')");
 
         if (!is_array($results) || count($results) == 0) {
             $_SESSION['logged_in'] = false;
