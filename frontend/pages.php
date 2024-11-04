@@ -1,7 +1,7 @@
 <?php
 
 // Everything relathing to each individual pages
-DEFINE('DEFAULT_PAGE',"m");
+DEFINE('DEFAULT_PAGE',"o");
 
 
 $pages = [
