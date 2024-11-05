@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 require_once(dirname(__FILE__)."/../config/config.php");
 
 class Core
@@ -39,6 +39,11 @@ class Core
         session_unset();
         session_destroy();
         return true;
+    }
+
+    public function getCustomerName($id) {
+        $customerName = $this->getTableColumns('customer_name', 'customer', "userid = '{$id}'");
+        return !empty($customerName) ? htmlspecialchars($customerName[0]['customer_name']) : 'Unknown User';
     }
 
     public function calculateTax($subTotal) {
@@ -192,6 +197,15 @@ class Core
 		$results = $this->db->getResults($query);
 
         return $results;
+    }
+
+    public function getMenuItem($menuid) {
+        $result = $this->getTableColumns('menu_item_name, menu_description, menu_price', 'menu_item', "menu_itemid = '{$menuid}'");
+        $menuName = $result[0]['menu_item_name'];
+        $menuDescription = $result[0]['menu_description'];
+        $menuPrice = $result[0]['menu_price'];
+
+        return [$menuName, $menuDescription, $menuPrice];
     }
     public function getCustomerInfo() {}
 }
