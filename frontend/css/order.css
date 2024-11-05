@@ -38,7 +38,7 @@
     height: 300px;
 }
 
-h2 {
+h1, h2, h3 {
     font-family: "Bebas Neue", sans-serif;
 }
 
@@ -88,6 +88,11 @@ footer p{
     color: black;
     border: 1px solid black;
     margin-bottom: 15px;
+}
+
+.add-to-cart:hover {
+    background-color: #444;
+    color: white;
 }
 
 #checkout {
@@ -212,9 +217,9 @@ dt {
     padding-top: 10px;
 }
 
-dd {
+/* dd {
     padding-bottom: 5px;
-}
+} */
 
 #restaurant_background {
     /* background-image: url("./frontend/images/restaurantbg.jpg"); */
