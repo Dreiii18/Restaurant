@@ -186,22 +186,12 @@ class Core
     }
 
     public function getMenuList() {
-<<<<<<< HEAD
-        // $sql = "SELECT * FROM menu";
-=======
         $sql = "SELECT * FROM menu_item";
->>>>>>> 5e485ecd997181ddd4b926fb007e8f2bf4ffd68c
         
 		// $query = $this->db->query($sql);
 		// $results = $this->db->getResults($query);
 
-<<<<<<< HEAD
-
-
-        // return $results;
-=======
         return $results;
->>>>>>> 5e485ecd997181ddd4b926fb007e8f2bf4ffd68c
     }
     public function getCustomerInfo() {}
 }
