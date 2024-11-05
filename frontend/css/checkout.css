@@ -1,0 +1,11 @@
+.row{
+    display: flex;
+}
+
+.column-1{
+    background-color: aqua;
+}
+
+.column-2{
+    background-color: blueviolet;
+}
