@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once dirname(__FILE__) . '/pages.php';
 
 // Gets all the main page and content page css and js files ...	  

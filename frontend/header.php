@@ -1,3 +1,10 @@
+<?php
+require_once  dirname(__FILE__) . '/../config/config.php';
+require_once $config['path'] . '/backend/core.php';
+
+$core = new Core();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($title); ?></title>
     <script src="https://kit.fontawesome.com/8fb4709d42.js" crossorigin="anonymous"></script>
+    <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -16,16 +24,13 @@
             <a class="navbar-brand" href="#">Hidden brand</a>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="?page=o">Order</a>
+                    <a class="nav-link active" aria-current="page" href="?page=o">Order</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="?page=r">Reservation</a>
+                    <a class="nav-link active" aria-current="page" href="?page=r">Reservation</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="?page=co">Checkout</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    <a class="nav-link" href="?page=co">Checkout</a>
                 </li>
             </ul>
             <div class="d-flex">
@@ -33,8 +38,9 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-regular fa-user"></i>
-                            <!-- to be changed to user name -->
-                            Profile 
+                            <?php 
+                                echo isset($_SESSION['user']) ? htmlspecialchars($core->getCustomerName($_SESSION['user']['userid'])) : 'Profile'; 
+                            ?>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Check Profile</a></li>
