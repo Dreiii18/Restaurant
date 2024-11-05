@@ -1,191 +1,125 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>Smoke & Caviar</title>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="css\order.css">
-        <!--Icon for shopping cart-->
-        <style>
-          @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-          @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-        </style>
-    </head>
+<div class="cart-checkout">
+    <i class="fa badge" value=0 data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">&#xf07a;</i>
+</div>
+<div class="row">
+    <div class="item1">
+        <h2 class="carouselTitle text-align-center">Recommended By the Chef</h2>
+        <div id ="recommended">
+            <div id="carouselExample" class="carousel slide">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="alignCentre">
+                            <img class="multipleImages" src="frontend/images/jalapenoPoppers.jpg">
+                            <img class="multipleImages" src="frontend/images/tomahawkSteak.jpg">
+                            <img class="multipleImages" src="frontend/images/lavaCake.jpg">
+                            <img class="multipleImages" src="frontend/images/truffleFries.jpg">
+                            <img class="multipleImages" src="frontend/images/lobsterWagyu.jpg">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="alignCentre">
+                            <img class="multipleImages" src="frontend/images/smokedbrisket.jpg">
+                            <img class="multipleImages" src="frontend/images/truffleMacCheeseBalls.jpg">
+                            <img class="multipleImages" src="frontend/images/pecanPie.jpg">
+                            <img class="multipleImages" src="frontend/images/brusselSprouts.jpg">
+                            <img class="multipleImages" src="frontend/images/oldFashioned.png">
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button> 
+            </div>
+        </div>
+    </div>
 
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="reservation.html">Reservation <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="menu.html">Menu</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about.html">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="login.html">Sign In / Sign Up</a>
-                </li>
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+                <ul class="nav justify-content-center">
+                    <li>
+                        <h2>Filters</h2>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#starters">Starters</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#entrees">Entrees</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sides">Sides</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#desserts">Desserts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#beverages">Beverages</a>
+                    </li>
                 </ul>
             </div>
-        </nav>
-
-        <div class="cart-checkout">
-            <i class="fa badge" value=1>&#xf07a;</i>
-            <!-- <button id="checkout" onclick="cart.html">Checkout</button> -->
+            <div id="menu"></div>
         </div>
-        
-        <div class="row">
-            <div class="col-8">
-                <div class="row">
-                    <ul class="nav justify-content-center">
-                        <li class="nav-item">
-                          <a class="nav-link" href="#category1">Category1</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#category2">Category2</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#category3">Category3</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#category4">Category4</a>
-                        </li>
-                      </ul>
+        <div class="col-4" id="restaurant_background"></div>
+    </div>
+
+</div>
+
+<div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header border-bottom">
+        <h1 class="offcanvas-title" id="offcanvasRightLabel">Order Summary</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div id="items-ordered">
+            <div class="menu-item"> <!--Use this block for when new items are added-->
+                <div class="ordered-item">
+                    <h3>Tomahawk Steak</h3>
+                    <p>$359.99</p>
                 </div>
-                <div class="row" id="category1">
-                    <div class="col text-align-center">
-                        <h2>CATEGORY1</h2>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <img src="frontend/images/truffleMacCheeseBalls.jpg" class="d-block w-100" alt="Lobster & Wagyu Steak">
-                        <h2>Truffle Mac CheeseBalls</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur a voluptatibus ad quia perferendis eius ab magni itaque molestiae veniam dolore totam modi sunt harum, autem facilis vitae, ullam accusantium!</p>
-                        <input type="submit" value="Add to Cart">
-                    </div>
-                    <div class="col">
-                        <dl>
-                            <dt>ITEM 1</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi necessitatibus soluta optio nesciunt maxime doloremque reiciendis at numquam natus? Nam praesentium ut iusto eos quasi! Hic culpa impedit facilis est?</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 2</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit dolore tenetur, aliquid vero qui totam dolorum! Architecto temporibus ipsa voluptatum repellendus officia cumque. Eaque, aperiam quos sed ipsum quis quasi.</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 3</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum fuga cupiditate facilis porro repellat pariatur cumque accusantium alias corrupti quis voluptatum quisquam quaerat, quae expedita quasi aliquid dolores reprehenderit quas!</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 4</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio maxime et recusandae dolor molestiae quaerat corporis tenetur a voluptates, ullam placeat, consequatur in doloremque asperiores, tempora itaque impedit porro quisquam!</dd>
-                            <input type="submit" value="Add to Cart">
-                        </dl>
-                    </div>
-                </div>
-                <div class="row" id="category2">
-                    <div class="row">
-                        <div class="col text-align-center">
-                            <h2>CATEGORY2</h2>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <img src="frontend/images/truffleMacCheeseBalls.jpg" class="d-block w-100" alt="Lobster & Wagyu Steak">
-                        <h2>Truffle Mac CheeseBalls</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur a voluptatibus ad quia perferendis eius ab magni itaque molestiae veniam dolore totam modi sunt harum, autem facilis vitae, ullam accusantium!</p>
-                        <input type="submit" value="Add to Cart">
-                    </div>
-                    <div class="col">
-                        <dl>
-                            <dt>ITEM 1</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi necessitatibus soluta optio nesciunt maxime doloremque reiciendis at numquam natus? Nam praesentium ut iusto eos quasi! Hic culpa impedit facilis est?</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 2</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit dolore tenetur, aliquid vero qui totam dolorum! Architecto temporibus ipsa voluptatum repellendus officia cumque. Eaque, aperiam quos sed ipsum quis quasi.</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 3</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum fuga cupiditate facilis porro repellat pariatur cumque accusantium alias corrupti quis voluptatum quisquam quaerat, quae expedita quasi aliquid dolores reprehenderit quas!</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 4</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio maxime et recusandae dolor molestiae quaerat corporis tenetur a voluptates, ullam placeat, consequatur in doloremque asperiores, tempora itaque impedit porro quisquam!</dd>
-                            <input type="submit" value="Add to Cart">
-                        </dl>
-                    </div>
-                </div>
-                <div class="row" id="category3">
-                    <div class="row">
-                        <div class="col text-align-center">
-                            <h2>CATEGORY3</h2>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <img src="frontend/images/truffleMacCheeseBalls.jpg" class="d-block w-100" alt="Lobster & Wagyu Steak">
-                        <h2>Truffle Mac CheeseBalls</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur a voluptatibus ad quia perferendis eius ab magni itaque molestiae veniam dolore totam modi sunt harum, autem facilis vitae, ullam accusantium!</p>
-                        <input type="submit" value="Add to Cart">
-                    </div>
-                    <div class="col">
-                        <dl>
-                            <dt>ITEM 1</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi necessitatibus soluta optio nesciunt maxime doloremque reiciendis at numquam natus? Nam praesentium ut iusto eos quasi! Hic culpa impedit facilis est?</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 2</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit dolore tenetur, aliquid vero qui totam dolorum! Architecto temporibus ipsa voluptatum repellendus officia cumque. Eaque, aperiam quos sed ipsum quis quasi.</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 3</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum fuga cupiditate facilis porro repellat pariatur cumque accusantium alias corrupti quis voluptatum quisquam quaerat, quae expedita quasi aliquid dolores reprehenderit quas!</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 4</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio maxime et recusandae dolor molestiae quaerat corporis tenetur a voluptates, ullam placeat, consequatur in doloremque asperiores, tempora itaque impedit porro quisquam!</dd>
-                            <input type="submit" value="Add to Cart">
-                        </dl>
-                    </div>
-                </div>
-                <div class="row" id="category4">
-                    <div class="row">
-                        <div class="col text-align-center">
-                            <h2>CATEGORY4</h2>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <img src="frontend/images/truffleMacCheeseBalls.jpg" class="d-block w-100" alt="Lobster & Wagyu Steak">
-                        <h2>Truffle Mac CheeseBalls</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur a voluptatibus ad quia perferendis eius ab magni itaque molestiae veniam dolore totam modi sunt harum, autem facilis vitae, ullam accusantium!</p>
-                        <input type="submit" value="Add to Cart">
-                    </div>
-                    <div class="col">
-                        <dl>
-                            <dt>ITEM 1</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi necessitatibus soluta optio nesciunt maxime doloremque reiciendis at numquam natus? Nam praesentium ut iusto eos quasi! Hic culpa impedit facilis est?</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 2</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit dolore tenetur, aliquid vero qui totam dolorum! Architecto temporibus ipsa voluptatum repellendus officia cumque. Eaque, aperiam quos sed ipsum quis quasi.</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 3</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum fuga cupiditate facilis porro repellat pariatur cumque accusantium alias corrupti quis voluptatum quisquam quaerat, quae expedita quasi aliquid dolores reprehenderit quas!</dd>
-                            <input type="submit" value="Add to Cart">
-                            <dt>ITEM 4</dt>
-                            <dd>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio maxime et recusandae dolor molestiae quaerat corporis tenetur a voluptates, ullam placeat, consequatur in doloremque asperiores, tempora itaque impedit porro quisquam!</dd>
-                            <input type="submit" value="Add to Cart">
-                        </dl>
-                    </div>
+                <div class="item-qty">
+                    <button type="button" class="subtract">-</button>
+                    <input type="text" class="quantity" value="1">
+                    <button type="button" class="add">+</button>
                 </div>
             </div>
-            <div class="col-4" id="restaurant_background">
+            <div class="menu-item"> <!--Just testing for multiple items-->
+                <div class="ordered-item">
+                    <h3>Tomahawk Steak</h3>
+                    <p>$359.99</p>
+                </div>
+                <div class="item-qty">
+                    <button type="button" class="subtract">-</button>
+                    <input type="text" class="quantity" value="1">
+                    <button type="button" class="add">+</button>
+                </div>
             </div>
-            <div class="col-4" id="cart">
+            <div id="costSummary" class="border-top p-3">
+                <h2>Cost</h2>
+                <div class="cost-element">
+                    <span>Subtotal</span>
+                    <div id="subtotal-cost">$359.99</div>
+                </div>
+                <div class="cost-element">
+                    <span>Tax</span>
+                    <div id="tax-cost">$43.20</div>
+                </div>
+                <div class="cost-element">
+                    <span>Tip</span>
+                    <div id="tip-cost">$5.00</div>
+                </div>
+                <div class="cost-element">
+                    <span><strong>Total Cost</strong></span>
+                    <div id="total-cost">$408.19</div>
+                </div>
             </div>
         </div>
-    </body>
-
-    <footer>
-        <p class="text-align-center">
-            Copyright @Smoke & Caviar 2024
-        </p>
-    </footer>
-</html>
-
+        <div class="d-grid gap-2 p-3">
+            <button class="btn btn-primary" id="checkout">Proceed to Checkout</button>
+        </div>
+    </div>
+</div>
