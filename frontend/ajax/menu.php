@@ -4,7 +4,7 @@ require_once($config["path"] . "/backend/core.php");
 
 $core = new Core();
 
-$menu = $core->getMenuList();
+// $menu = $core->getMenuList();
 
 ?>
 

@@ -185,13 +185,5 @@ class Core
         $this->db->insert($reservation_table, 'reservation');
     }
 
-    public function getMenuList() {
-        $sql = "SELECT * FROM menu_item";
-        
-		// $query = $this->db->query($sql);
-		// $results = $this->db->getResults($query);
-
-        return $results;
-    }
     public function getCustomerInfo() {}
 }

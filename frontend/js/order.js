@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 $(function () {
     $(".add").click(function () {
         // Get the index of this button relative to other .add buttons
@@ -44,9 +43,7 @@ $(document).ready(function () {
         // Display the total items in the cart side panel
         $("#cartTotalItems").text("Total items in cart: " + totalItems);
     });
-<<<<<<< HEAD
 
-=======
 $(document).ready(function() {
     // wait for to card button before proceeding order
     var orders = []
@@ -65,16 +62,11 @@ $(document).ready(function() {
     ]
     addOrder(orders);   
     
->>>>>>> 5e485ecd997181ddd4b926fb007e8f2bf4ffd68c
     $(".badge").on("click", function() {
         $("#cart").toggle();
         $("#restaurant_background").toggle();
     }) 
-=======
->>>>>>> 7e8606a555feed9d17219ce51967714b5fff36f0
 });
-<<<<<<< HEAD
-=======
 
 function addOrder(orders) {
     $.ajax({
@@ -89,39 +81,4 @@ function addOrder(orders) {
     });
 }
 
-function displayOrder() {
-
-}
-
-
-// let cartItems = []; 
-
-//     $('.add-button').on('click', function () {
-//         const itemId = $(this).data('menuid');
-//         const existingItem = cartItems.find(item => item.itemid === itemId);
-
-//         if (existingItem) {
-//             existingItem.quantity++;
-//         } else {
-//             cartItems.push({ itemid: itemId, quantity: 1 });
-//         }
-
-//         updateCartDisplay();
-//     });
-
-//     function updateCartDisplay() {
-//         $('#cart-items').empty();
-//         $.each(cartItems, function (index, item) {
-//             $('#cart-items').append(`<li>Item ID: ${item.itemid}, Quantity: ${item.quantity}</li>`); 
-//         });
-//     }
-
-//     $('#cart-button').on('click', function () {
-//         $('#cart-popup').toggle(); 
-//     });
-
-//     // Close cart popup
-//     $('#close-cart').on('click', function () {
-//         $('#cart-popup').hide();
-//     });
->>>>>>> 5e485ecd997181ddd4b926fb007e8f2bf4ffd68c
+})
