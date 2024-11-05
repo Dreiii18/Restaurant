@@ -1,5 +1,82 @@
 <div id="content">
-    
-</div>
+    <div class="row">
+        <div class="column-1">
+            <div class="inner-row">
+                <span class="checkout-section">Method</span>
+                <div id="order_method">
+                    <input type="radio" id="delivery" name="order_method" value="Delivery">
+                    <label for="delivery">Delivery</label><br>
+                    
+                    <label for="special-instructions">Delivery Instructions</label><br>
+                    <input type="text" id="special-instructions" name="special-instructions"><br>
 
- 
+                    <input type="radio" id="dine_in" name="order_method" value="Dine In">
+                    <label for="dine_in">Dine In</label>
+                </div>
+            </div>
+            <div class="inner-row">
+                <span>Delivery Address</span>
+                <form>
+                    <label for="house_num">House Number:</label><br>
+                    <input type="text" id="house_num" name="house_num"><br>
+                    <label for="street_num">Street Number:</label><br>
+                    <input type="text" id="street_num" name="street_num"><br>
+                    <label for="street_name">Street Name:</label><br>
+                    <input type="text" id="street_name" name="street_name"><br>
+                    <label for="postal-code">Postal Code:</label><br>
+                    <input type="text" id="postal-code" name="postal-code">
+                </form>
+            </div>
+            <div class="inner-row">
+                <span>Payment Method</span>
+                <div id="payment-options">
+                    <input type="radio" id="cash" name="payment_method" value="Cash">
+                    <label for="cash">Cash</label><br>
+                    <input type="radio" id="card" name="order_method" value="Card">
+                    <label for="card">Debit/Credit Card</label><br>
+                </div>
+                <div id="payment-details">
+                    <form>
+                        <label for="card_num">Card Number:</label><br>
+                        <input type="text" id="card_num" name="card_num"><br>
+                        <label for="card_type">Card Type:</label><br>
+                        <input type="text" id="card_type" name="card_type"><br>
+                        <label for="card_comp">Card Company:</label><br>
+                        <input type="text" id="card_comp" name="card_comp"><br>
+                        <label for="expiry_date">Expiry Date:</label><br>
+                        <input type="text" id="expiry_date" name="expiry_date"><br>
+                        <label for="cvv">CVV:</label><br>
+                        <input type="text" id="cvv" name="cvv"><br>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="column-2">
+            <div id="costSummary" class="border-top p-3">
+                <div class="cost-element">
+                    <span>Subtotal</span>
+                    <div id="subtotal-cost">$359.99</div>
+                </div>
+                <div class="cost-element">
+                    <span>Tax</span>
+                    <div id="tax-cost">$43.20</div>
+                </div>
+                <div class="cost-element">
+                    <span>Tip</span>
+                    <div id="tip-cost">
+                        <input type="text" id="tip" name="tip">
+                    </div>
+                </div>
+                <div class="cost-element">
+                    <span><strong>Total Cost</strong></span>
+                    <div id="total-cost">$408.19</div>
+                </div>
+                <div class="d-grid gap-2 p-3">
+                    <button class="btn btn-primary" type="button">Place Order</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

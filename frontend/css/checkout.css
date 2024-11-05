@@ -1,0 +1,41 @@
+.row{
+    display: flex;
+}
+
+#navbar {
+    border: 1px solid black;
+}
+
+#navbar ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+}
+
+nav a {
+    text-decoration: none;
+}
+
+.inner-row{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
+}
+
+.column-1{
+    width: 70%;
+}
+
+.column-2{
+    width: 30%;
+}
+
+.cost-element{
+    display: flex;
+    justify-content: space-between;
+}
+
