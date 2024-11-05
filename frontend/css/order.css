@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .bebas-neue-regular {
     font-family: "Bebas Neue", sans-serif;
     font-weight: 400;
@@ -14,6 +15,8 @@
     margin: auto;   
 }
 
+=======
+>>>>>>> 5e485ecd997181ddd4b926fb007e8f2bf4ffd68c
 .cart-checkout{
     position: fixed;
     bottom: 0;
@@ -22,6 +25,7 @@
     background-color: slategrey;
 }
 
+<<<<<<< HEAD
 .carouselTitle{
     margin-left: 10px;
     border-bottom: 1px solid slategrey;
@@ -185,6 +189,17 @@ footer p{
 #cart {
     background-color: white;
     border: 1px solid slategrey;
+=======
+#restaurant_background {
+    background-image: url("../images/restaurantbg.jpg");
+    background-size: cover;
+    min-height: 100vh;
+    background-position: center;
+}
+
+#cart {
+    background-color: black;
+>>>>>>> 5e485ecd997181ddd4b926fb007e8f2bf4ffd68c
     display: none;
 }
 
@@ -192,6 +207,7 @@ footer p{
     text-align: center;
 }
 
+<<<<<<< HEAD
 dt {
     padding-top: 10px;
 }
@@ -281,4 +297,10 @@ dd {
     text-align: center;
     font-size: 18px;
     border: none;
+=======
+footer{
+    clear: both;
+    background-color: slategrey;
+    border: 3px solid slategrey;
+>>>>>>> 5e485ecd997181ddd4b926fb007e8f2bf4ffd68c
 }
