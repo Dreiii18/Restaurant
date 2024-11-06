@@ -1,51 +1,68 @@
-let cartItems = [];
 $(document).ready(function() {
-    // wait for to card button before proceeding order
-    var orders = []
+    // let cartItems = updateCartDisplay();
+    let cartItems = getCartItems();
 
     displayMenu();
+    updateCosts();
 
-    $('#checkout').click(function () {
-        // passed from frontend
-        orders = [
-            {
-                menuid: 1,
-                quantity: 2
-            },
-            {
-                menuid: 2,
-                quantity: 3
+    $('#items-ordered').on('click', '.add, .subtract', function() {
+        const quantityInput = $(this).siblings('.quantity');
+        let quantity = parseInt(quantityInput.val());
+
+        if ($(this).hasClass('add')) {
+            // item.quantity += 1;
+            quantityInput.val(++quantity);
+        } 
+
+        // if ($(this).hasClass('subtract') && item.quantity > 0) {
+        if ($(this).hasClass('subtract') && quantity > 0) {
+            // item.quantity -= 1;
+            quantityInput.val(--quantity);
+        }
+
+        const itemName = $(this).closest('.menu-item').data('item-name');
+        const item = cartItems.find(item => item.name === itemName);
+
+        if (item) {
+            item.quantity = quantity;
+            if (item.quantity === 0) {
+                cartItems = cartItems.filter(item => item.name !== itemName);  // Remove item
             }
-        ]
-        addOrder(orders);   
+        }
+
+        $.cookie('cartItems', JSON.stringify(cartItems));
+        updateCartDisplay();
     });
     
-});
+    setTimeout(function() {
+        $('.add-to-cart').on('click', function() {
+            isCartOpen = true;
+            let itemId = $(this).data('menu-id');
+            let itemName = $(this).data('menu-name');
+            let itemPrice = $(this).data('menu-price');
+            addItemToCart(itemId, itemName, itemPrice);
+            cartItems = getCartItems();
+        });
 
-$(document).on('click', '.add-to-cart', function() {
-    const menuId = $(this).closest('[data-menu-id]').data('menu-id');
-    const existingItem = cartItems.find(item => item.menuId === menuId);
-
-    if (existingItem) {
-        existingItem.quantity++;
-    } else {
-        cartItems.push({ menuId: menuId, quantity: 1 });
-    }
-
-    console.log(cartItems);
-
-    updateCartDisplay();
+        $('#checkout').on('click', function () {
+            if (cartItems.length > 0) {
+                addOrder(cartItems);  
+            }
+        });
+    }, 500);
 });
 
 function addOrder(orders) {
     $.ajax({
-        url: "frontend/ajax/order.php",  
+        type: "post",
+        url: "frontend/ajax/generate_order.php",  
         data: {
-            // key   : value
             'orders' : orders
         },
-        success: function(data){   
-            $('#content').html(data);
+        success: function(data){ 
+            if (data !== false ){
+                window.location.href = '?page=co&order_number=' + JSON.parse(data); 
+            }
         } 
     });
 }
@@ -55,58 +72,93 @@ function displayMenu() {
         url: "frontend/ajax/order.php",
         success: function(data) {
             $('#menu').html(data);
-        }
-    })
+        },
+    });
+
+    updateCartDisplay();
+}
+
+function getCartItems() {
+    let cartItems = [];
+    if ($.cookie('cartItems')) {
+        cartItems = JSON.parse($.cookie('cartItems'));
+    }
+    return cartItems;
+}
+
+function addItemToCart(itemId, name, price) {
+    cartItems = getCartItems();
+
+    let existingItem = cartItems.find(item => item.name === name);
+
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        const newItem = {
+            menuid: itemId, 
+            name: name,
+            price: price,
+            quantity: 1
+        };
+        cartItems.push(newItem);
+    }
+
+    $.cookie('cartItems', JSON.stringify(cartItems));
+
+    updateCartDisplay();
+}
+
+function updateCosts() {
+    let subtotal = 0;
+
+    $('#items-ordered .menu-item').each(function() {
+        const price = parseFloat($(this).find('.ordered-item p').text().replace('$', ''));
+        const quantity = parseInt($(this).find('.quantity').val());
+        subtotal += price * quantity;
+    });
+
+    $('#subtotal-cost').text(`$${subtotal.toFixed(2)}`);
+}
+
+function updateCartButton() {
+    let uniqueItemsCount = $('#items-ordered .menu-item').length;
+
+    $('.cart-checkout .badge').attr('value', uniqueItemsCount);
 }
 
 function updateCartDisplay() {
-    $('#items-ordered').empty(); 
+    cartItems = getCartItems();
+    let cartItemHTML = "";
 
-    cartItems.forEach(item => {
-        $('#items-ordered').append(`
-            <div class="menu-item">
-                <div class="ordered-item">
-                    <h3>Tomahawk Steak</h3>
-                    <p>$359.99</p>
+    const cartItemsContainer = $('#items-ordered');
+    cartItemsContainer.empty(); 
+
+    if (cartItems.length > 0) {
+        cartItems.forEach(item => {
+            cartItemHTML += `
+                <div class="menu-item" data-item-name="${item.name}">
+                    <div class="ordered-item">
+                        <h3>${item.name}</h3>
+                        <p>$${item.price.toFixed(2)}</p>
+                    </div>
+                    <div class="item-qty">
+                        <button type="button" class="subtract">-</button>
+                        <input type="text" class="quantity" value="${item.quantity}">
+                        <button type="button" class="add">+</button>
+                    </div>
                 </div>
-                <div class="item-qty">
-                    <button type="button" class="subtract">-</button>
-                    <input type="text" class="quantity" value="1">
-                    <button type="button" class="add">+</button>
-                </div>
-            </div>
-        `);
-    });
+            `;
+        });
+    } else {
+        cartItemHTML = `
+            <div class="empty-cart">
+                <h2>Your cart is empty</h2>
+            </div
+        `;
+    }
+    cartItemsContainer.append(cartItemHTML);
+
+    updateCartButton();
+    updateCosts();
+    return cartItems;
 }
-
-
-// let cartItems = []; 
-
-//     $('.add-button').on('click', function () {
-//         const itemId = $(this).data('menuid');
-//         const existingItem = cartItems.find(item => item.itemid === itemId);
-
-//         if (existingItem) {
-//             existingItem.quantity++;
-//         } else {
-//             cartItems.push({ itemid: itemId, quantity: 1 });
-//         }
-
-//         updateCartDisplay();
-//     });
-
-//     function updateCartDisplay() {
-//         $('#cart-items').empty();
-//         $.each(cartItems, function (index, item) {
-//             $('#cart-items').append(`<li>Item ID: ${item.itemid}, Quantity: ${item.quantity}</li>`); 
-//         });
-//     }
-
-//     $('#cart-button').on('click', function () {
-//         $('#cart-popup').toggle(); 
-//     });
-
-//     // Close cart popup
-//     $('#close-cart').on('click', function () {
-//         $('#cart-popup').hide();
-//     });

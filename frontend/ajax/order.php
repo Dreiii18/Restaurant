@@ -4,20 +4,19 @@ require_once($config["path"] . "/backend/core.php");
 
 $core = new Core();
 
-if (isset($_REQUEST['orders'])) {
-    $orderList = $_REQUEST['orders'];
-}
-
-// $core->generateOrder();
-// $order = $core->addOrder($orderList);
-
 function displayMainItem($id) {
     global $core;
     [$menuName, $menuDescription, $menuPrice] = $core->getMenuItem($id);
     echo "
-        <h2 data-menu-id='{$id}'>{$menuName}</h2>
-        <p>{$menuDescription}. {$menuPrice}</p>
-        <button class='add-to-cart'>Add to Cart</button>
+        <dl>
+            <dt class='item_name' data-menu-id='{$id}' data-menu-price='{$menuPrice}'>
+                <h2 >{$menuName}</h2>
+            </dt>
+            <dd>{$menuDescription}. \${$menuPrice}</dd>
+            <dd>
+                <button class='add-to-cart' data-menu-name='{$menuName}' data-menu-price='{$menuPrice}'>Add to Cart</button>
+            </dd>
+        </dl>
     ";
 }
 
@@ -26,9 +25,9 @@ function displaySubItems($ids) {
     foreach($ids as $id) {
         [$menuName, $menuDescription, $menuPrice] = $core->getMenuItem($id);
         echo "
-            <dt data-menu-id='{$id}'>{$menuName}</dt>
-            <dd>{$menuDescription}. {$menuPrice}</dd>
-            <dd><button class='add-to-cart'>Add to Cart</button></dd>
+            <dt class='item_name' data-menu-id='{$id}' data-menu-name='{$menuName}' data-menu-price='{$menuPrice}'>{$menuName}</dt>
+            <dd>{$menuDescription}. \${$menuPrice}</dd>
+            <dd><button class='add-to-cart' data-menu-id='{$id}' data-menu-name='{$menuName}' data-menu-price='{$menuPrice}'>Add to Cart</button></dd>
         ";
     }
 }

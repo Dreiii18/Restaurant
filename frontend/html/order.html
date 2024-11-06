@@ -1,6 +1,7 @@
 <div class="cart-checkout">
     <i class="fa badge" value=0 data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">&#xf07a;</i>
 </div>
+<div class="test"></div>
 <div class="row">
     <div class="item1">
         <h2 class="carouselTitle text-align-center">Recommended By the Chef</h2>
@@ -75,47 +76,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <div id="items-ordered">
-            <div class="menu-item"> <!--Use this block for when new items are added-->
-                <div class="ordered-item">
-                    <h3>Tomahawk Steak</h3>
-                    <p>$359.99</p>
-                </div>
-                <div class="item-qty">
-                    <button type="button" class="subtract">-</button>
-                    <input type="text" class="quantity" value="1">
-                    <button type="button" class="add">+</button>
-                </div>
-            </div>
-            <div class="menu-item"> <!--Just testing for multiple items-->
-                <div class="ordered-item">
-                    <h3>Tomahawk Steak</h3>
-                    <p>$359.99</p>
-                </div>
-                <div class="item-qty">
-                    <button type="button" class="subtract">-</button>
-                    <input type="text" class="quantity" value="1">
-                    <button type="button" class="add">+</button>
-                </div>
-            </div>
-            <div id="costSummary" class="border-top p-3">
-                <h2>Cost</h2>
-                <div class="cost-element">
-                    <span>Subtotal</span>
-                    <div id="subtotal-cost">$359.99</div>
-                </div>
-                <div class="cost-element">
-                    <span>Tax</span>
-                    <div id="tax-cost">$43.20</div>
-                </div>
-                <div class="cost-element">
-                    <span>Tip</span>
-                    <div id="tip-cost">$5.00</div>
-                </div>
-                <div class="cost-element">
-                    <span><strong>Total Cost</strong></span>
-                    <div id="total-cost">$408.19</div>
-                </div>
+        <div id="items-ordered"></div>
+        <div id="costSummary" class="border-top p-3">
+            <h2>Cost</h2>
+            <div class="cost-element">
+                <span>Subtotal</span>
+                <div id="subtotal-cost">$0</div>
             </div>
         </div>
         <div class="d-grid gap-2 p-3">
