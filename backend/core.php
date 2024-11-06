@@ -7,7 +7,6 @@ class Core
     /** @var Database */
     protected $db;
     protected $orderType;
-    const TAX_RATE = 0.12;
 
     public function __construct()
     {        
@@ -44,14 +43,6 @@ class Core
     public function getCustomerName($id) {
         $customerName = $this->getTableColumns('customer_name', 'customer', "userid = '{$id}'");
         return !empty($customerName) ? htmlspecialchars($customerName[0]['customer_name']) : 'Unknown User';
-    }
-
-    public function calculateTax($subTotal) {
-        return $subTotal * self::TAX_RATE;
-    }
-
-    public function calculateTotal($tax, $tip, $subTotal) {
-        return $tax + $tip + $subTotal;
     }
 
     public function getTableColumns($columns, $table, $condition) {
@@ -115,6 +106,7 @@ class Core
             ];
             $this->db->insert($data, 'contain');
         }
+
         return $orderNumber;
     }
 
@@ -124,10 +116,10 @@ class Core
         $paymentType = $transaction['paymentType'];
         $subTotal = $transaction['subTotal'];
         $tip = $transaction['tip'];
+        $tax = $transaction['taxCost'];
+        $total = $transaction['total'];
         $transactionNumber = $this->getMaxTableNumberForDate('order_transaction', 'transaction_number', 'transaction_datetime');
         $transactionDateTime = date("Y-m-d H:i:s");
-        $tax = $this->calculateTax($subTotal);
-        $total = $this->calculateTotal($tax, $tip, $subTotal);
         
         // get associated orderid
         $result = $this->getTableColumns('orderid', 'order_table', "(order_number = {$orderNumber} AND Date(order_datetime) = Date('{$transactionDateTime}'))");
