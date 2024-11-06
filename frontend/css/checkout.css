@@ -1,19 +1,25 @@
+.bebas-neue-regular {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}  
+
+.roboto-regular {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h2{
+    font-family: "Bebas Neue", sans-serif;
+}
+
+label {
+    font-family: "Roboto", sans-serif;
+}
+
 .row{
     display: flex;
-}
-
-#navbar {
-    border: 1px solid black;
-}
-
-#navbar ul {
-    display: flex;
-    justify-content: space-between;
-    list-style: none;
-}
-
-nav a {
-    text-decoration: none;
 }
 
 .inner-row{
@@ -37,4 +43,19 @@ nav a {
 .cost-element{
     display: flex;
     justify-content: space-between;
+}
+
+#place-order {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+}
+
+#tip-cost{
+    display: flex;
+    justify-content: flex-end;
+}
+
+#tip{
+    width: 30%;
 }
