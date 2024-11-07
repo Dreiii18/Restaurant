@@ -20,11 +20,8 @@
                         <input type="radio" id="delivery" name="order_method" value="Delivery">
                         <label for="delivery">Delivery</label><br>
                         
-                        <label for="special-instructions">Delivery Instructions</label><br>
-                        <input type="text" id="special-instructions" name="special-instructions"><br>
-
                         <input type="radio" id="dine_in" name="order_method" value="Dine In">
-                        <label for="dine_in">Dine In</label>
+                        <label for="dine_in">Pick Up</label>
                     </div>
                 </div>
                 <div class="inner-row">
@@ -37,7 +34,9 @@
                         <label for="street_name">Street Name:</label><br>
                         <input type="text" id="street_name" name="street_name"><br>
                         <label for="postal-code">Postal Code:</label><br>
-                        <input type="text" id="postal-code" name="postal-code">
+                        <input type="text" id="postal-code" name="postal-code" maxlength="6"><br>
+                        <label for="special-instructions">Delivery Instructions:</label><br>
+                        <textarea id="special-instructions" name="special-instructions" rows="5" cols="30"></textarea><br>
                     </form>
                 </div>
                 <div class="inner-row">
@@ -45,21 +44,17 @@
                     <div id="payment-options">
                         <input type="radio" id="cash" name="payment_method" value="Cash">
                         <label for="cash">Cash</label><br>
-                        <input type="radio" id="card" name="order_method" value="Card">
+                        <input type="radio" id="card" name="payment_method" value="Card">
                         <label for="card">Debit/Credit Card</label><br>
                     </div>
                     <div id="payment-details">
                         <form>
                             <label for="card_num">Card Number:</label><br>
-                            <input type="text" id="card_num" name="card_num"><br>
-                            <label for="card_type">Card Type:</label><br>
-                            <input type="text" id="card_type" name="card_type"><br>
-                            <label for="card_comp">Card Company:</label><br>
-                            <input type="text" id="card_comp" name="card_comp"><br>
+                            <input type="number" id="card_num" name="card_num" maxlength="16" placeholder="XXXX-XXXX-XXXX-XXXX"><br>
                             <label for="expiry_date">Expiry Date:</label><br>
-                            <input type="text" id="expiry_date" name="expiry_date"><br>
+                            <input type="number" id="expiry_date" name="expiry_date" placeholder="MM / YY"><br>
                             <label for="cvv">CVV:</label><br>
-                            <input type="text" id="cvv" name="cvv"><br>
+                            <input type="number" id="cvv" name="cvv" maxlength="3" placeholder="CVV"><br>
                         </form>
                     </div>
                 </div>
@@ -77,7 +72,17 @@
                     <div class="cost-element">
                         <span>Tip</span>
                         <div id="tip-cost">
-                            $<input type="text" id="tip" name="tip">
+                            <input type="radio" class="tip" id="10" name="tip">
+                            <label for="10">10%</label>
+                            <input type="radio" class="tip" id="15" name="tip">
+                            <label for="15">15%</label>
+                            <input type="radio" class="tip" id="20" name="tip">
+                            <label for="20">20%</label>
+                            <input type="radio" class="tip" id="25" name="tip">
+                            <label for="25">25%</label>
+                            <input type="radio" class="tip" id="custom" name="tip">
+                            <label for="custom">Custom: </label>
+                            <input type="number" id="custom" name="tip" size="5">
                         </div>
                     </div>
                     <div class="cost-element">
