@@ -59,3 +59,21 @@ label {
 #tip{
     width: 30%;
 }
+
+#tip-cost label{
+    padding-left: 3px;
+    padding-right: 10px;
+}
+
+#tip-cost label:last-of-type{
+    padding-right: 0px;
+}
+
+input[id='custom-field']{
+    width: 100px;
+}
+
+#custom-tip-input{
+    display: flex;
+    justify-content: flex-end;
+}
