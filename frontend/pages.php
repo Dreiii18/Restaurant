@@ -8,7 +8,7 @@ $pages = [
     // Main page
     'main' => [
         'css' => ['main.css', 'bootstrap.min.css'],
-        'js'  => ['main.js', 'jquery-3.7.1.min.js', 'bootstrap.bundle.min.js'],
+        'js'  => ['main.js', 'jquery-3.7.1.min.js', 'bootstrap.bundle.min.js', 'jquery.cookie.js'],
     ],
     // Menu page
     'm' => [
