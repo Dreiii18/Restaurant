@@ -1,21 +1,22 @@
 <?php
-
+// session_start();
 require_once(dirname(__FILE__)."/../config/config.php");
 
 class Core
 {
     /** @var Database */
     protected $db;
+    protected $orderType;
 
     public function __construct()
     {        
-      $this->db = new Database();               
+      $this->db = new Database();   
+      $this->orderType = 'Delivery';
     }
 
     public function login($username, $password)
 	{
-		$query = $this->db->query("SELECT ...");
-		$results = $this->db->getResults($query);
+        $results = $this->getTableColumns('userid, username, password', 'user', "(username = '{$username}' AND password = '{$password}')");
 
         if (!is_array($results) || count($results) == 0) {
             $_SESSION['logged_in'] = false;
@@ -37,16 +38,131 @@ class Core
         return true;
     }
 
-    public function getMenuList() {
-        // $sql = "SELECT * FROM menu";
-        
-		// $query = $this->db->query($sql);
-		// $results = $this->db->getResults($query);
-
-
-
-        // return $results;
+    public function getCustomerName($id) {
+        $customerName = $this->getTableColumns('customer_name', 'customer', "userid = '{$id}'");
+        return !empty($customerName) ? htmlspecialchars($customerName[0]['customer_name']) : 'Unknown User';
     }
-    public function addOrder() {}
+
+    public function getTableColumns($columns, $table, $condition) {
+        $sql = "SELECT {$columns} FROM {$table} WHERE {$condition}";
+        $result = $this->db->getResults($this->db->query($sql));
+        return $result ? $result : [];
+    }
+
+    public function getMaxTableNumberForDate($table, $numberColumn, $dateColumn, $date = null) {
+        if ($date === null) {
+            $date = date('Y-m-d');
+        } else {
+            $date = date('Y-m-d', strtotime($date));
+        }
+        $sql = "SELECT MAX($numberColumn) AS max_number FROM {$table} WHERE Date({$dateColumn}) = '{$date}'";
+        $query = $this->db->query($sql);
+        $results = $this->db->getResults($query);
+
+        return $results[0]['max_number'] ? $results[0]['max_number'] + 1 : 1;
+    }
+
+    // Get list of employees based on the order_type
+    public function autoAssignEmployeeToOrder($order_type) {
+        $roleId = $order_type == 'Delivery' ? 4 : [1, 2];
+        $roleCondition = is_array($roleId) ? "IN (" . implode(',', $roleId) . ")" : "{$roleId}";
+        
+        $results = $this->getTableColumns('employeeid', 'employee', "roleid = {$roleCondition}");
+
+        return $results[array_rand($results)]['employeeid'];
+    }
+
+    public function generateOrder() {
+        $orderNumber = $this->getMaxTableNumberForDate('order_table', 'order_number', 'order_datetime');
+        $orderType = $this->orderType;
+        $orderDateTime = date('Y-m-d H:i:s');
+        $employeeId = $this->autoAssignEmployeeToOrder($orderType);
+
+        $order = [
+                'order_number' => $orderNumber, 
+                'order_type' => $orderType, 
+                'order_datetime' => $orderDateTime,
+                'employeeid' => $employeeId
+            ]
+        ;
+        $this->db->insert($order, 'order_table');
+
+        // get the generated orderid
+        $result = $this->getTableColumns('orderid', 'order_table', "(order_number = '{$orderNumber}' AND order_datetime = '{$orderDateTime}')");
+
+        return [$result[0]['orderid'], $orderNumber];
+    }
+
+    public function addOrder($orders) {
+        [$orderId, $orderNumber] = $this->generateOrder();
+
+        foreach ($orders as $order) {
+            $data = [
+                'menu_itemid' => $order['menuid'],
+                'orderid' => $orderId,
+                'menu_item_quantity' => $order['quantity']
+            ];
+            $this->db->insert($data, 'contain');
+        }
+
+        return $orderNumber;
+    }
+
+    public function addTransaction($transaction) {
+        $transaction = $transaction[0];
+        $orderNumber = $transaction['orderNumber'];
+        $paymentType = $transaction['paymentType'];
+        $subTotal = $transaction['subTotal'];
+        $tip = $transaction['tip'];
+        $tax = $transaction['taxCost'];
+        $total = $transaction['total'];
+        $transactionNumber = $this->getMaxTableNumberForDate('order_transaction', 'transaction_number', 'transaction_datetime');
+        $transactionDateTime = date("Y-m-d H:i:s");
+        
+        // get associated orderid
+        $result = $this->getTableColumns('orderid', 'order_table', "(order_number = {$orderNumber} AND Date(order_datetime) = Date('{$transactionDateTime}'))");
+        $orderid = $result[0]['orderid'];
+
+        // insert to order_transaction table
+        $order_transaction = [
+            'transaction_number' => $transactionNumber,
+            'payment_type' => $paymentType,
+            'transaction_datetime' => $transactionDateTime,
+            'orderid' => $orderid
+        ];
+
+        $this->db->insert($order_transaction, 'order_transaction');
+
+        // insert to order_transaction_summary table
+        $order_transaction_summary = [
+            'transaction_number' => $transactionNumber,
+            'transaction_datetime' => $transactionDateTime,
+            'tax' => $tax,
+            'tip' => $tip,
+            'sub_total' => $subTotal,
+            'total' => $total
+        ];
+
+        $this->db->insert($order_transaction_summary, 'order_transaction_summary');
+
+    }
+
+    public function getMenuList() {
+        $sql = "SELECT * FROM menu_item";
+        
+		$query = $this->db->query($sql);
+		$results = $this->db->getResults($query);
+
+        return $results;
+    }
+
+    public function getMenuItem($menuid) {
+        $result = $this->getTableColumns('menu_item_name, menu_description, menu_price', 'menu_item', "menu_itemid = '{$menuid}'");
+        $menuName = $result[0]['menu_item_name'];
+        $menuDescription = $result[0]['menu_description'];
+        $menuPrice = $result[0]['menu_price'];
+
+        return [$menuName, $menuDescription, $menuPrice];
+    }
     public function getCustomerInfo() {}
 }

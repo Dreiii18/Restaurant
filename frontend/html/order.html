@@ -1,465 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Smoke & Caviar</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="css\order.css">
-    <!--Icon for shopping cart-->
-    <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-    </style>
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="reservation.html">Reservation <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="menu.html">Menu</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="about.html">About Us</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="login.html">Sign In / Sign Up</a>
-            </li>
-            </ul>
+<div class="cart-checkout">
+    <i class="fa badge" value=0 data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">&#xf07a;</i>
+</div>
+<div class="test"></div>
+<div class="row">
+    <div class="item1">
+        <h2 class="carouselTitle text-align-center">Recommended By the Chef</h2>
+        <div id ="recommended">
+            <div id="carouselExample" class="carousel slide">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="alignCentre">
+                            <img class="multipleImages" src="frontend/images/jalapenoPoppers.jpg">
+                            <img class="multipleImages" src="frontend/images/tomahawkSteak.jpg">
+                            <img class="multipleImages" src="frontend/images/lavaCake.jpg">
+                            <img class="multipleImages" src="frontend/images/truffleFries.jpg">
+                            <img class="multipleImages" src="frontend/images/lobsterWagyu.jpg">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="alignCentre">
+                            <img class="multipleImages" src="frontend/images/smokedbrisket.jpg">
+                            <img class="multipleImages" src="frontend/images/truffleMacCheeseBalls.jpg">
+                            <img class="multipleImages" src="frontend/images/pecanPie.jpg">
+                            <img class="multipleImages" src="frontend/images/brusselSprouts.jpg">
+                            <img class="multipleImages" src="frontend/images/oldFashioned.png">
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button> 
+            </div>
         </div>
-    </nav>
-
-    <div class="cart-checkout">
-        <i class="fa badge" value=1 data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">&#xf07a;</i>
     </div>
+
     <div class="row">
-        <div class="item1">
-            <h2 class="carouselTitle text-align-center">Recommended By the Chef</h2>
-            <div id ="recommended">
-                <div id="carouselExample" class="carousel slide">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="alignCentre">
-                                <img class="multipleImages" src="frontend/images/jalapenoPoppers.jpg">
-                                <img class="multipleImages" src="frontend/images/tomahawkSteak.jpg">
-                                <img class="multipleImages" src="frontend/images/lavaCake.jpg">
-                                <img class="multipleImages" src="frontend/images/truffleFries.jpg">
-                                <img class="multipleImages" src="frontend/images/lobsterWagyu.jpg">
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="alignCentre">
-                                <img class="multipleImages" src="frontend/images/smokedbrisket.jpg">
-                                <img class="multipleImages" src="frontend/images/truffleMacCheeseBalls.jpg">
-                                <img class="multipleImages" src="frontend/images/pecanPie.jpg">
-                                <img class="multipleImages" src="frontend/images/brusselSprouts.jpg">
-                                <img class="multipleImages" src="frontend/images/oldFashioned.png">
-                            </div>
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button> 
-                </div>
+        <div class="col-8">
+            <div class="row">
+                <ul class="nav justify-content-center">
+                    <li>
+                        <h2>Filters</h2>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#starters">Starters</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#entrees">Entrees</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sides">Sides</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#desserts">Desserts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#beverages">Beverages</a>
+                    </li>
+                </ul>
             </div>
+            <div id="menu"></div>
         </div>
-
-        <div class="row">
-            <div class="col-8">
-                <div class="row">
-                    <ul class="nav justify-content-center">
-                        <li>
-                            <h2>Filters</h2>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#starters">Starters</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#entrees">Entrees</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#sides">Sides</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#desserts">Desserts</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#beverages">Beverages</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="row" id="starters">
-                    <div class="row">
-                        <div class="col text-align-center">
-                            <h2 class="section-title">Starters</h2>
-                        </div>
-                    </div>
-                    <div class="col feature-dish">
-                        <img src="frontend/images/truffleMacCheeseBalls.jpg" class="d-block w-100" alt="Deep fried truffle mac & cheese balls">
-                        <h2 data-menu-id="1">Truffle Mac CheeseBalls</h2>
-                        <p>Deep-fried mac and cheese with a rich truffle béchamel sauce. $25.99</p>
-                        <input type="submit" value="Add to Cart" class="add-to-cart">
-                    </div>
-                    <div class="col">
-                        <dl>
-                            <dt data-menu-id="2">Jalapeño Poppers</dt>
-                            <dd>Jalapeños stuffed with lobster and cream cheese, wrapped in bacon, with a chipotle aioli. $61.99</dd>
-                            <dd><button class="add-to-cart">Add to Cart</button></dd>
-                            <dt data-menu-id="3">Foie Gras Cornbread Muffins</dt>
-                            <dd>Sweet cornbread muffins with a foie gras butter drizzle. $49.99</dd>
-                            <dd><button class="add-to-cart">Add to Cart</button></dd>
-                            <dt data-menu-id="4">Smoked Wagyu Brisket Bites</dt>
-                            <dd>Small bites of Wagyu beef brisket, smoked to perfection, served with truffle BBQ sauce. $52.99</dd>
-                            <dd><button class="add-to-cart">Add to Cart</button></dd>
-                        </dl>
-                    </div>
-                </div>
-                <div class="row" id="entrees">
-                    <div class="row">
-                        <div class="col text-align-center">
-                            <h2 class="section-title">Entrees</h2>
-                        </div>
-                    </div>
-                    <div class="col feature-dish">
-                        <img src="frontend/images/tomahawkSteak.jpg" class="d-block w-100" alt="Tomahawk Steak">
-                        <h2 data-menu-id="5">BBQ Bone In Tomahawk Steak</h2>
-                        <p>A massive tomahawk steak, chargrilled with a house-made rub, paired with smoked garlic butter. $359.99</p>
-                        <input type="submit" value="Add to Cart" class="add-to-cart">
-                    </div>
-                    <div class="col">
-                        <dl>
-                            <dt data-menu-id="6">Lobster & Wagyu Brisket Platter</dt>
-                            <dd>Surf and turf BBQ platter featuring Maine lobster tails and Wagyu brisket, with upscale sides. $259.99</dd>
-                            <dd><button class="add-to-cart">Add to Cart</button></dd>
-                            <dt data-menu-id="7">Dry-Aged Porkchop</dt>
-                            <dd>Thick-cut, dry-aged pork chop with apple cider glaze, served with caramelized shallots. $68.99</dd>
-                            <dd><button class="add-to-cart">Add to Cart</button></dd>
-                            <dt data-menu-id="8">Gourmet BBQ Chicken</dt> 
-                            <dd>Organic chicken smoked with hickory wood, served with a rosemary honey glaze. $59.99</dd>
-                            <dd><button class="add-to-cart">Add to Cart</button></dd>
-                            <dt data-menu-id="9">24-Hour Smoked Short Ribs</dt>
-                            <dd>Tender, smoked short ribs, served with a bourbon glaze and gold leaf garnish. $59.99</dd>
-                            <dd><button class="add-to-cart">Add to Cart</button></dd>
-                        </dl>
-                    </div>
-                </div>
-                <div class="row" id="sides">
-                    <div class="row">
-                        <div class="col text-align-center">
-                            <h2 class="section-title">Sides</h2>
-                        </div>
-                    </div>
-                    <div class="col feature-dish">
-                        <img src="frontend/images/truffleFries.jpg" class="d-block w-100" alt="Truffle fries">
-                        <h2 data-menu-id="10">Truffle Parmesan Fries</h2>
-                        <p>Hand-cut fries with white truffle oil and shaved Parmesan. $21.99</p>
-                        <input type="submit" value="Add to Cart" class="add-to-cart">
-                    </div>
-                    <div class="col">
-                        <dl>
-                            <dt data-menu-id="11">Smoked Gouda Mac & Cheese</dt>
-                            <dd>Creamy mac and cheese made with smoked Gouda and aged cheddar. $31.99</dd>
-                            <dd><button class="add-to-cart">Add to Cart</button></dd>
-                            <dt data-menu-id="12">Charred Brussels Sprouts</dt>
-                            <dd>Roasted Brussel sprouts with pancetta and balasmic glaze. $14.99</dd>
-                            <dd><button class="add-to-cart">Add to Cart</button></dd>
-                            <dt data-menu-id="13">Caviar Potato Salad</dt>
-                            <dd>Yukon gold potato salad with crème fraîche, topped with premium caviar. $259.99</dd>
-                            <dd><button class="add-to-cart">Add to Cart</button></dd>
-                        </dl>
-                    </div>
-                </div>
-                <div class="row" id="desserts">
-                    <div class="row">
-                        <div class="col text-align-center">
-                            <h2 class="section-title">Desserts</h2>
-                        </div>
-                    </div>
-                    <div class="col feature-dish">
-                        <img src="frontend/images/pecanPie.jpg" class="d-block w-100" alt="Pecan Pie">
-                        <h2 data-menu-id="14">BBQ Bourbon Pecan Pie</h2>
-                        <p>A rich pecan pie with bourbon-infused caramel and smoked sea salt. $19.99</p>
-                        <input type="submit" value="Add to Cart" class="add-to-cart">
-                    </div>
-                    <div class="col">
-                        <dl>
-                            <dt data-menu-id="15">Maple Bacon Ice Cream Sundae</dt>
-                            <dd>Maple-flavored ice cream with candied bacon, bourbon caramel, and pecan brittle. $18.99</dd>
-                            <dd><button class="add-to-cart">Add to Cart</button></dd>
-                            <dt data-menu-id="16">Smoked Chocolate Lava Cake</dt>
-                            <dd> Molten chocolate cake with a hint of smoked chili, served with vanilla bean ice cream. $17.99</dd>
-                            <dd><button class="add-to-cart">Add to Cart</button></dd>
-                        </dl>
-                    </div>
-                </div>
-                <div class="row" id="beverages">
-                    <div class="row">
-                        <div class="col text-align-center">
-                            <h2 class="section-title">Beverages</h2>
-                        </div>
-                    </div>
-                    <div class="col feature-dish">
-                        <img src="frontend/images/whiskeyFlight.jpg" class="d-block w-100" alt="Whiskey Flight">
-                        <h2 data-menu-id="17">Craft Whiskey Flight</h2>
-                        <p>A selection of premium, small-batch whiskeys. $149.99</p>
-                        <input type="submit" value="Add to Cart" class="add-to-cart">
-                    </div>
-                    <div class="col">
-                        <dl>
-                            <dt data-menu-id="18">Smoked Old Fashioned</dt>
-                            <dd>Classic Old Fashioned cocktail, smoked with hickory wood. $34.99</dd>
-                            <dd><button class="add-to-cart">Add to Cart</button></dd>
-                            <dt data-menu-id="19">Smoked Berry Fizz</dt>
-                            <dd>Smoky blackberry, rosemary, and lemon, topped with sparkling water; refreshing and bold. $11.99</dd>
-                            <dd><button class="add-to-cart">Add to Cart</button></dd>
-                            <dt data-menu-id="20">Caviar Lime Spritz</dt>
-                            <dd>Bright elderflower and cucumber with a pop of lime pearls; light, crisp, and sophisticated. $13.99</dd>
-                            <dd><button class="add-to-cart">Add to Cart</button></dd>
-                            <dt data-menu-id="21">Gourmet Lemonade Trio</dt>
-                            <dd>Unique flavors like lavender, rosemary, and hibiscus. $10.99</dd>
-                            <dd><button class="add-to-cart">Add to Cart</button></dd>
-                        </dl>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4" id="restaurant_background"></div>
-        </div>
-
+        <div class="col-4" id="restaurant_background"></div>
     </div>
 
-    <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header border-bottom">
-            <h1 class="offcanvas-title" id="offcanvasRightLabel">Order Summary</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+</div>
+
+<div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header border-bottom">
+        <h1 class="offcanvas-title" id="offcanvasRightLabel">Order Summary</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div id="items-ordered"></div>
+        <div id="costSummary" class="border-top p-3">
+            <h2>Cost</h2>
+            <div class="cost-element">
+                <span>Subtotal</span>
+                <div id="subtotal-cost">$0</div>
+            </div>
         </div>
-        <div class="offcanvas-body">
-            <div id="items-ordered">
-                <div class="menu-item"> <!--Use this block for when new items are added-->
-                    <div class="ordered-item">
-                        <h3>Tomahawk Steak</h3>
-                        <p>$359.99</p>
-                    </div>
-                    <div class="item-qty">
-                        <!-- <button type="button" onclick="subtract()">-</button> -->
-                        <button type="button" class="subtract">-</button>
-                        <input type="text" class="quantity" value="1">
-                        <!-- <button type="button" onclick="add()">+</button> -->
-                        <button type="button" class="add">+</button>
-                    </div>
-                </div>
-                <div class="menu-item"> <!--Just testing for multiple items-->
-                    <div class="ordered-item">
-                        <h3>Tomahawk Steak</h3>
-                        <p>$359.99</p>
-                    </div>
-                    <div class="item-qty">
-                        <button type="button" class="subtract">-</button>
-                        <input type="text" class="quantity" value="1">
-                        <button type="button" class="add">+</button>
-                    </div>
-                </div>
-                <div id="costSummary" class="border-top p-3">
-                    <h2>Cost</h2>
-                    <div class="cost-element">
-                        <span>Subtotal</span>
-                        <div id="subtotal-cost">$359.99</div>
-                    </div>
-                    <div class="cost-element">
-                        <span>Tax</span>
-                        <div id="tax-cost">$43.20</div>
-                    </div>
-                    <div class="cost-element">
-                        <span>Tip</span>
-                        <div id="tip-cost">$5.00</div>
-                    </div>
-                    <div class="cost-element">
-                        <span><strong>Total Cost</strong></span>
-                        <div id="total-cost">$408.19</div>
-                    </div>
-                </div>
-            </div>
-            <div class="d-grid gap-2 p-3">
-                <button class="btn btn-primary" type="button">Proceed to Checkout</button>
-            </div>
+        <div class="d-grid gap-2 p-3">
+            <button class="btn btn-primary" id="checkout">Proceed to Checkout</button>
         </div>
     </div>
-
-    <main>
-        <!-- <aside class="col-1 bg-light p-3"> -->
-        <!-- </aside> -->
-        <!-- <div id ="recommended">
-            <h2 class="carouselTitle">Recommened By the Chef</h2>
-            <div id="carouselExampleInterval3" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active" data-bs-interval="8000">
-                <img src="frontend/images/lobsterWagyu.jpg" class="d-block w-100" alt="Lobster & Wagyu Steak">
-                </div>
-                <div class="carousel-item" data-bs-interval="8000">
-                <img src="frontend/images/smokedbrisket.jpg" class="d-block w-100" alt="Smoked Brisket Bites">
-                </div>
-                <div class="carousel-item">
-                <img src="frontend/images/truffleMacCheeseBalls.jpg" class="d-block w-100" alt="Truffle Mac & Cheese Balls">
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval3" data-bs-slide="prev"></button>
-            </section>
-        </div> -->
-        <!-- <div id="gridLayout">
-
-        <div class="item1">
-            <div id ="recommended">
-                <h2 class="carouselTitle">Recommened By the Chef</h2>
-                <div id="carouselExample" class="carousel slide">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="frontend/images/lobsterWagyu.jpg" class="d-block w-100" alt="Lobster & Wagyu Steak">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="frontend/images/smokedbrisket.jpg" class="d-block w-100" alt="Smoked Brisket Bites">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="frontend/images/truffleMacCheeseBalls.jpg" class="d-block w-100" alt="Truffle Mac & Cheese Balls">
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="item2">
-            <div id="filterFlexContainer">
-                <h2>Filters</h2>
-                <a href="#starters">Starters</a>
-                <a href="#entrees">Entrees</a>
-                <a href="#sides">Sides</a>
-                <a href="#desserts">Desserts</a>
-                <a href="#beverages">Beverages</a>
-            </div>
-        </div>
-
-        <div class="item3">
-            <div id="menu">
-                <div id="starters">
-                    <h2>Starters</h2>
-                    <dl>
-                        <dt>Jalapeno Poppers</dt>
-                        <img src="./frontend/images/jalapenoPoppers.jpg" width="100" height="75">
-                        <dd>Jalapeños stuffed with lobster and cream cheese, wrapped in bacon, with a chipotle aioli. $61.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                        <dt>Truffle Mac and Cheese Balls</dt>
-                        <img src="./frontend/images/truffleMacCheeseBalls.jpg" width="100" height="75">
-                        <dd>Deep-fried mac and cheese with a rich truffle béchamel sauce. $25.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                        <dt>Foie Gras Cornbread Muffins</dt>
-                        <dd>Sweet cornbread muffins with a foie gras butter drizzle. $49.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </dl>
-                </div>
-
-                <div id="entrees">
-                    <h2>Entrees</h2>
-                    <dl>
-                        <dt>BBQ Bone In Tomahawk Steak</dt>
-                        <img src="./frontend/images/tomahawkSteak.jpg" width="100" height="75">
-                        <dd>A massive tomahawk steak, chargrilled with a house-made rub, paired with smoked garlic butter. $359.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                        <dt>Dry-Aged Porkchop</dt>
-                        <dd>Thick-cut, dry-aged pork chop with apple cider glaze, served with caramelized shallots. $68.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                        <dt>Gourment BBQ Chicken</dt>
-                        <dd>Organic chicken smoked with hickory wood, served with a rosemary honey glaze. $55.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </dl>
-                </div>
-
-                <div id="sides">
-                    <h2>Sides</h2>
-                    <dl>
-                        <dt>Truffle Parmesan Fries</dt>
-                        <dd> Hand-cut fries with white truffle oil and shaved Parmesan. $21.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                        <dt>Smoked Gouda Mac & Cheese</dt>
-                        <dd>Creamy mac and cheese made with smoked Gouda and aged cheddar. $31.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                        <dt>Charred Brussels Sprouts</dt>
-                        <dd>Roasted Brussel sprouts with pancetta and balasmic glaze. $14.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                        <dt>Caviar Potato Salad</dt>
-                        <dd>Yukon gold potato salad with crème fraîche, topped with premium caviar. $259.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                        <dt>Lobster Cornbread</dt>
-                        <dd>Sweet cornbread with chunks of lobster and jalapeño honey butter. $44.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </dl>
-                </div>
-
-                <div id="desserts">
-                    <h2>Dessert</h2>
-                    <dl>
-                        <dt>Maple Bacon Ice Cream Sundae</dt>
-                        <dd>Maple-flavored ice cream with candied bacon, bourbon caramel, and pecan brittle. $18.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                        <dt>BBQ Bourbon Pecan Pie</dt>
-                        <dd>A rich pecan pie with bourbon-infused caramel and smoked sea salt. $19.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                        <dt>Smoked Chocolate Lava Cake</dt>
-                        <dd> Molten chocolate cake with a hint of smoked chili, served with vanilla bean ice cream. $17.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </dl>
-                </div>
-
-                <div id="beverages">
-                    <h2>Beverages</h2>
-                    <dl>
-                        <dt>Craft Whiskey Flight</dt>
-                        <dd>A selection of premium, small-batch whiskeys. $149.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                        <dt>Smoked Old Fashioned</dt>
-                        <dd>Classic Old Fashioned cocktail, smoked with hickory wood. $34.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                        <dt>Smoked Berry Fizz</dt>
-                        <dd>Smoky blackberry, rosemary, and lemon, topped with sparkling water; refreshing and bold. $11.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                        <dt>Caviar Lime Spritz</dt>
-                        <dd>Bright elderflower and cucumber with a pop of lime pearls; light, crisp, and sophisticated. $13.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                        <dt>Gourmet Lemonade Trio</dt>
-                        <dd>Unique flavors like lavender, rosemary, and hibiscus. $10.99</dd>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </dl>
-                </div>
-            </div>
-        </div>         
-        <div class="item4">
-
-        </div>
-        </div> -->
-    </main>
-    <footer>
-        <p>
-            Copyright @Smoke & Caviar 2024
-        </p>
-    </footer>
-</body>
-
-</html>
-
+</div>
