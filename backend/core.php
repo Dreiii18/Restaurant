@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 require_once(dirname(__FILE__)."/../config/config.php");
 
 class Core
@@ -36,6 +36,11 @@ class Core
         session_unset();
         session_destroy();
         return true;
+    }
+
+    public function getCustomerName($id) {
+        $customerName = $this->getTableColumns('customer_name', 'customer', "userid = '{$id}'");
+        return !empty($customerName) ? htmlspecialchars($customerName[0]['customer_name']) : 'Unknown User';
     }
 
     public function getTableColumns($columns, $table, $condition) {
@@ -80,6 +85,7 @@ class Core
                 'employeeid' => $employeeId
             ]
         ;
+
         $orderId = $this->db->insert($order, 'order_table');
 
         return [$orderId, $orderNumber];
@@ -96,6 +102,7 @@ class Core
             ];
             $this->db->insert($data, 'contain');
         }
+      
         return $orderNumber;
     }
 
@@ -251,9 +258,9 @@ class Core
 
     public function getMenuList() {
         $sql = "SELECT * FROM menu_item";
-
-		$query = $this->db->query($sql);
-		$results = $this->db->getResults($query);
+      
+        $query = $this->db->query($sql);
+        $results = $this->db->getResults($query);
 
         return $results;
     }
