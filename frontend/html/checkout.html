@@ -60,16 +60,24 @@
                         <ul class="dropdown-menu" id="payment_list"></ul>
                     </div>
                 </div>
-                <div id="payment-options">
+                <!-- <div id="payment-options">
                     <input type="radio" id="creditcard" name="payment_method" value="Credit Card" checked>
                     <label for="creditcard">Credit Card</label><br>
                     <input type="radio" id="debitcard" name="payment_method" value="Debit Card">
                     <label for="debitcard">Debit Card</label><br>
                     <input type="radio" id="cash" name="payment_method" value="Cash">
                     <label for="cash">Cash</label><br>
-                </div>
+                </div> -->
                 <div id="payment-details">
                     <form>
+                        <div id="payment-options">
+                            <input type="radio" id="creditcard" name="payment_method" value="Credit Card" checked>
+                            <label for="creditcard">Credit Card</label><br>
+                            <input type="radio" id="debitcard" name="payment_method" value="Debit Card">
+                            <label for="debitcard">Debit Card</label><br>
+                            <input type="radio" id="cash" name="payment_method" value="Cash">
+                            <label for="cash">Cash</label><br><br>
+                        </div>
                         <label for="card_num">Card Number:</label><br>
                         <input type="number" id="card_num" name="card_num" maxlength="16" placeholder="XXXX XXXX XXXX XXXX"><br>
                         <label for="expiry_date">Expiry Date:</label><br>
