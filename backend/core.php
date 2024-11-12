@@ -249,6 +249,24 @@ class Core
         ];
     }
 
+    public function getMenuList() {
+        $sql = "SELECT * FROM menu_item";
+
+		$query = $this->db->query($sql);
+		$results = $this->db->getResults($query);
+
+        return $results;
+    }
+
+    public function getMenuItem($menuid) {
+        $result = $this->getTableColumns('menu_item_name, menu_description, menu_price', 'menu_item', "menu_itemid = '{$menuid}'");
+        $menuName = $result[0]['menu_item_name'];
+        $menuDescription = $result[0]['menu_description'];
+        $menuPrice = $result[0]['menu_price'];
+
+        return [$menuName, $menuDescription, $menuPrice];
+    }
+
     function addReservation($reservation) {
         $reservation = $reservation[0];
         $partySize = $reservation['partySize'];
