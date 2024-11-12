@@ -61,16 +61,6 @@ img {
     padding-bottom: 10px;
 }
 
-footer{
-    clear: both;
-    background-color: slategrey;
-    border: 3px solid slategrey;
-}
-
-footer p{
-    padding: 10px 0px 0px 10px ;
-}
-
 #recent, #mostOrdered, #recommended{
     max-width: 300px;
     border: 1px ;
@@ -278,4 +268,8 @@ dt {
 
 .empty-cart {
     text-align: center;
+}
+
+.filter {
+    background-color: white;
 }

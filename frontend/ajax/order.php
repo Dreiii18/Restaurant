@@ -14,7 +14,7 @@ function displayMainItem($id) {
             </dt>
             <dd>{$menuDescription}. \${$menuPrice}</dd>
             <dd>
-                <button class='add-to-cart' data-menu-name='{$menuName}' data-menu-price='{$menuPrice}'>Add to Cart</button>
+                <button class='add-to-cart' data-menu-id='{$id}' data-menu-name='{$menuName}' data-menu-price='{$menuPrice}'>Add to Cart</button>
             </dd>
         </dl>
     ";
