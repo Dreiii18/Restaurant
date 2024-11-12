@@ -8,7 +8,7 @@ $pages = [
     // Main page
     'main' => [
         'css' => ['main.css', 'bootstrap.min.css'],
-        'js'  => ['main.js', 'jquery-3.7.1.min.js', 'bootstrap.min.js'],
+        'js'  => ['main.js', 'jquery-3.7.1.min.js', 'bootstrap.bundle.min.js', 'jquery.cookie.js'],
     ],
     // Menu page
     'm' => [
@@ -22,5 +22,12 @@ $pages = [
         'html' => ['customer.html'],
         'css'  => ['customer.css'],
         'js'   => ['customer.js'],
+    ],
+
+    // Order page
+    'o' => [
+        'html' => ['order.html'],
+        'css'  => ['order.css'],
+        'js'   => ['order.js'],
     ]
 ];
