@@ -77,3 +77,16 @@ input[id='custom-field']{
     display: flex;
     justify-content: flex-end;
 }
+
+#card_num {
+    width: 13em;
+}
+
+#payment_infos, #addresses {
+    display: none;
+}
+
+.invalid {
+    border: 2px solid red;
+    background-color: #ffe6e6;
+}
