@@ -3,6 +3,20 @@ require_once  dirname(__FILE__) . '/../config/config.php';
 require_once $config['path'] . '/backend/core.php';
 
 $core = new Core();
+
+function profile() {
+    if (isset($_SESSION['user'])) {
+        echo "
+            <li><a class='dropdown-item' href='#'>Check Profile</a></li>
+            <li><hr class='dropdown-divider'></li>
+            <li><a class='dropdown-item' href='./logout.php'>Log Out</a></li>
+        ";
+    } else {
+        echo "
+            <li><a class='dropdown-item' href='./login.php'>Log In</a></li>
+        ";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -43,9 +57,7 @@ $core = new Core();
                             ?>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Check Profile</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="./logout.php">Log Out</a></li>
+                            <?php profile(); ?>
                         </ul>
                     </li>
                 </ul>

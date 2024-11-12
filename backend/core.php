@@ -420,5 +420,20 @@ class Core
             return $e;
         }
     }
+
+    public function verifyUser($username, $password) {
+        $result = $this->getTableColumns('*', 'user', "(username = '{$username}' AND password = '{$password}')");
+        if (count($result) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function resetPassword($username, $oldPassword, $newPassword) {
+        $sql = "UPDATE user SET password = '{$newPassword}' WHERE (username = '{$username}' AND password = '{$oldPassword}')";
+        $query = $this->db->query($sql);
+    }
+
     public function getCustomerInfo() {}
 }
