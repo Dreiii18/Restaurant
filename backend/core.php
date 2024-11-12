@@ -7,11 +7,15 @@ class Core
     /** @var Database */
     protected $db;
     protected $orderType;
+    protected $active;
+    protected $role;
 
     public function __construct()
     {        
       $this->db = new Database();   
       $this->orderType = 'Delivery';
+      $this->active = 1;
+      $this->role = 'Customer';
     }
 
     public function login($username, $password)
@@ -34,7 +38,7 @@ class Core
     }
 
     public function logout()
-    {
+    {  
         session_unset();
         session_destroy();
         return true;
@@ -87,12 +91,9 @@ class Core
                 'employeeid' => $employeeId
             ]
         ;
-        $this->db->insert($order, 'order_table');
+        $orderId = $this->db->insert($order, 'order_table');
 
-        // get the generated orderid
-        $result = $this->getTableColumns('orderid', 'order_table', "(order_number = '{$orderNumber}' AND order_datetime = '{$orderDateTime}')");
-
-        return [$result[0]['orderid'], $orderNumber];
+        return [$orderId, $orderNumber];
     }
 
     public function addOrder($orders) {
@@ -110,43 +111,154 @@ class Core
         return $orderNumber;
     }
 
-    public function addTransaction($transaction) {
-        $transaction = $transaction[0];
+    public function alterOrder($orderid, $orderType) {
+        $sql = "UPDATE order_table SET order_type = '{$orderType}' WHERE orderid = '{$orderid}'";
+
+        $this->db->query($sql);
+    }
+
+    public function addTransaction($transaction, $userId) {
+        // order transaction variables
         $orderNumber = $transaction['orderNumber'];
+        $orderType = $transaction['orderType'];
         $paymentType = $transaction['paymentType'];
+
+        // order transaction summary variables
         $subTotal = $transaction['subTotal'];
         $tip = $transaction['tip'];
         $tax = $transaction['taxCost'];
         $total = $transaction['total'];
+
+        // delivery variables
+        $deliveryDateTime = date("Y-m-d H:i:s");
+        $houseNumber = $transaction['houseNumber'];
+        $streetNumber = $transaction['streetNumber'];
+        $streetName = $transaction['streetName'];
+        $postalCode = $transaction['postalCode'];
+        $specialInstructions = $transaction['specialInstructions'];
+
+        if ($userId !== "") {
+            $customerid = $this->getTableColumns('customerid', 'customer', "userid =  '{$userId}'")[0]['customerid'];
+        }
+
         $transactionNumber = $this->getMaxTableNumberForDate('order_transaction', 'transaction_number', 'transaction_datetime');
         $transactionDateTime = date("Y-m-d H:i:s");
+        $deliveryNumber = $this->getMaxTableNumberForDate('delivery', 'delivery_number', 'delivery_datetime');
         
         // get associated orderid
         $result = $this->getTableColumns('orderid', 'order_table', "(order_number = {$orderNumber} AND Date(order_datetime) = Date('{$transactionDateTime}'))");
         $orderid = $result[0]['orderid'];
 
-        // insert to order_transaction table
-        $order_transaction = [
-            'transaction_number' => $transactionNumber,
-            'payment_type' => $paymentType,
-            'transaction_datetime' => $transactionDateTime,
-            'orderid' => $orderid
+        // Encrypted data
+        $cardNumber = json_encode($this->db->encrypt($transaction['cardNumber'], $orderid));
+        $expiryDate = json_encode($this->db->encrypt($transaction['expiryDate'], $orderid));
+        $cvv = json_encode($this->db->encrypt($transaction['cvv'], $orderid));
+
+        try {
+            // insert to order_transaction table
+            $order_transaction = [
+                'transaction_number' => $transactionNumber,
+                'payment_type' => $paymentType,
+                'transaction_datetime' => $transactionDateTime,
+                'card_number' => $cardNumber,
+                'expiry_date' => $expiryDate,
+                'cvv' => $cvv,
+                'orderid' => $orderid
+            ];
+            $this->db->insert($order_transaction, 'order_transaction');
+    
+            // insert to order_transaction_summary table
+            $order_transaction_summary = [
+                'transaction_number' => $transactionNumber,
+                'transaction_datetime' => $transactionDateTime,
+                'tax' => $tax,
+                'tip' => $tip,
+                'sub_total' => $subTotal,
+                'total' => $total
+            ];
+            $this->db->insert($order_transaction_summary, 'order_transaction_summary');
+    
+            // Modify order orderType
+            $this->alterOrder($orderid, $orderType);
+
+            // if order is delivery, insert record to delivery table
+            if ($transaction['orderType'] == 'DELIVERY') {
+                $delivery = [
+                    'delivery_datetime' => $deliveryDateTime,
+                    'delivery_number' => $deliveryNumber,
+                    'orderid' => $orderid,
+                    'customerid' => $customerid,
+                    'delivery_status' => 'PENDING',
+                    'house_number' => $houseNumber,
+                    'street_number' => $streetNumber,
+                    'street_name' => $streetName,
+                    'postal_code' => $postalCode,
+                    'special_instructions' => $specialInstructions
+                ];
+                $this->db->insert($delivery, 'delivery');
+            }
+            return true;
+        } catch (Exception $e) {
+            print_r($e);
+            return false;
+        }
+    }
+
+    public function getTransactionDetails($userId) {
+        // $customerId = $this->getTableColumns('customerid', 'customer', "userid = '{$userId}'")[0]['customerid'];
+        $result = $this->getTableColumns('customerid, customer_phone_number', 'customer', "userid = '{$userId}'")[0];
+        $customerId = $result['customerid'];
+        $customerPhoneNumber = $result['customer_phone_number'];
+
+        // Retrieve customer address
+        $addressIds = $this->getTableColumns('addressid', 'customer_has_address', "customerid = '{$customerId}'");
+
+        $addressDetails = [];
+        foreach ($addressIds as $address) {
+            $addressId = $address['addressid'];
+            
+            // Retrieve the address information
+            $result = $this->getTableColumns('house_number, postal_code', 'address', "addressid = '{$addressId}'")[0];
+            $houseNumber = $result['house_number'];
+            $postalCode = $result['postal_code'];
+
+            // Retrieve address details
+            $result = $this->getTableColumns('street_number, street_name', 'address_details', "(house_number = '{$houseNumber}' AND postal_code = '{$postalCode}')")[0];
+            $streetNumber = $result['street_number'];
+            $streetName = $result['street_name'];
+
+            $addressDetails[] = [
+                'house_number' => $houseNumber,
+                'street_number' => $streetNumber,
+                'street_name' => $streetName,
+                'postal_code' => $postalCode,
+            ];
+        };
+
+        // Retrieve customer payment information
+        $paymentDetails = $this->getTableColumns('card_number, expiry_date, cvv', 'has_payment_information', "customerid = '{$customerId}'");
+        $paymentInfos = [];
+        foreach ($paymentDetails as $paymentMethod) {
+            $encryptedCardNumber = $paymentMethod['card_number'];
+            $encryptedExpiryDate = $paymentMethod['expiry_date'];
+            $encryptedCVV = $paymentMethod['cvv'];
+            
+            $cardNumber = $this->db->decrypt($encryptedCardNumber, $userId);
+            $expiryDate = $this->db->decrypt($encryptedExpiryDate, $userId);
+            $cvv = $this->db->decrypt($encryptedCVV, $userId);
+
+            $paymentInfos[] = [
+                'card_number' => $cardNumber,
+                'expiry_date' => $expiryDate,
+                'cvv' => $cvv,
+            ];
+        }
+
+        return [
+            'phone_number' => $customerPhoneNumber,
+            'addresses' => $addressDetails, 
+            'payment_infos' => $paymentInfos,
         ];
-
-        $this->db->insert($order_transaction, 'order_transaction');
-
-        // insert to order_transaction_summary table
-        $order_transaction_summary = [
-            'transaction_number' => $transactionNumber,
-            'transaction_datetime' => $transactionDateTime,
-            'tax' => $tax,
-            'tip' => $tip,
-            'sub_total' => $subTotal,
-            'total' => $total
-        ];
-
-        $this->db->insert($order_transaction_summary, 'order_transaction_summary');
-
     }
 
     function addReservation($reservation) {
@@ -198,6 +310,115 @@ class Core
         $menuPrice = $result[0]['menu_price'];
 
         return [$menuName, $menuDescription, $menuPrice];
+    }
+
+    public function registerCustomer($customerDetails) {
+        $encryptionKey = $this->db->generateKey();
+        $username = $customerDetails['username'];
+        $customerName = $customerDetails['customerName'];
+        $password = $customerDetails['password'];
+        $phoneNumber = $customerDetails['phoneNumber'];
+        $houseNumber = $customerDetails['houseNumber'];
+        $streetNumber = $customerDetails['streetNumber'];
+        $streetName = $customerDetails['streetName'];
+        $postalCode = $customerDetails['postalCode'];
+        $paymentMethod = $customerDetails['paymentMethod'];
+        $cardType = $customerDetails['cardType'];
+        $cardNumber = $customerDetails['cardNumber'];
+        $expiryDate = $customerDetails['expiryDate'];
+        $cvv = $customerDetails['cvv'];
+
+        
+        switch ($paymentMethod) {
+            case "1":
+                $paymentMethod = "Debit Card";
+                break;
+                
+            default:
+                $paymentMethod = "Credit Card";
+                break;
+        }
+            
+        switch ($cardType) {
+            case "1":
+                $cardType = "Mastercard";
+                break;
+
+            default:
+                $cardType = "Visa";
+                break;
+        }
+
+        try {
+            // Insert data to user table
+            $user = [
+                'username' => $username,
+                'name' => $customerName,
+                'password' => $password,
+                'active' => $this->active,
+                'role' => $this->role,
+            ];
+    
+            $userId = $this->db->insert($user, 'user');
+    
+            // Insert data to customer table
+            $customer = [
+                'customer_name' => $customerName,
+                'customer_phone_number' => $phoneNumber,
+                'userid' => $userId,
+            ];
+    
+            $customerId = $this->db->insert($customer, 'customer');
+            
+            if ($postalCode !== "") {
+                // Insert data to address table
+                $address = [
+                    'house_number' => $houseNumber,
+                    'postal_code' => $postalCode,
+                ];
+                
+                $addressId = $this->db->insert($address, 'address');
+    
+                // Insert data to address_details table
+                $address_details = [
+                    'house_number' => $houseNumber,
+                    'postal_code' => $postalCode,
+                    'street_number' => $streetNumber,
+                    'street_name' => $streetName,
+                ];
+    
+                $this->db->insert($address_details, 'address_details');
+    
+                // Insert data to customer_has_address table
+                $customer_has_address = [
+                    'customerid' => $customerId,
+                    'addressid' => $addressId,
+                ];
+                $this->db->insert($customer_has_address, 'customer_has_address');
+            }
+
+            if ($cardNumber !== "") {
+                $cardNumber = json_encode($this->db->encrypt($cardNumber, $encryptionKey));
+                $expiryDate = json_encode($this->db->encrypt($expiryDate, $encryptionKey));
+                $cvv = json_encode($this->db->encrypt($cvv, $encryptionKey));
+                // Insert data to has_payment_information table
+                $has_payment_information = [
+                    'card_number' => $cardNumber,
+                    'customerid' => $customerId,
+                    'payment_method' => $paymentMethod,
+                    'card_type' => $cardType,
+                    'expiry_date' => $expiryDate,
+                    'cvv' => $cvv,
+                ];
+        
+                $this->db->insert($has_payment_information, 'has_payment_information');
+            }
+
+            return true;
+        } catch (Exception $e){
+            // return false;
+            return $e;
+        }
     }
     public function getCustomerInfo() {}
 }
