@@ -47,6 +47,9 @@ $js_files  = array_merge($pages['main']['js'],  $pages[$page]['js']);
                 <li class="nav-item">
                     <a class="nav-link" href="?page=co">Checkout</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="?page=i">Inventory</a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Dropdown
