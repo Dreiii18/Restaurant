@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Inventory</title>
+    <link rel="stylesheet" href="css\inventory.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+    </style>
+  </head>
+
+  <body>
+    <header>
+        <h1>Inventory</h1>
+    </header>
+    <main>
+        <div class="center hideform">
+            <h3>Order</h3>
+            <button id="close">X</button>
+            <form action="/action_page.php" class="order">
+                <label for="item" class="label-item">Item Name:</label>
+                <input type="text" name="item" class="item">
+                
+                <label for="quantity" class="label-quantity">Quantity:</label>
+                <input type="text" name="quantity" class="quantity">
+              
+                <label for="catDropdown" class="label-category">Category:</label>
+                <select id="catDropdown" name="category" class="category">
+                    <option>Category</option>
+                    <option>Meat</option>
+                    <option>Dairy</option>
+                    <option>Produce</option>
+                    <option>Spices/Dry</option>
+                </select>
+            
+                <label for="supDropdown" class="label-supplier">Supplier:</label>
+                <select id="supDropdown" name="supplier" class="supplier">
+                    <option>Suppliers</option>
+                    <option>Max's Meat Co</option>
+                    <option>Dairyland</option>
+                    <option>Joe's Farm</option>
+                    <option>Sam's Spices</option>
+                </select>
+
+                <br><br>
+            
+                <input type="submit" value="Submit">
+            </form>
+
+        </div>
+        <button id="show">Place Order</button>
+        <button id="add-item">Add Item</button>    
+        
+
+        <table id="table">
+            <tr>
+                <th width="150px">Item</th>
+                <th>Quantity</th>
+                <th><select id="categoryDropdown" oninput="filterCategory()">
+                    <option>Category</option>
+                    <option>Meat</option>
+                    <option>Dairy</option>
+                    <option>Produce</option>
+                    <option>Spices/Dry</option>
+                </select></th>
+                <th><select id="supplierDropdown" oninput="filterSupplier()">
+                    <option>Suppliers</option>
+                    <option>Max's Meat Co</option>
+                    <option>Dairyland</option>
+                    <option>Joe's Farm</option>
+                    <option>Sam's Spices</option>
+                </select></th>
+            </tr>
+            <tr>
+                <td>pork chop</td>
+                <td>4</td>
+                <td>Meat</td>
+                <td>Max's Meat Co</td>
+            </tr>
+            <tr>
+                <td>1% Milk</td>
+                <td>2</td>
+                <td>Dairy</td>
+                <td>Dairyland</td>
+            </tr>
+        </table>
+    </main>
+  </body>
+</html>
+
+

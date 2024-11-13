@@ -1,0 +1,111 @@
+.bebas-neue-regular {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}  
+
+.roboto-regular {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h1{
+    font-family: "Bebas Neue", sans-serif;
+    justify-content: center;
+    display: flex;
+}
+
+h3 {
+    margin: auto;
+}
+
+table,th, td {
+    border: 1px solid black;
+}
+
+table {
+    margin: auto;
+    border-collapse: collapse;
+    align-items: center;
+    justify-content: center;
+}
+
+.center {
+    margin: auto;
+    width: 60%;
+    padding: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.hideform {
+    display: none;
+}
+
+#close {
+    float: right;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+    gap: 10px; /* Space between items */
+    width: 100%;
+}
+
+.label-item,
+.item,
+.label-quantity,
+.quantity,
+.label-category,
+.category,
+.label-supplier,
+.supplier {
+    grid-column: span 1; /* Each element spans 1 column */
+}
+
+/* Position labels above each input by using grid rows */
+.label-item,
+.label-quantity,
+.label-category,
+.label-supplier {
+    grid-row: 1;
+}
+
+.item,
+.quantity,
+.category,
+.supplier {
+    grid-row: 2;
+}
+
+/* Styling for the submit button */
+.submit-button {
+    grid-column: span 4; /* Center submit button across all columns */
+    margin-top: 10px;
+}
+
+td, th {
+    padding: 5px;
+}
+
+#show, #add-item {
+    background-color: white;
+    color: black;
+    border: 3px solid black;
+    font-weight: 600;
+}
+
+#show {
+    margin-left: 15px;
+}
+
+#show:hover{
+    background-color: slategrey;
+    color: white;
+}
+
+#add-item:hover {
+    background-color: slategray;
+    color: white;
+}
