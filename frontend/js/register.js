@@ -57,6 +57,8 @@ function getCustomerDetails() {
     let phoneNumber = $("#typePhonenumberX").val().trim().replace(/\D/g, '');
     if (phoneNumber.length === 10) {
         phoneNumber = '+1' + phoneNumber;
+    } else if (phoneNumber.length === 11) {
+        phoneNumber = '+' + phoneNumber;
     }
 
     return {

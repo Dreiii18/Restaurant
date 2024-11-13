@@ -264,8 +264,16 @@ function calculateTotal() {
 }
 
 function getTransactionDetails() {
+    let phoneNumber = $("#phone_num").val().trim().replace(/\D/g, '');
+    if (phoneNumber.length === 10) {
+        phoneNumber = '+1' + phoneNumber;
+    } else if (phoneNumber.length === 11) {
+        phoneNumber = '+' + phoneNumber;
+    }
+
     return {
-        'phoneNumber': $("#phone_num").val().trim(),
+        // 'phoneNumber': $("#phone_num").val().trim(),
+        'phoneNumber': phoneNumber,
         'cardNumber': $("#card_num").val().trim(),
         'expiryDate': $("#expiry_date").val(),
         'cvv': $("#cvv").val(),
