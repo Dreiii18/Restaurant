@@ -26,6 +26,7 @@ main {
 #content-container{
     background-color: white;
     border: 2px solid black;
+    padding: 2%;
 }
 
 #restaurant-info{
@@ -79,4 +80,13 @@ input{
 .btn-outline-primary:hover {
     background-color: rgb(59, 59, 56); 
     border-color:rgb(59, 59, 56);
+}
+
+span {
+    font-weight: bold;
+}
+
+.invalid {
+    border: 2px solid red;
+    background-color: #ffe6e6;
 }
