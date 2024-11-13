@@ -1,0 +1,92 @@
+.playfair-display{
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.roboto-regular {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+main {
+    background-image: url("../images/reservation_bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#content-container{
+    background-color: white;
+    border: 2px solid black;
+    padding: 2%;
+}
+
+#restaurant-info{
+    padding: 30px 30px 20px 30px;
+}
+
+h1{
+    font-family: "Playfair Display", serif;
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+p{
+    margin-bottom: 0;
+}
+
+p, label{
+    font-family: "Roboto", sans-serif;
+}
+
+#address{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px 20px 0 20px;
+}
+
+#reso-party{
+    margin-bottom: 25px;
+}
+
+input{
+    width: 43%;
+    border: 1px solid black;
+    padding: 3px;
+    margin-bottom: 15px;
+}
+
+.btn-outline-primary {
+    color:rgb(0,0,0);
+    border-color:rgb(0,0,0);
+    outline-color: rgb(0,0,0);
+}
+.btn-outline-primary:hover {
+    background-color: rgb(59, 59, 56); 
+    border-color:rgb(59, 59, 56);
+}
+
+span {
+    font-weight: bold;
+}
+
+.invalid {
+    border: 2px solid red;
+    background-color: #ffe6e6;
+}

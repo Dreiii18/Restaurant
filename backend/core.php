@@ -261,37 +261,80 @@ class Core
         ];
     }
 
-    function addReservation($reservation) {
+    function addReservation($reservation, $userId) {
         $reservation = $reservation[0];
-        $partySize = $reservation['partySize'];
-        $reservationDate = $reservation['reservationDate'];
-        $reservationTime = $reservation['reservationTime'];
-        $tableNumber = $reservation['tableNumber'];
-        $userId = $_SESSION['user']['userid'];
-        
-        // Concatenate and format reservation date and time
-        $dateTimeString = $reservationDate . ' ' . $reservationTime;
-        $reservationDateTime = DateTime::createFromFormat('Y-m-d H:i', $dateTimeString)->format('Y-m-d H:i:s');
+        $partySize = $reservation['size'];
+        $reservationDate = $reservation['date'];
+        $reservationTime = $reservation['time'];
+        $customerName = $reservation['name'];
+        $customerPhoneNumber = $reservation['phone'];
+        $customerId = "";
 
+        // If customer is logged in set customer ID
+        if ($userId != "") {
+            $customerId = $this->getTableColumns('customerid', 'customer', "userid = '{$userId}'")[0]['customerid'];
+        }
+
+        // Concatenate and format reservation start and end date time
+        $dateTimeString = $reservationDate . ' ' . $reservationTime;
+        $reservationDateTime = DateTime::createFromFormat('Y-m-d H:i', $dateTimeString);
+        $reservationEndDateTime = clone $reservationDateTime;
+        $reservationEndDateTime = $reservationEndDateTime->add(new DateInterval('PT1H30M'));
+        $reservationDateTime = $reservationDateTime->format('Y-m-d H:i:s');
+        $reservationEndDateTime = $reservationEndDateTime->format('Y-m-d H:i:s');
+
+        // Generate reservation number
         $reservationNumber = $this->getMaxTableNumberForDate('reservation', 'reservation_number', 'reservation_datetime', $reservationDateTime);
 
-        // Get customer ID
-        $results = $this->getTableColumns('customerid', 'customer', "userid =  '{$userId}'");
-        $customerid = $results[0]['customerid'];
+        // Get available tables
+        $availableTable = $this->getAvailableTable($partySize, $reservationDateTime);
 
-        // Get table ID
-        $results = $this->getTableColumns('tableid', 'restaurant_table', "table_number = '{$tableNumber}'");
-        $tableId = $results[0]['tableid'];
+        $tableId = $availableTable['tableid'];
+        $tableNumber = $availableTable['table_number'];
+
 
         $reservation_table = [
             'reservation_number' => $reservationNumber,
             'party_size' => $partySize,
             'reservation_datetime' => $reservationDateTime,
-            'customerid' => $customerid,
+            'reservation__end_datetime' => $reservationEndDateTime,
+            'customer_name' => $customerName,
+            'customer_phone_number' => $customerPhoneNumber,
+            'customerid' => $customerId,
             'tableid' => $tableId
         ];
 
         $this->db->insert($reservation_table, 'reservation');
+
+        return ['reservation_number' => $reservationNumber, 'table_number' => $tableNumber, 'reservation_datetime' => $reservationDateTime, 'reservation_end_datetime' => $reservationEndDateTime];
+    }
+
+    public function getReservationDetails($userId) {
+        // Get customer ID
+        $results = $this->getTableColumns('customer_name, customer_phone_number', 'customer', "userid =  '{$userId}'");
+        $customerName = $results[0]['customer_name'];
+        $customerPhoneNumber = $results[0]['customer_phone_number'];
+
+        return ['customerName' => $customerName, 'customerPhoneNumber' => $customerPhoneNumber];
+    }
+
+    // public function getAvailableTable($dateTime, $size) {
+    public function getAvailableTable($size, $dateTime) {
+        // Check tables that meet reservation size
+        $tables = $this->getTableColumns('tableid, table_number', 'restaurant_table', "seating_capacity >= '{$size}'");
+        
+        // Check which tables are reserved
+        $availableTables = [];
+        foreach ($tables as $table) {
+            $reservation = $this->getTableColumns('reservation_number, tableid', 'reservation', "(reservation_datetime = '{$dateTime}' AND tableid = '{$table['tableid']}')");
+            // $reservation = $this->getTableColumns('reservation_number, tableid', 'reservation', "(reservation_datetime < '{$end}' AND reservation_end_datetime > '{$dateTime}')AND tableid = '{$table['tableid']}'");
+            
+            if (empty($reservation)) {
+                $availableTables[] = $table;
+            }
+        }
+
+        return $availableTables[array_rand($availableTables)];
     }
 
     public function getMenuList() {
