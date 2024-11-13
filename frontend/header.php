@@ -29,7 +29,7 @@ function profile() {
     <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary " id="mainNav">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -42,9 +42,6 @@ function profile() {
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="?page=r">Reservation</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="?page=co">Checkout</a>
                 </li>
             </ul>
             <div class="d-flex">
@@ -61,6 +58,9 @@ function profile() {
                         </ul>
                     </li>
                 </ul>
+            </div>
+            <div class="cart-checkout">
+                <i class="fa badge" value=0 data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">&#xf07a;</i>
             </div>
         </div>
     </nav>

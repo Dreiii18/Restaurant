@@ -15,11 +15,13 @@
 }
 
 .cart-checkout{
-    position: fixed;
-    bottom: 0;
-    right: 0;
+    /* position: fixed; */
+    /* bottom: 0; */
+    /* right: 0; */
     border: 10px solid slategrey;
     background-color: slategrey;
+    border-radius: 9999px;
+    padding: 5px;
 }
 
 .carouselTitle{
@@ -53,6 +55,10 @@ dt, dd {
     left:-8px;
     top:-10px;
     opacity:0.9;
+}
+
+.badge:hover {
+    cursor: grab;
 }
 
 img {
@@ -272,4 +278,6 @@ dt {
 
 .filter {
     background-color: white;
+    /* position: sticky;
+    top: 50px; */
 }

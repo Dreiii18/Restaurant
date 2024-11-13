@@ -13,54 +13,15 @@
     }
 }
 
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-footer {
-    position: relative;
-    z-index: 10;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    display: none; 
-    background-color: slategrey;
-    border: 3px solid slategrey;
-    margin-top: auto;
-}
-
-footer p {
-    padding: 10px 0px 0px 10px;
-}
-
-body.no-scroll {
-    min-height: 100vh; 
-    position: relative;
-}
-
-body.no-scroll footer {
-    display: block;
-}
-
-footer.visible {
-    display: block;
+#mainNav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .content {
     flex: 1;  
     padding: 20px;
-}
-
-body.scrollable-footer {
-    padding-bottom: 50px;
 }
 
 #initForms {
@@ -72,4 +33,18 @@ body.scrollable-footer {
 #invalid {
     border: 2px solid red !important;
     color: red;
+}
+
+.fixedBottom {
+    position: fixed;
+}
+
+footer {
+    margin-top: auto;
+}
+
+html, body {
+    height: 100%; /* Ensure full viewport height */
+    margin: 0;
+    padding: 0;
 }
