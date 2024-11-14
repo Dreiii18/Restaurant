@@ -1,19 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Reservation</title>
-    <link rel="stylesheet" href="css\reservation.css">
-
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-    </style>
-  </head>
-
-  <body>
+<div id="content">
+    <div id="reservationMessage"></div>
     <main>
-        <div id="container">
+        <div id="content-container">
             <div id="restaurant-info">
                 <h1>Smoke & Caviar</h1>
                 <div id="address">
@@ -30,10 +18,13 @@
                     <input type="time" id="reso-time" name="reso-time">
                     <label for="reso-party">Party:</label>
                     <input type="number" id="reso-party" name="reso-party" max="50">
-                    <input type="submit" id="submit-btn">
+                    <label for="cust-name">Name: </label>
+                    <input type="text" id="cust-name" id="cust-name" required>
+                    <label for="cust-phone">Phone: </label>
+                    <input type="text" id="cust-phone" id="cust-phone" max="11" placeholder="XXXXXXXXXX" required>
+                    <button type="button" class="btn btn-outline-primary" id="submit-button">Submit Reservation</button>
                 </form>
             </div>
         </div> 
     </main>
-  </body>
-</html>
+</div>
