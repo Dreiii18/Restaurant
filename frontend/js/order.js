@@ -55,7 +55,7 @@ $(document).ready(function() {
 function addOrder(orders) {
     $.ajax({
         type: "post",
-        url: "frontend/ajax/generate_order.php",  
+        url: "frontend/ajax/generateOrder.php",  
         data: {
             'orders' : orders
         },

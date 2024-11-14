@@ -1,0 +1,92 @@
+.bebas-neue-regular {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}  
+
+.roboto-regular {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h2{
+    font-family: "Bebas Neue", sans-serif;
+}
+
+label {
+    font-family: "Roboto", sans-serif;
+}
+
+.row{
+    display: flex;
+}
+
+.inner-row{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
+}
+
+.column-1{
+    width: 70%;
+}
+
+.column-2{
+    width: 30%;
+}
+
+.cost-element{
+    display: flex;
+    justify-content: space-between;
+}
+
+#place-order {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+}
+
+#tip-cost{
+    display: flex;
+    justify-content: flex-end;
+}
+
+#tip{
+    width: 30%;
+}
+
+#tip-cost label{
+    padding-left: 3px;
+    padding-right: 10px;
+}
+
+#tip-cost label:last-of-type{
+    padding-right: 0px;
+}
+
+input[id='custom-field']{
+    width: 100px;
+}
+
+#custom-tip-input{
+    display: flex;
+    justify-content: flex-end;
+}
+
+#card_num {
+    width: 13em;
+}
+
+#payment_infos, #addresses {
+    display: none;
+}
+
+.invalid {
+    border: 2px solid red;
+    background-color: #ffe6e6;
+}
