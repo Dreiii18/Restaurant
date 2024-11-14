@@ -1,5 +1,6 @@
 $(document).ready(function() {
     checkFooterPosition();
+    adjustMainHeight();
 });
 
 function checkFooterPosition() {
@@ -26,5 +27,24 @@ function checkFooterPosition() {
         body.addClass('no-scroll');
         footer.fadeIn();
         footer.addClass('visible');
+    }
+}
+
+function adjustMainHeight() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentPage = urlParams.get('page');
+
+    let navHeight = $('nav').outerHeight();
+    let footerHeight = $('footer').outerHeight();
+    let viewportHeight = $(window).height();
+
+    let mainHeight = viewportHeight - footerHeight - navHeight;
+
+    if (currentPage !== "o") {
+        $('#content').css('height', mainHeight + 'px');
+    }
+
+    if (currentPage == "r") {
+        $('main').css('height', mainHeight + 'px');
     }
 }

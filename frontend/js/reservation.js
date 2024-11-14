@@ -1,7 +1,6 @@
 $(document).ready(function() {
     let reservationDetails = {};
 
-    adjustMainHeight();
     getCustomerInfo();
 
     function getCustomerInfo() {
@@ -40,17 +39,15 @@ $(document).ready(function() {
     })
 
     $('#submit-button').click(function () {  
-        reservationDetails = { ... reservationDetails, ...getReservationDetails()};
-        addReservation(reservationDetails);
         if (validate()) {
+            reservationDetails = { ... reservationDetails, ...getReservationDetails()};
+            addReservation(reservationDetails);
         } else {
             $('.invalid').first().focus();
         }
     });
 
 });
-
-$(window).resize(adjustMainHeight);
 
 function addReservation(reservation) {
     $.ajax({
@@ -126,14 +123,4 @@ function validate() {
     
     
     return isValid;
-}
-
-function adjustMainHeight() {
-    let navHeight = $('nav').outerHeight();
-    let footerHeight = $('footer').outerHeight();
-    let viewportHeight = $(window).height();
-
-    let mainHeight = viewportHeight - footerHeight - navHeight;
-
-    $('main').css('height', mainHeight + 'px');
 }

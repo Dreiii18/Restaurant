@@ -13,12 +13,6 @@
     }
 }
 
-#mainNav {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
 .content {
     flex: 1;  
     padding: 20px;
@@ -44,7 +38,6 @@ footer {
 }
 
 html, body {
-    height: 100%; /* Ensure full viewport height */
     margin: 0;
     padding: 0;
 }

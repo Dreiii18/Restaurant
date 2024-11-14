@@ -278,6 +278,13 @@ dt {
 
 .filter {
     background-color: white;
-    /* position: sticky;
-    top: 50px; */
+    position: sticky;
+    top: var(--main-nav-height);
+}
+
+#mainNav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 0;
 }
