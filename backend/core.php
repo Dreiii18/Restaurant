@@ -355,6 +355,66 @@ class Core
         return [$menuName, $menuDescription, $menuPrice];
     }
 
+    public function getInventoryItems() {
+        $sql = "SELECT item_name, item_quantity, category FROM inventory_item";
+        $results = $this->db->getResults($this->db->query($sql));
+
+        return $results;
+    }
+
+    public function getItemDetails() {
+        // $sql = "SELECT * FROM inventory_item";
+        $sql = "SELECT inventory.inventoryid, inventory_item.* FROM inventory JOIN inventory_item ON inventory.item_name = inventory_item.item_name ORDER BY inventoryid";
+        $items = $this->db->getResults($this->db->query($sql));
+
+        $sql = "SELECT DISTINCT category FROM inventory_item";
+        $categories = $this->db->getResults($this->db->query($sql));
+
+        // return [$items, $categories];
+        return [$items, $categories];
+    }
+
+    public function getSupplierNames() {
+        $sql = "SELECT DISTINCT supplier_name FROM supplier";
+        $results = $this->db->getResults($this->db->query($sql));
+
+        return $results;
+    }
+
+    public function addOrderSupply($orders) {
+        $supplyOrderId = $this->getMaxTableNumberForDate('supply_order_details', 'supply_orderid', 'supply_order_datetime');
+        $supplyOrderDateTime = date("Y-m-d H:i:s");
+
+        $supply_order_details = [
+            'supply_orderid' => $supplyOrderId,
+            'supply_order_datetime' => $supplyOrderDateTime
+        ];
+        $this->db->insert($supply_order_details, 'supply_order_details');
+
+        foreach ($orders as $order) {
+            $itemName = $order['itemName'];
+            $costPerUnit = $order['unitPrice'];
+            $quantityOrdered = $order['quantity'];
+            $totalCost = $order['totalCost'];
+            $supplierName = $order['supplier'];
+            $inventoryId = $this->getTableColumns('inventoryid', 'inventory', "item_name = '{$itemName}'")[0]['inventoryid'];
+            $supplierId = $this->getTableColumns('supplierid', 'supplier', "supplier_name = '{$supplierName}'")[0]['supplierid'];
+
+            $supply_order = [
+                'inventoryid' => $inventoryId,
+                'supplierid' => $supplierId,
+                'supply_orderid' => $supplyOrderId,
+                'cost_per_unit' => $costPerUnit,
+                'quantity_ordered' => $quantityOrdered,
+                'total_cost' => $totalCost,
+                'supply_order_datetime' => $supplyOrderDateTime
+            ];
+            $this->db->insert($supply_order, 'supply_order');
+        };
+
+        return $supplyOrderId;
+    }
+
     public function registerCustomer($customerDetails) {
         $encryptionKey = $this->db->generateKey();
         $username = $customerDetails['username'];

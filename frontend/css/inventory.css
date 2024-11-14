@@ -1,0 +1,113 @@
+.bebas-neue-regular {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}  
+
+.roboto-regular {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h1{
+    font-family: "Bebas Neue", sans-serif;
+    justify-content: center;
+    display: flex;
+}
+
+h3 {
+    margin: auto;
+}
+
+table,th, td {
+    border: 1px solid black;
+}
+
+table {
+    margin: auto;
+    border-collapse: collapse;
+    align-items: center;
+    justify-content: center;
+}
+
+#close {
+    float: right;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+    gap: 10px; /* Space between items */
+    width: 100%;
+}
+
+.label-item,
+.item,
+.label-quantity,
+.quantity,
+.label-category,
+.category,
+.label-supplier,
+.supplier {
+    grid-column: span 1; /* Each element spans 1 column */
+}
+
+/* Position labels above each input by using grid rows */
+.label-item,
+.label-quantity,
+.label-category,
+.label-supplier {
+    grid-row: 1;
+}
+
+.item,
+.quantity,
+.category,
+.supplier {
+    grid-row: 2;
+}
+
+/* Styling for the submit button */
+.submit-button {
+    grid-column: span 4; /* Center submit button across all columns */
+    margin-top: 10px;
+}
+
+td, th {
+    padding: 5px;
+}
+
+#show, #add-item {
+    background-color: white;
+    color: black;
+    border: 3px solid black;
+    font-weight: 600;
+}
+
+#show {
+    margin-left: 15px;
+}
+
+#show:hover{
+    background-color: slategrey;
+    color: white;
+}
+
+#add-item:hover {
+    background-color: slategray;
+    color: white;
+}
+
+.modal-dialog{
+    overflow-y: initial !important
+}
+.modal-body{
+    height: 30vh;
+    overflow-y: auto;
+}
+
+.invalid {
+    border: 2px solid red;
+    background-color: #ffe6e6;
+}

@@ -32,6 +32,10 @@ $pages = [
         'js'   => ['reset.js', 'hashes.js', 'jquery-3.7.1.min.js', 'bootstrap.bundle.min.js'],
     ],
     
+    // ==============
+    // CUSTOMER PAGES
+    // ==============
+
     // Menu page
     'm' => [
         'html' => ['menu.html'],
@@ -65,5 +69,16 @@ $pages = [
         'html' => ['reservation.html'],
         'css'  => ['reservation.css'],
         'js'   => ['reservation.js'],
-    ]
+    ],
+
+    // ==============
+    // EMPLOYEE PAGES
+    // ==============
+
+    // Inventory page
+    'i' => [
+        'html' => ['inventory.html'],
+        'css'  => ['inventory.css'],
+        'js'   => ['inventory.js'],
+    ],
 ];
