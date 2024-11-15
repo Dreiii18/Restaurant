@@ -415,6 +415,37 @@ class Core
         return $supplyOrderId;
     }
 
+    public function getDeliveries() {
+        $deliveries = $this->getTableColumns('*', 'delivery', "(Date('delivery_datetime') = CURDATE() AND delivery_status = 'Pending')");
+        // $deliveries = $this->getTableColumns('*', 'delivery', "(delivery_status = 'Pending')");
+        $deliveryList = [];
+
+        foreach($deliveries as $delivery) {
+            $sql = "SELECT SUM(menu_item_quantity) FROM contain WHERE orderid = '{$delivery['orderid']}'";
+            $itemCount = $this->db->getResults($this->db->query($sql))[0]['SUM(menu_item_quantity)'];
+
+            $address = "{$delivery['house_number']} {$delivery['street_number']} {$delivery['street_name']}, {$delivery['postal_code']}";
+
+            $data = [
+                'deliveryNumber' => $delivery['delivery_number'],
+                'address' => $address,
+                'itemCount' => $itemCount,
+            ];
+
+            array_push($deliveryList, $data);
+        }
+
+        return $deliveryList;
+    }
+
+    public function updateDelivery($deliveryNumber) {
+        $delivery_datetime = date('Y-m-d H:i:s');
+
+        $sql = "UPDATE delivery SET delivery_status = 'Delivered', delivery_datetime = '{$delivery_datetime}' WHERE delivery_number = '{$deliveryNumber}'";
+
+        $this->db->query($sql);
+    }
+
     public function registerCustomer($customerDetails) {
         $encryptionKey = $this->db->generateKey();
         $username = $customerDetails['username'];

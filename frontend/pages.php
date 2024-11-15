@@ -81,4 +81,11 @@ $pages = [
         'css'  => ['inventory.css'],
         'js'   => ['inventory.js'],
     ],
+
+    // Delivery page
+    'd' => [
+        'html' => ['delivery.html'],
+        'css'  => ['delivery.css'],
+        'js'   => ['delivery.js'],
+    ],
 ];
