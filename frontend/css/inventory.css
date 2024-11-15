@@ -35,7 +35,7 @@ table {
 
 .center {
     margin: auto;
-    width: 60%;
+    width: 70%;
     padding: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -53,6 +53,7 @@ table {
     grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
     gap: 10px; /* Space between items */
     width: 100%;
+    margin-bottom: 20px;
 }
 
 #catDropdown, .category {
@@ -93,8 +94,16 @@ table {
 .submit-button {
     grid-column: span 4; /* Center submit button across all columns */
     margin-top: 10px;
+    margin-left: 855px;
 }
 
+.addItem {
+    margin-bottom: 10px;
+}
+
+form {
+    margin-bottom: 10px;
+}
 td, th {
     padding: 5px;
 }
@@ -118,4 +127,9 @@ td, th {
 #add-item:hover {
     background-color: slategray;
     color: white;
+}
+
+.totalCost {
+    display: flex;
+    flex-direction: row;
 }

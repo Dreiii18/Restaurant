@@ -19,11 +19,16 @@
         <div class="center hideform">
             <button id="close">X</button>
             <h3>Order</h3>
-            <button id="add-item" onclick="addRow()">Add Item</button>    
-            <input type="submit" value="Submit">
+            <input type="submit" value="Submit" class="submit-button">
+            <div class="totalCost">
+                <strong><h5>Total Cost:</h5></strong>
+            </div>
+            <button id="add-item" onclick="addRow()" class="addItem">Add Item</button>    
 
             <div>
             <form action="/action_page.php" class="order" id="order-form">
+
+                <button id="remove">X</button>
 
                 <label for="catDropdown" class="label-category">Category:</label>
                 <select id="catDropdown" name="category" class="category" onchange="configureDropDownLists(this,'initialItem')">
@@ -50,7 +55,8 @@
                     <option>Joe's Farm</option>
                     <option>Sam's Spices</option>
                 </select>
-
+                
+                <label class="cost">Cost: </label>
             
             </form>
             </div>

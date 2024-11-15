@@ -200,6 +200,7 @@ function addRow() {
 
   divEle.innerHTML += `
       <div>
+          <button id="remove">X</button>
           <label for="${catDropdownId}" class="label-category">Category:</label>
           <select id="${catDropdownId}" name="category" class="category" 
               onchange="configureDropDownLists(this, '${itemDropdownId}')">
@@ -227,7 +228,8 @@ function addRow() {
               <option>Sam's Spices</option>
           </select>
 
-          <br><br>
+          <label class="cost">Cost: </label>
+          
       </div>
   `;
 }
