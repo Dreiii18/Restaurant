@@ -20,6 +20,8 @@ h3 {
     margin: auto;
 }
 
+
+
 table,th, td {
     border: 1px solid black;
 }
@@ -51,6 +53,14 @@ table {
     grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
     gap: 10px; /* Space between items */
     width: 100%;
+}
+
+#catDropdown, .category {
+    width: 100px;
+}
+
+#initialItem, .item{
+    width: 200px;
 }
 
 .label-item,

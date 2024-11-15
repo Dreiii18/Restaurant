@@ -17,23 +17,30 @@
     </header>
     <main>
         <div class="center hideform">
-            <h3>Order</h3>
             <button id="close">X</button>
-            <form action="/action_page.php" class="order">
-                <label for="item" class="label-item">Item Name:</label>
-                <input type="text" name="item" class="item">
+            <h3>Order</h3>
+            <button id="add-item" onclick="addRow()">Add Item</button>    
+            <input type="submit" value="Submit">
+
+            <div>
+            <form action="/action_page.php" class="order" id="order-form">
+
+                <label for="catDropdown" class="label-category">Category:</label>
+                <select id="catDropdown" name="category" class="category" onchange="configureDropDownLists(this,'initialItem')">
+                    <option value="Category">Category</option>
+                    <option value="Meat">Meat</option>
+                    <option value="Dairy">Dairy</option>
+                    <option value="Produce">Produce</option>
+                    <option value="Spices">Spices/Dry</option>
+                </select>
+
+                <label for="initialItem">Item:</label>
+                <select id="initialItem" name="item"></select>
                 
                 <label for="quantity" class="label-quantity">Quantity:</label>
-                <input type="text" name="quantity" class="quantity">
+                <input type="number" name="quantity" class="quantity" size="2">
               
-                <label for="catDropdown" class="label-category">Category:</label>
-                <select id="catDropdown" name="category" class="category">
-                    <option>Category</option>
-                    <option>Meat</option>
-                    <option>Dairy</option>
-                    <option>Produce</option>
-                    <option>Spices/Dry</option>
-                </select>
+               
             
                 <label for="supDropdown" class="label-supplier">Supplier:</label>
                 <select id="supDropdown" name="supplier" class="supplier">
@@ -44,14 +51,14 @@
                     <option>Sam's Spices</option>
                 </select>
 
-                <br><br>
             
-                <input type="submit" value="Submit">
             </form>
+            </div>
+            <div id="inputFields">
+            </div>
 
         </div>
         <button id="show">Place Order</button>
-        <button id="add-item">Add Item</button>    
         
 
         <table id="table">
@@ -91,4 +98,3 @@
 </html>
 
 
-//
