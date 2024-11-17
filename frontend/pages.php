@@ -43,5 +43,12 @@ $pages = [
         'html' => ['reservation.html'],
         'css'  => ['reservation.css'],
         'js'   => ['reservation.js'],
+    ],
+
+    // Supply Order Request page
+    'sor' => [
+        'html' => ['sorderreq.html'],
+        'css'  => ['sorderreq.css'],
+        'js'   => ['sorderreq.js'],
     ]
 ];
