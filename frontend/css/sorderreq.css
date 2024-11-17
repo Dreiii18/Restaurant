@@ -57,8 +57,23 @@ h2 {
     background-color: #f1f1f1;
 }
 
+.item-titles{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom:1px solid black ;
+}
+
+.col-title{
+    font-weight: bold;
+}
+
 .item, .total, .order-buttons{
     margin: 10px;
+}
+
+.order-items{
+    border-bottom: 1px solid black;
 }
 
 .item{
@@ -73,7 +88,6 @@ h2 {
 .total{
     display: flex;
     justify-content: flex-end;
-    border-top: 1px solid black;
 }
 
 .reject, .approve, #reject-all, #approve-all {
