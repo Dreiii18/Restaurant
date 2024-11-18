@@ -107,7 +107,7 @@ $(document).ready(function () {
     $('#submit').on('click', function() {
         if (validate()) {
             orders = { ...orders, ...getOrderDetails(itemDetails, suppliers)};
-            // orderItems(orders);
+            orderItems(orders);
         } else {
             $('.invalid').first().focus();
         }
