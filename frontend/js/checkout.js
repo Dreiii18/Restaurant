@@ -272,7 +272,6 @@ function getTransactionDetails() {
     }
 
     return {
-        // 'phoneNumber': $("#phone_num").val().trim(),
         'phoneNumber': phoneNumber,
         'cardNumber': $("#card_num").val().trim(),
         'expiryDate': $("#expiry_date").val(),

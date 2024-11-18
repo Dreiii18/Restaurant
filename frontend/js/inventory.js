@@ -207,7 +207,6 @@ function calculateGrandTotal() {
     })
 
     if (isNaN(grandTotal)) {
-        console.log("TRUE");
         grandTotal = 0;
     }
 

@@ -8,7 +8,7 @@ $pages = [
     // Main page
     'main' => [
         'css' => ['bootstrap.min.css', 'main.css'],
-        'js'  => ['jquery-3.7.1.min.js', 'bootstrap.bundle.min.js', 'jquery.cookie.js', 'main.js'],
+        'js'  => ['jquery-3.7.1.min.js', 'bootstrap.bundle.min.js', 'jquery.cookie.js', 'main.js']
     ],
 
     // Login page

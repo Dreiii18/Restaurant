@@ -20,8 +20,6 @@ class Core
 
     public function login($username, $password)
 	{
-		// $query = $this->db->query("SELECT ...");
-		// $results = $this->db->getResults($query);
         $results = $this->getTableColumns('userid, username, password', 'user', "(username = '{$username}' AND password = '{$password}')");
 
         if (!is_array($results) || count($results) == 0) {
@@ -56,11 +54,8 @@ class Core
     }
 
     public function getMaxTableNumberForDate($table, $numberColumn, $dateColumn, $date = null) {
-        if ($date === null) {
-            $date = date('Y-m-d');
-        } else {
-            $date = date('Y-m-d', strtotime($date));
-        }
+        $data = $date === null ? date('Y-m-d') : date('Y-m-d', strtotime($date));
+
         $sql = "SELECT MAX($numberColumn) AS max_number FROM {$table} WHERE Date({$dateColumn}) = '{$date}'";
         $query = $this->db->query($sql);
         $results = $this->db->getResults($query);
@@ -85,14 +80,12 @@ class Core
         $employeeId = $this->autoAssignEmployeeToOrder($orderType);
 
         $order = [
-                'order_number' => $orderNumber, 
-                'order_type' => $orderType, 
-                'order_datetime' => $orderDateTime,
-                'employeeid' => $employeeId
-            ]
-        ;
+            'order_number' => $orderNumber, 
+            'order_type' => $orderType, 
+            'order_datetime' => $orderDateTime,
+            'employeeid' => $employeeId
+        ];
         $orderId = $this->db->insert($order, 'order_table');
-
         return [$orderId, $orderNumber];
     }
 
@@ -515,25 +508,15 @@ class Core
         $cvv = $customerDetails['cvv'];
 
         
-        switch ($paymentMethod) {
-            case "1":
-                $paymentMethod = "Debit Card";
-                break;
-                
-            default:
-                $paymentMethod = "Credit Card";
-                break;
-        }
-            
-        switch ($cardType) {
-            case "1":
-                $cardType = "Mastercard";
-                break;
+        $paymentMethod = match ($paymentMethod) {
+            "1" => "Debit Card",
+            default => "Credit Card",
+        };
 
-            default:
-                $cardType = "Visa";
-                break;
-        }
+        $cardType = match ($cardType) {
+            "1" => "Mastercard",
+            default => "Visa",
+        };
 
         try {
             // Insert data to user table
@@ -620,6 +603,4 @@ class Core
         $sql = "UPDATE user SET password = '{$newPassword}' WHERE (username = '{$username}' AND password = '{$oldPassword}')";
         $query = $this->db->query($sql);
     }
-
-    public function getCustomerInfo() {}
 }
