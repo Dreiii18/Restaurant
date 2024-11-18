@@ -493,9 +493,7 @@ class Core
             foreach ($supplyOrders as $order) {
                 $supplyOrderId = $order['orderId'];
                 $supplyOrderDateTime = $order['orderDateTime'];
-                $sql = "DELETE FROM order_supply WHERE supply_orderid = '{$supplyOrderId}' AND supply_order_datetime = '{$supplyOrderDateTime}'";
-                $this->db->query($sql);
-                $sql = "DELETE FROM order_supply_details WHERE supply_orderid = '{$supplyOrderId}' AND supply_order_datetime = '{$supplyOrderDateTime}'";
+                $sql = "DELETE FROM supply_order_details WHERE supply_orderid = '{$supplyOrderId}' AND supply_order_datetime = '{$supplyOrderDateTime}'";
                 $this->db->query($sql);
             }
         }
