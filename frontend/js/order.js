@@ -50,6 +50,14 @@ $(document).ready(function() {
             }
         });
     }, 500);
+
+    function adjustFilterNavPosition() {
+        const mainNavHeight = $('#mainNav').outerHeight() - 1;
+        document.documentElement.style.setProperty('--main-nav-height', `${mainNavHeight}px`);
+    }
+
+    adjustFilterNavPosition();
+    $(window).on('resize', adjustFilterNavPosition);
 });
 
 function addOrder(orders) {

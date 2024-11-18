@@ -264,7 +264,7 @@ function calculateTotal() {
 }
 
 function getTransactionDetails() {
-    let phoneNumber = $("#typePhonenumberX").val().trim().replace(/\D/g, '');
+    let phoneNumber = $("#phone_num").val().trim().replace(/\D/g, '');
     if (phoneNumber.length === 10) {
         phoneNumber = '+1' + phoneNumber;
     } else if (phoneNumber.length === 11) {

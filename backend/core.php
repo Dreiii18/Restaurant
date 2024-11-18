@@ -7,11 +7,15 @@ class Core
     /** @var Database */
     protected $db;
     protected $orderType;
+    protected $active;
+    protected $role;
 
     public function __construct()
     {        
       $this->db = new Database();   
       $this->orderType = 'Delivery';
+      $this->active = 1;
+      $this->role = 'Customer';
     }
 
     public function login($username, $password)
@@ -32,7 +36,7 @@ class Core
     }
 
     public function logout()
-    {
+    {  
         session_unset();
         session_destroy();
         return true;
@@ -50,11 +54,8 @@ class Core
     }
 
     public function getMaxTableNumberForDate($table, $numberColumn, $dateColumn, $date = null) {
-        if ($date === null) {
-            $date = date('Y-m-d');
-        } else {
-            $date = date('Y-m-d', strtotime($date));
-        }
+        $data = $date === null ? date('Y-m-d') : date('Y-m-d', strtotime($date));
+
         $sql = "SELECT MAX($numberColumn) AS max_number FROM {$table} WHERE Date({$dateColumn}) = '{$date}'";
         $query = $this->db->query($sql);
         $results = $this->db->getResults($query);
@@ -79,15 +80,12 @@ class Core
         $employeeId = $this->autoAssignEmployeeToOrder($orderType);
 
         $order = [
-                'order_number' => $orderNumber, 
-                'order_type' => $orderType, 
-                'order_datetime' => $orderDateTime,
-                'employeeid' => $employeeId
-            ]
-        ;
-
+            'order_number' => $orderNumber, 
+            'order_type' => $orderType, 
+            'order_datetime' => $orderDateTime,
+            'employeeid' => $employeeId
+        ];
         $orderId = $this->db->insert($order, 'order_table');
-
         return [$orderId, $orderNumber];
     }
 
@@ -102,7 +100,7 @@ class Core
             ];
             $this->db->insert($data, 'contain');
         }
-      
+
         return $orderNumber;
     }
 
@@ -256,24 +254,6 @@ class Core
         ];
     }
 
-    public function getMenuList() {
-        $sql = "SELECT * FROM menu_item";
-      
-        $query = $this->db->query($sql);
-        $results = $this->db->getResults($query);
-
-        return $results;
-    }
-
-    public function getMenuItem($menuid) {
-        $result = $this->getTableColumns('menu_item_name, menu_description, menu_price', 'menu_item', "menu_itemid = '{$menuid}'");
-        $menuName = $result[0]['menu_item_name'];
-        $menuDescription = $result[0]['menu_description'];
-        $menuPrice = $result[0]['menu_price'];
-
-        return [$menuName, $menuDescription, $menuPrice];
-    }
-
     function addReservation($reservation, $userId) {
         $reservation = $reservation[0];
         $partySize = $reservation['size'];
@@ -331,58 +311,6 @@ class Core
         return ['customerName' => $customerName, 'customerPhoneNumber' => $customerPhoneNumber];
     }
 
-    public function getOrderRequests() {
-        $sql = "SELECT so.* FROM supply_order so WHERE NOT EXISTS (SELECT 1 FROM supply_order_details sod WHERE (sod.supply_orderid = so.supply_orderid AND sod.supply_order_datetime = so.supply_order_datetime)AND sod.order_status <> 'Waiting for Approval')";
-        $supplyOrderIds = $this->db->getResults($this->db->query($sql));
-
-        $supplyOrders = [];
-        foreach ($supplyOrderIds as $supplyOrderId) {
-            $inventoryId = $supplyOrderId['inventoryid'];
-            $supplierId = $supplyOrderId['supplierid'];
-            $costPerUnit = $supplyOrderId['cost_per_unit'];
-            $quantityOrdered = $supplyOrderId['quantity_ordered'];
-            $totalCost = $supplyOrderId['total_cost'];
-            $supplyOrderDateTime = $supplyOrderId['supply_order_datetime'];
-
-            $itemName = $this->getTableColumns('item_name', 'inventory', "inventoryid = '{$inventoryId}'")[0]['item_name'];
-            $supplierName = $this->getTableColumns('supplier_name', 'supplier', "supplierid = '{$supplierId}'")[0]['supplier_name'];
-
-            $key = $supplyOrderId['supply_orderid'] . '-' . $supplyOrderDateTime;
-
-            if (!isset($supplyOrders[$key])) {
-                $supplyOrders[$key] = [
-                    'supplyOrderId' => $supplyOrderId['supply_orderid'],
-                    'supplyOrderDateTime' => $supplyOrderDateTime,
-                    'items' => [],
-                    'totalCost' => 0,
-                ];
-            }
-
-            $supplyOrders[$key]['items'][] = [
-                'itemName' => $itemName,
-                'supplierName' => $supplierName,
-                'costPerUnit' => $costPerUnit,
-                'quantityOrdered' => $quantityOrdered,
-                'totalCost' => $totalCost,
-            ];
-
-            $supplyOrders[$key]['totalCost'] += $totalCost;
-        }
-
-        return $supplyOrders;
-    }
-
-    function updateOrderRequest($supplyOrders, $status) {
-        foreach ($supplyOrders as $order) {
-            $supplyOrderId = $order['orderId'];
-            $supplyOrderDateTime = $order['orderDateTime'];
-            
-            $sql = "UPDATE supply_order_details SET order_status = '{$status}' WHERE supply_orderid = '{$supplyOrderId}' AND supply_order_datetime = '{$supplyOrderDateTime}'";
-            $this->db->query($sql);
-        }
-        return true;
-    }
-
     // public function getAvailableTable($dateTime, $size) {
     public function getAvailableTable($size, $dateTime) {
         // Check tables that meet reservation size
@@ -402,13 +330,31 @@ class Core
         return $availableTables[array_rand($availableTables)];
     }
 
+    public function getMenuList() {
+        $sql = "SELECT * FROM menu_item";
+        
+		$query = $this->db->query($sql);
+		$results = $this->db->getResults($query);
+
+        return $results;
+    }
+
+    public function getMenuItem($menuid) {
+        $result = $this->getTableColumns('menu_item_name, menu_description, menu_price', 'menu_item', "menu_itemid = '{$menuid}'");
+        $menuName = $result[0]['menu_item_name'];
+        $menuDescription = $result[0]['menu_description'];
+        $menuPrice = $result[0]['menu_price'];
+
+        return [$menuName, $menuDescription, $menuPrice];
+    }
+
     public function getInventoryItems() {
         $sql = "SELECT item_name, item_quantity, category FROM inventory_item";
         $results = $this->db->getResults($this->db->query($sql));
 
         return $results;
     }
-    
+
     public function getItemDetails() {
         // $sql = "SELECT * FROM inventory_item";
         $sql = "SELECT inventory.inventoryid, inventory_item.* FROM inventory JOIN inventory_item ON inventory.item_name = inventory_item.item_name ORDER BY inventoryid";
@@ -462,5 +408,199 @@ class Core
         return $supplyOrderId;
     }
 
-    public function getCustomerInfo() {}
+    public function getDeliveries() {
+        $deliveries = $this->getTableColumns('*', 'delivery', "(Date('delivery_datetime') = CURDATE() AND delivery_status = 'Pending')");
+        // $deliveries = $this->getTableColumns('*', 'delivery', "(delivery_status = 'Pending')");
+        $deliveryList = [];
+
+        foreach($deliveries as $delivery) {
+            $sql = "SELECT SUM(menu_item_quantity) FROM contain WHERE orderid = '{$delivery['orderid']}'";
+            $itemCount = $this->db->getResults($this->db->query($sql))[0]['SUM(menu_item_quantity)'];
+
+            $address = "{$delivery['house_number']} {$delivery['street_number']} {$delivery['street_name']}, {$delivery['postal_code']}";
+
+            $data = [
+                'deliveryNumber' => $delivery['delivery_number'],
+                'address' => $address,
+                'itemCount' => $itemCount,
+            ];
+
+            array_push($deliveryList, $data);
+        }
+
+        return $deliveryList;
+    }
+
+    public function updateDelivery($deliveryNumber) {
+        $delivery_datetime = date('Y-m-d H:i:s');
+
+        $sql = "UPDATE delivery SET delivery_status = 'Delivered', delivery_datetime = '{$delivery_datetime}' WHERE delivery_number = '{$deliveryNumber}'";
+
+        $this->db->query($sql);
+    }
+
+    public function getOrderRequests() {
+        $sql = "SELECT so.* FROM supply_order so WHERE NOT EXISTS (SELECT 1 FROM supply_order_details sod WHERE (sod.supply_orderid = so.supply_orderid AND sod.supply_order_datetime = so.supply_order_datetime)AND sod.order_status <> 'Waiting for Approval')";
+        $supplyOrderIds = $this->db->getResults($this->db->query($sql));
+
+        $supplyOrders = [];
+        foreach ($supplyOrderIds as $supplyOrderId) {
+            $inventoryId = $supplyOrderId['inventoryid'];
+            $supplierId = $supplyOrderId['supplierid'];
+            $costPerUnit = $supplyOrderId['cost_per_unit'];
+            $quantityOrdered = $supplyOrderId['quantity_ordered'];
+            $totalCost = $supplyOrderId['total_cost'];
+            $supplyOrderDateTime = $supplyOrderId['supply_order_datetime'];
+
+            $itemName = $this->getTableColumns('item_name', 'inventory', "inventoryid = '{$inventoryId}'")[0]['item_name'];
+            $supplierName = $this->getTableColumns('supplier_name', 'supplier', "supplierid = '{$supplierId}'")[0]['supplier_name'];
+
+            $key = $supplyOrderId['supply_orderid'] . '-' . $supplyOrderDateTime;
+
+            if (!isset($supplyOrders[$key])) {
+                $supplyOrders[$key] = [
+                    'supplyOrderId' => $supplyOrderId['supply_orderid'],
+                    'supplyOrderDateTime' => $supplyOrderDateTime,
+                    'items' => [],
+                    'totalCost' => 0,
+                ];
+            }
+
+            $supplyOrders[$key]['items'][] = [
+                'itemName' => $itemName,
+                'supplierName' => $supplierName,
+                'costPerUnit' => $costPerUnit,
+                'quantityOrdered' => $quantityOrdered,
+                'totalCost' => $totalCost,
+            ];
+
+            $supplyOrders[$key]['totalCost'] += $totalCost;
+        }
+
+        return $supplyOrders;
+    }
+
+    function updateOrderRequest($supplyOrders, $status) {
+        foreach ($supplyOrders as $order) {
+            $supplyOrderId = $order['orderId'];
+            $supplyOrderDateTime = $order['orderDateTime'];
+            
+            $sql = "UPDATE supply_order_details SET order_status = '{$status}' WHERE supply_orderid = '{$supplyOrderId}' AND supply_order_datetime = '{$supplyOrderDateTime}'";
+            $this->db->query($sql);
+        }
+        return true;
+    }
+
+    public function registerCustomer($customerDetails) {
+        $encryptionKey = $this->db->generateKey();
+        $username = $customerDetails['username'];
+        $customerName = $customerDetails['customerName'];
+        $password = $customerDetails['password'];
+        $phoneNumber = $customerDetails['phoneNumber'];
+        $houseNumber = $customerDetails['houseNumber'];
+        $streetNumber = $customerDetails['streetNumber'];
+        $streetName = $customerDetails['streetName'];
+        $postalCode = $customerDetails['postalCode'];
+        $paymentMethod = $customerDetails['paymentMethod'];
+        $cardType = $customerDetails['cardType'];
+        $cardNumber = $customerDetails['cardNumber'];
+        $expiryDate = $customerDetails['expiryDate'];
+        $cvv = $customerDetails['cvv'];
+
+        
+        $paymentMethod = match ($paymentMethod) {
+            "1" => "Debit Card",
+            default => "Credit Card",
+        };
+
+        $cardType = match ($cardType) {
+            "1" => "Mastercard",
+            default => "Visa",
+        };
+
+        try {
+            // Insert data to user table
+            $user = [
+                'username' => $username,
+                'name' => $customerName,
+                'password' => $password,
+                'active' => $this->active,
+                'role' => $this->role,
+            ];
+    
+            $userId = $this->db->insert($user, 'user');
+    
+            // Insert data to customer table
+            $customer = [
+                'customer_name' => $customerName,
+                'customer_phone_number' => $phoneNumber,
+                'userid' => $userId,
+            ];
+    
+            $customerId = $this->db->insert($customer, 'customer');
+            
+            if ($postalCode !== "") {
+                // Insert data to address table
+                $address = [
+                    'house_number' => $houseNumber,
+                    'postal_code' => $postalCode,
+                ];
+                
+                $addressId = $this->db->insert($address, 'address');
+    
+                // Insert data to address_details table
+                $address_details = [
+                    'house_number' => $houseNumber,
+                    'postal_code' => $postalCode,
+                    'street_number' => $streetNumber,
+                    'street_name' => $streetName,
+                ];
+    
+                $this->db->insert($address_details, 'address_details');
+    
+                // Insert data to customer_has_address table
+                $customer_has_address = [
+                    'customerid' => $customerId,
+                    'addressid' => $addressId,
+                ];
+                $this->db->insert($customer_has_address, 'customer_has_address');
+            }
+
+            if ($cardNumber !== "") {
+                $cardNumber = json_encode($this->db->encrypt($cardNumber, $encryptionKey));
+                $expiryDate = json_encode($this->db->encrypt($expiryDate, $encryptionKey));
+                $cvv = json_encode($this->db->encrypt($cvv, $encryptionKey));
+                // Insert data to has_payment_information table
+                $has_payment_information = [
+                    'card_number' => $cardNumber,
+                    'customerid' => $customerId,
+                    'payment_method' => $paymentMethod,
+                    'card_type' => $cardType,
+                    'expiry_date' => $expiryDate,
+                    'cvv' => $cvv,
+                ];
+        
+                $this->db->insert($has_payment_information, 'has_payment_information');
+            }
+
+            return true;
+        } catch (Exception $e){
+            // return false;
+            return $e;
+        }
+    }
+
+    public function verifyUser($username, $password) {
+        $result = $this->getTableColumns('*', 'user', "(username = '{$username}' AND password = '{$password}')");
+        if (count($result) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function resetPassword($username, $oldPassword, $newPassword) {
+        $sql = "UPDATE user SET password = '{$newPassword}' WHERE (username = '{$username}' AND password = '{$oldPassword}')";
+        $query = $this->db->query($sql);
+    }
 }

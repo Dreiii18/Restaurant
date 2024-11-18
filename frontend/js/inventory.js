@@ -131,24 +131,24 @@ $(document).ready(function () {
 });
 
 function displayItems() {
-$.ajax({
-    url: "frontend/ajax/inventory.php",
-    success: function(data) {
-        $('#inventoryList').html(data);
-    }
-})
+    $.ajax({
+        url: "frontend/ajax/inventory.php",
+        success: function(data) {
+            $('#inventoryList').html(data);
+        }
+    })
 }
 
 function orderItems(orders) {
-$.ajax({
-    url: "frontend/ajax/generateOrderSupply.php",
-    data: {
-        'orders' : orders,
-    },
-    success: function(data) {
-        console.log(data)
-    }
-});
+    $.ajax({
+        url: "frontend/ajax/generateOrderSupply.php",
+        data: {
+            'orders' : orders,
+        },
+        success: function(data) {
+            console.log(data)
+        }
+    });
 }
 
 

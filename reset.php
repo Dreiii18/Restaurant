@@ -6,11 +6,11 @@ require_once dirname(__FILE__) . '/frontend/pages.php';
 
 $core = new Core();
 
-$page = isset($_REQUEST['page']) && array_key_exists($_REQUEST['page'], $pages) ? $_REQUEST['page'] : 'login';
+$page = isset($_REQUEST['page']) && array_key_exists($_REQUEST['page'], $pages) ? $_REQUEST['page'] : 'reset';
 $_REQUEST['page'] = $page;
 
 $pageTitles = [
-    'login' => 'Login Page',
+    'reset' => 'Reset Page',
 ];
 
 $title = $pageTitles[$page] ?? 'Home Page';
@@ -25,18 +25,19 @@ foreach ($js_files as $js) {
     echo "<script type='text/javascript'  src='frontend/js/{$js}?t=".time()."' ></script>\n";
 }
 
-$invalidLogin = false;
+$invalidAccount = false;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $username = $_REQUEST['username'];
-    $password = md5($_REQUEST['password']);
+    $oldPassword = md5($_REQUEST['oldpassword']);
+    $newPassword = md5($_REQUEST['newpassword']);
     
-    $core->login($username, $password);
-    if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-        header('Location: index.php');
+    if ($core->verifyUser($username, $oldPassword)) {
+        $core->resetPassword($username, $oldPassword, $newPassword);
+        header('Location: login.php');
         exit;
     } else {
-        $invalidLogin = true;
+        $invalidAccount = true;
     }
 }
 ?>
@@ -48,27 +49,33 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                     <div class="card bg-dark text-white" style="border-radius: 1rem;">
                         <div class="card-body p-5 text-center">
-                            <form method="POST" action="login.php">
-                                <div class="mb-md-5 mt-md-4 pb-5">
-                                    <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
-                                    <p class="text-white-50 mb-5">Please enter your username and password!</p>
-                                    <p id="invalid" style="display: <?= $invalidLogin ? 'block' : 'none'; ?>;">Invalid username or password</p>
+                            <form method="POST">
+                                <div class="mb-md-5 mt-md-4">
+                                    <h2 class="fw-bold mb-2 text-uppercase">Reset Password</h2>
+                                    <p class="text-white-50 mb-5">Please enter your username, old password, and new password!</p>
+                                    <p id="invalid" style="display: <?= $invalidAccount ? 'block' : 'none'; ?>;">Invalid username or password</p>
                                     <div data-mdb-input-init class="form-outline form-white mb-4">
                                         <input type="text" id="typeUsernameX" name="username" class="form-control form-control-lg" />
                                         <label class="form-label" for="typeUsernameX">Username</label>
                                     </div>
 
                                     <div data-mdb-input-init class="form-outline form-white mb-4">
-                                        <input type="password" id="typePasswordX" name="password" class="form-control form-control-lg" />
-                                        <label class="form-label" for="typePasswordX">Password</label>
+                                        <input type="password" id="typeOldPasswordX" name="oldpassword" class="form-control form-control-lg" />
+                                        <label class="form-label" for="typeOldPasswordX">Old Password</label>
                                     </div>
-                                    <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="./reset.php">Forgot password?</a></p>
 
-                                    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+                                    <div data-mdb-input-init class="form-outline form-white mb-4">
+                                        <input type="newpassword" id="typeNewPasswordX" name="newpassword" class="form-control form-control-lg" />
+                                        <label class="form-label" for="typeNewPasswordX">New Password</label>
+                                    </div>
+
+                                    <div class="mb-0">
+                                        <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg px-5 mb-0" id="submit" type="submit">Change Password</button>
+                                    </div>
                                 </div>
                             </form>
                             <div>
-                                <p class="mb-0">Don't have an account? <a href="./register.php" class="text-white-50 fw-bold">Sign Up</a>
+                                <p class="mb-0">Remember your password? <a href="./register.php" class="text-white-50 fw-bold">Login</a>
                                 </p>
                             </div>
                         </div>
