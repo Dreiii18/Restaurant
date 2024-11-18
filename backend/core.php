@@ -481,12 +481,23 @@ class Core
     }
 
     function updateOrderRequest($supplyOrders, $status) {
-        foreach ($supplyOrders as $order) {
-            $supplyOrderId = $order['orderId'];
-            $supplyOrderDateTime = $order['orderDateTime'];
-            
-            $sql = "UPDATE supply_order_details SET order_status = '{$status}' WHERE supply_orderid = '{$supplyOrderId}' AND supply_order_datetime = '{$supplyOrderDateTime}'";
-            $this->db->query($sql);
+        if ($status === "Approved") {
+            foreach ($supplyOrders as $order) {
+                $supplyOrderId = $order['orderId'];
+                $supplyOrderDateTime = $order['orderDateTime'];
+                
+                $sql = "UPDATE supply_order_details SET order_status = '{$status}' WHERE supply_orderid = '{$supplyOrderId}' AND supply_order_datetime = '{$supplyOrderDateTime}'";
+                $this->db->query($sql);
+            }
+        } else {
+            foreach ($supplyOrders as $order) {
+                $supplyOrderId = $order['orderId'];
+                $supplyOrderDateTime = $order['orderDateTime'];
+                $sql = "DELETE FROM order_supply WHERE supply_orderid = '{$supplyOrderId}' AND supply_order_datetime = '{$supplyOrderDateTime}'";
+                $this->db->query($sql);
+                $sql = "DELETE FROM order_supply_details WHERE supply_orderid = '{$supplyOrderId}' AND supply_order_datetime = '{$supplyOrderDateTime}'";
+                $this->db->query($sql);
+            }
         }
         return true;
     }
