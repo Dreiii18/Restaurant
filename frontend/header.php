@@ -49,6 +49,9 @@ function profile() {
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="?page=d">Delivery</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="?page=sor">Order Request</a>
+                </li>
             </ul>
             <div class="d-flex">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">

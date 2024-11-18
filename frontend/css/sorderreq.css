@@ -1,0 +1,124 @@
+.bebas-neue-regular {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+} 
+
+.roboto-regular {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h2 {
+    font-family: "Bebas Neue", sans-serif;
+    padding:20px 0px 40px 20px;
+}
+
+.order{
+    margin: 20px 40px 20px 40px;
+}
+
+.collapsible {
+    font-family: "Bebas Neue", sans-serif;
+    background-color: rgb(199, 199, 199);
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 25px;
+}
+  
+/* .active, .collapsible:hover { */
+#content .active, .collapsible:hover {
+    background-color: #7c7c7c;
+    color: white;
+}
+  
+.collapsible:after {
+    content: '\002B';
+    color: white;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+  
+#content .active:after {
+    content: "\2212";
+}
+  
+.order-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+}
+
+.item-titles{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom:1px solid black ;
+}
+
+.col-title{
+    font-weight: bold;
+}
+
+.item, .total, .order-buttons{
+    margin: 10px;
+}
+
+.order-items{
+    border-bottom: 1px solid black;
+}
+
+.item span {
+    font-family: "Roboto", sans-serif;
+}
+
+.reject, .approve, #reject-all, #approve-all {
+    border: none;
+    color: white;
+    font-family: "Roboto", sans-serif;
+    border-radius: 10px;
+    padding: 5px 0px 5px 0px;
+}
+
+.reject, .approve{
+    width: 10%;
+}
+
+.reject, #reject-all{
+    background-color: red;
+}
+
+.approve, #approve-all{
+    background-color: green;
+}
+
+#reject-all, #approve-all{
+    margin: 15px 10px 15px 10px;
+    width: 100%;
+}
+
+.reject:hover, #reject-all:hover{
+    background-color: darkred;
+}
+
+.approve:hover, #approve-all:hover{
+    background-color: darkgreen;
+}
+
+.footer{
+    position:fixed;
+    right: 0;
+    bottom: 2em;
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
+}

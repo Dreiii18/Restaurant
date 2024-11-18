@@ -88,4 +88,11 @@ $pages = [
         'css'  => ['delivery.css'],
         'js'   => ['delivery.js'],
     ],
+
+    // Supply Order Request page
+    'sor' => [
+        'html' => ['sorderreq.html'],
+        'css' => ['sorderreq.css'],
+        'js' => ['sorderreq.js'],
+    ]
 ];
