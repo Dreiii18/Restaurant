@@ -43,5 +43,12 @@ $pages = [
         'html' => ['reservation.html'],
         'css'  => ['reservation.css'],
         'js'   => ['reservation.js'],
+    ],
+
+    //Inventory and order page
+    'i' => [
+        'html' => ['inventory.html'],
+        'css' => ['inventory.css'],
+        'js' => ['inventory.js'],
     ]
 ];
