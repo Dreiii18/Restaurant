@@ -1,236 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Order Requests</title>
-  </head>
-  <body>
+<div id="content">
     <h2>Supply Order Requests</h2>
-    <div class="order">
-        <button class="collapsible">Order 1</button>
-        <div class="order-content">
-            <div class="item-titles">
-                <span class="col-title">Item Name</span>
-                <span class="col-title">Quantity</span>
-                <span class="col-title">Supplier</span>
-                <span class="col-title">Cost</span>
-            </div>
+    <div id="orders"></div>
 
-            <div class="order-items">
-                <div class="item">
-                    <span>item name 1</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmation Message</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="item">
-                    <span>item name 2</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
+                <div class="modal-body">
+                    Are you sure you want to proceed with this action?
                 </div>
-                <div class="item">
-                    <span>item name 3</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
+                <div class="modal-footer">
+                    <button type="button" id="confirm-no" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="button" id="confirm-yes" class="btn btn-primary">Yes</button>
                 </div>
-                <div class="item">
-                    <span>item name 4</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
-                </div>
-            </div>
-
-            <div class="total">
-                <span>Total Cost:</span>
-                <span>$0</span>
-            </div>
-            <div class="order-buttons">
-                <button class="reject">Reject</button>
-                <button class="approve">Approve</button>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="order">
-        <button class="collapsible">Order 2</button>
-        <div class="order-content">
-            <div class="item-titles">
-                <span class="col-title">Item Name</span>
-                <span class="col-title">Quantity</span>
-                <span class="col-title">Supplier</span>
-                <span class="col-title">Cost</span>
-            </div>
-
-            <div class="order-items">
-                <div class="item">
-                    <span>item name 1</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
-                </div>
-                <div class="item">
-                    <span>item name 2</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
-                </div>
-            </div>
-
-            <div class="total">
-                <span>Total Cost:</span>
-                <span>$0</span>
-            </div>
-            <div class="order-buttons">
-                <button class="reject">Reject</button>
-                <button class="approve">Approve</button>
             </div>
         </div>
     </div>
 
-    <div class="order">
-        <button class="collapsible">Order 3</button>
-        <div class="order-content">
-            <div class="item-titles">
-                <span class="col-title">Item Name</span>
-                <span class="col-title">Quantity</span>
-                <span class="col-title">Supplier</span>
-                <span class="col-title">Cost</span>
-            </div>
-
-            <div class="order-items">
-                <div class="item">
-                    <span>item name 1</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
-                </div>
-                <div class="item">
-                    <span>item name 2</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
-                </div>
-                <div class="item">
-                    <span>item name 3</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
-                </div>
-                <div class="item">
-                    <span>item name 4</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
-                </div>
-                <div class="item">
-                    <span>item name 5</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
-                </div>
-                <div class="item">
-                    <span>item name 6</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
-                </div>
-                <div class="item">
-                    <span>item name 7</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
-                </div>
-            </div>
-    
-            <div class="total">
-                <span>Total Cost:</span>
-                <span>$0</span>
-            </div>
-            <div class="order-buttons">
-                <button class="reject">Reject</button>
-                <button class="approve">Approve</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="order">
-        <button class="collapsible">Order 4</button>
-        <div class="order-content">
-            <div class="item-titles">
-                <span class="col-title">Item Name</span>
-                <span class="col-title">Quantity</span>
-                <span class="col-title">Supplier</span>
-                <span class="col-title">Cost</span>
-            </div>
-
-            <div class="order-items">
-                <div class="item">
-                    <span>item name 1</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
-                </div>
-                <div class="item">
-                    <span>item name 2</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
-                </div>
-                <div class="item">
-                    <span>item name 3</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
-                </div>
-                <div class="item">
-                    <span>item name 4</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
-                </div>
-                <div class="item">
-                    <span>item name 5</span>
-                    <span>quantity</span>
-                    <span>supplier</span>
-                    <span>cost</span>
-                </div>
-            </div>
-        
-            <div class="total">
-                <span>Total Cost:</span>
-                <span>$0</span>
-            </div>
-            <div class="order-buttons">
-                <button class="reject">Reject</button>
-                <button class="approve">Approve</button>
-            </div>
-        </div>
-    </div>
-    
     <div class="footer">
         <button id="reject-all">Reject All</button>
         <button id="approve-all">Approve All</button>
     </div>
-
-    <script>
-        var coll = document.getElementsByClassName("collapsible");
-        var i;
-        
-        for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight){
-            content.style.maxHeight = null;
-            } else {
-            content.style.maxHeight = content.scrollHeight + "px";
-            } 
-        });
-        }
-    </script>
-  </body>
-</html>
+</div>

@@ -12,7 +12,7 @@
 
 h2 {
     font-family: "Bebas Neue", sans-serif;
-    margin:20px 0px 40px 20px;
+    padding:20px 0px 40px 20px;
 }
 
 .order{
@@ -33,7 +33,8 @@ h2 {
     font-size: 25px;
 }
   
-.active, .collapsible:hover {
+/* .active, .collapsible:hover { */
+#content .active, .collapsible:hover {
     background-color: #7c7c7c;
     color: white;
 }
@@ -46,7 +47,7 @@ h2 {
     margin-left: 5px;
 }
   
-.active:after {
+#content .active:after {
     content: "\2212";
 }
   
@@ -76,18 +77,8 @@ h2 {
     border-bottom: 1px solid black;
 }
 
-.item{
-    display: flex;
-    justify-content: space-between;
-}
-
-.item span, .total span{
+.item span {
     font-family: "Roboto", sans-serif;
-}
-
-.total{
-    display: flex;
-    justify-content: flex-end;
 }
 
 .reject, .approve, #reject-all, #approve-all {
@@ -126,7 +117,7 @@ h2 {
 .footer{
     position:fixed;
     right: 0;
-    bottom: 0;
+    bottom: 2em;
     width: 30%;
     display: flex;
     justify-content: flex-end;
