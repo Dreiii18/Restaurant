@@ -331,6 +331,58 @@ class Core
         return ['customerName' => $customerName, 'customerPhoneNumber' => $customerPhoneNumber];
     }
 
+    public function getOrderRequests() {
+        $sql = "SELECT so.* FROM supply_order so WHERE NOT EXISTS (SELECT 1 FROM supply_order_details sod WHERE (sod.supply_orderid = so.supply_orderid AND sod.supply_order_datetime = so.supply_order_datetime)AND sod.order_status <> 'Waiting for Approval')";
+        $supplyOrderIds = $this->db->getResults($this->db->query($sql));
+
+        $supplyOrders = [];
+        foreach ($supplyOrderIds as $supplyOrderId) {
+            $inventoryId = $supplyOrderId['inventoryid'];
+            $supplierId = $supplyOrderId['supplierid'];
+            $costPerUnit = $supplyOrderId['cost_per_unit'];
+            $quantityOrdered = $supplyOrderId['quantity_ordered'];
+            $totalCost = $supplyOrderId['total_cost'];
+            $supplyOrderDateTime = $supplyOrderId['supply_order_datetime'];
+
+            $itemName = $this->getTableColumns('item_name', 'inventory', "inventoryid = '{$inventoryId}'")[0]['item_name'];
+            $supplierName = $this->getTableColumns('supplier_name', 'supplier', "supplierid = '{$supplierId}'")[0]['supplier_name'];
+
+            $key = $supplyOrderId['supply_orderid'] . '-' . $supplyOrderDateTime;
+
+            if (!isset($supplyOrders[$key])) {
+                $supplyOrders[$key] = [
+                    'supplyOrderId' => $supplyOrderId['supply_orderid'],
+                    'supplyOrderDateTime' => $supplyOrderDateTime,
+                    'items' => [],
+                    'totalCost' => 0,
+                ];
+            }
+
+            $supplyOrders[$key]['items'][] = [
+                'itemName' => $itemName,
+                'supplierName' => $supplierName,
+                'costPerUnit' => $costPerUnit,
+                'quantityOrdered' => $quantityOrdered,
+                'totalCost' => $totalCost,
+            ];
+
+            $supplyOrders[$key]['totalCost'] += $totalCost;
+        }
+
+        return $supplyOrders;
+    }
+
+    function updateOrderRequest($supplyOrders, $status) {
+        foreach ($supplyOrders as $order) {
+            $supplyOrderId = $order['orderId'];
+            $supplyOrderDateTime = $order['orderDateTime'];
+            
+            $sql = "UPDATE supply_order_details SET order_status = '{$status}' WHERE supply_orderid = '{$supplyOrderId}' AND supply_order_datetime = '{$supplyOrderDateTime}'";
+            $this->db->query($sql);
+        }
+        return true;
+    }
+
     // public function getAvailableTable($dateTime, $size) {
     public function getAvailableTable($size, $dateTime) {
         // Check tables that meet reservation size
