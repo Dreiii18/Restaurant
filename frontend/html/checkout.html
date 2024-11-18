@@ -1,3 +1,121 @@
+<?php
+    $order_number = $_REQUEST['order_number'];
+
+?>
+
 <div id="content">
-    
+    <div id="test"></div>
+    <div class="row">
+        <h2>Order Number: <?php echo $order_number ?></h2>
+        <div class="column-1">
+            <div class="inner-row">
+                <span class="checkout-section"><h2>Method</h2></span>
+                <div id="order_method">
+                    <input type="radio" id="delivery" name="order_method" value="Delivery" checked>
+                    <label for="delivery">Delivery</label><br>
+                    
+                    <input type="radio" id="dine_in" name="order_method" value="Dine In">
+                    <label for="dine_in">Pick Up</label>
+                </div>
+            </div>
+            <div class="inner-row">
+                <div id="address">
+                    <span><h2>Delivery Address</h2></span>
+                    <div class="dropdown" id="addresses">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Change Address
+                        </button>
+                        <ul class="dropdown-menu" id="address_list"></ul>
+                    </div>
+                </div>
+                <form>
+                    <label for="house_num">House Number:</label><br>
+                    <input type="text" id="house_num" name="house_num"><br>
+                    <label for="street_num">Street Number:</label><br>
+                    <input type="text" id="street_num" name="street_num"><br>
+                    <label for="street_name">Street Name:</label><br>
+                    <input type="text" id="street_name" name="street_name"><br>
+                    <label for="postal-code">Postal Code:</label><br>
+                    <input type="text" id="postal_code" name="postal-code" maxlength="6"><br>
+                    <label for="special-instructions">Delivery Instructions:</label><br>
+                    <textarea id="special-instructions" name="special-instructions" rows="5" cols="30"></textarea><br>
+                </form>
+            </div>
+            <div class="inner-row">
+                <span><h2>Contact Information</h2></span>
+                <div id="contact-details">
+                    <form>
+                        <label for="phone_num">Phone Number</label><br>
+                        <input type="text" id="phone_num" name="phone_num">
+                    </form>
+                </div>
+            </div>
+            <div class="inner-row">
+                <div id="payment">
+                    <span><h2>Payment Method</h2></span>
+                    <div class="dropdown" id="payment_infos">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Change Payment Info
+                        </button>
+                        <ul class="dropdown-menu" id="payment_list"></ul>
+                    </div>
+                </div>
+                <div id="payment-details">
+                    <form>
+                        <div id="payment-options">
+                            <input type="radio" id="creditcard" name="payment_method" value="Credit Card" checked>
+                            <label for="creditcard">Credit Card</label><br>
+                            <input type="radio" id="debitcard" name="payment_method" value="Debit Card">
+                            <label for="debitcard">Debit Card</label><br>
+                            <input type="radio" id="cash" name="payment_method" value="Cash">
+                            <label for="cash">Cash</label><br>
+                        </div>
+                        <label for="card_num">Card Number:</label><br>
+                        <input type="number" id="card_num" name="card_num" maxlength="16" placeholder="XXXX XXXX XXXX XXXX"><br>
+                        <label for="expiry_date">Expiry Date:</label><br>
+                        <input type="month" id="expiry_date" name="expiry_date" placeholder="MM / YY"><br>
+                        <label for="cvv">CVV:</label><br>
+                        <input type="number" id="cvv" name="cvv" maxlength="3" placeholder="CVV"><br>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="column-2">
+            <div id="costSummary" class="border-top p-3">
+                <div class="cost-element">
+                    <span>Subtotal</span>
+                    <div id="subtotal-cost">$0</div>
+                </div>
+                <div class="cost-element">
+                    <span>Tax</span>
+                    <div id="tax-cost">$0</div>
+                </div>
+                <div class="cost-element">
+                    <span>Tip</span>
+                    <div id="tip-cost">
+                        <input type="radio" class="tip" id="10" name="tip" checked>
+                        <label for="10">10%</label>
+                        <input type="radio" class="tip" id="15" name="tip">
+                        <label for="15">15%</label>
+                        <input type="radio" class="tip" id="20" name="tip">
+                        <label for="20">20%</label>
+                        <input type="radio" class="tip" id="25" name="tip">
+                        <label for="25">25%</label>
+                        <input type="radio" class="tip" id="custom" name="tip">
+                        <label for="custom" >Custom: </label>
+                    </div>
+                </div>
+                <div id="custom-tip-input">
+                    <input type="number" id="custom-field" name="tip" value="0" disabled>
+                </div>
+                <div class="cost-element">
+                    <span><strong>Total Cost</strong></span>
+                    <div id="total-cost">$0</div>
+                </div>
+                <div class="d-grid gap-2 p-3">
+                    <button class="btn btn-primary" type="button" id="place-order">Place Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

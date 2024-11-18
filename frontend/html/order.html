@@ -1,0 +1,91 @@
+<!-- <div class="cart-checkout">
+    <i class="fa badge" value=0 data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">&#xf07a;</i>
+</div> -->
+<div class="test"></div>
+<div class="row">
+    <div class="item1">
+        <h2 class="carouselTitle text-align-center">Recommended By the Chef</h2>
+        <div id ="recommended">
+            <div id="carouselExample" class="carousel slide">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="alignCentre">
+                            <img class="multipleImages" src="frontend/images/jalapenoPoppers.jpg">
+                            <img class="multipleImages" src="frontend/images/tomahawkSteak.jpg">
+                            <img class="multipleImages" src="frontend/images/lavaCake.jpg">
+                            <img class="multipleImages" src="frontend/images/truffleFries.jpg">
+                            <img class="multipleImages" src="frontend/images/lobsterWagyu.jpg">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="alignCentre">
+                            <img class="multipleImages" src="frontend/images/smokedbrisket.jpg">
+                            <img class="multipleImages" src="frontend/images/truffleMacCheeseBalls.jpg">
+                            <img class="multipleImages" src="frontend/images/pecanPie.jpg">
+                            <img class="multipleImages" src="frontend/images/brusselSprouts.jpg">
+                            <img class="multipleImages" src="frontend/images/oldFashioned.png">
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button> 
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-8">
+            <div class="row sticky-top filter">
+                <ul class="nav justify-content-center">
+                    <li>
+                        <h2>Filters</h2>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#starters">Starters</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#entrees">Entrees</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sides">Sides</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#desserts">Desserts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#beverages">Beverages</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="menu"></div>
+        </div>
+        <div class="col-4" id="restaurant_background"></div>
+    </div>
+
+</div>
+
+<div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header border-bottom">
+        <h1 class="offcanvas-title" id="offcanvasRightLabel">Order Summary</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div id="items-ordered"></div>
+        <div id="costSummary" class="border-top p-3">
+            <h2>Cost</h2>
+            <div class="cost-element">
+                <span>Subtotal</span>
+                <div id="subtotal-cost">$0</div>
+            </div>
+        </div>
+        <div class="d-grid gap-2 p-3">
+            <button class="btn btn-primary" id="checkout">Proceed to Checkout</button>
+        </div>
+    </div>
+</div>
