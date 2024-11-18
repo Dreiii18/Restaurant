@@ -45,10 +45,17 @@ $pages = [
         'js'   => ['reservation.js'],
     ],
 
+    //Inventory and order page
+    'i' => [
+        'html' => ['inventory.html'],
+        'css' => ['inventory.css'],
+        'js' => ['inventory.js'],
+    ],
+
     // Supply Order Request page
     'sor' => [
         'html' => ['sorderreq.html'],
         'css'  => ['sorderreq.css'],
         'js'   => ['sorderreq.js'],
-    ]
+    ],
 ];

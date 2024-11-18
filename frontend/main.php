@@ -51,6 +51,9 @@ $js_files  = array_merge($pages['main']['js'],  $pages[$page]['js']);
                     <a class="nav-link" href="?page=r">Reservations</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="?page=i">Inventory</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="?page=sor">Order Requests</a>
                 </li>
                 <li class="nav-item dropdown">
