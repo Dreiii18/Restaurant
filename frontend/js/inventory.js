@@ -108,6 +108,10 @@ $(document).ready(function () {
         if (validate()) {
             orders = { ...orders, ...getOrderDetails(itemDetails, suppliers)};
             orderItems(orders);
+
+            const modalElement = document.getElementById('exampleModalToggle');
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            modalInstance.hide();
         } else {
             $('.invalid').first().focus();
         }
@@ -145,9 +149,19 @@ function orderItems(orders) {
         data: {
             'orders' : orders,
         },
+        dataType: "json",
         success: function(data) {
-            console.log(data)
-        }
+            $('#supplyOrderModal').remove();
+            $('#output').html(data.html);
+            console.log(data.msg);
+
+            const modal = new bootstrap.Modal(document.getElementById('supplyOrderModal'));
+            modal.show();
+        },
+        error: function(xhr, status, error) {
+            console.error("Error: " + error, status, xhr);
+            alert("An error occurred while processing your request.");
+        } 
     });
 }
 

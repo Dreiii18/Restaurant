@@ -55,9 +55,10 @@ function addReservation(reservation) {
         data: {
             'reservation' : reservation
         },
+        dataType: "json",
         success: function(data){   
-            // console.log(data);
-            $('#reservationMessage').html(data);
+            console.log(data.msg);
+            $('#reservationMessage').html(data.html);
             const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
             modal.show();
         } 

@@ -11,8 +11,8 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(data) {
                 // console.log(data);
-                customerAddresses = data.addresses;
-                customerPayments = data.payment_infos;
+                customerAddresses = Array.isArray(data.addresses) ? data.addresses : [];
+                customerPayments = Array.isArray(data.payment_infos) ? data.payment_infos : [];
 
                 // check if customer has saved phone number
                 if (data.phone_number !== "") {
@@ -25,28 +25,27 @@ $(document).ready(function() {
                 if (customerAddresses.length > 0) {
                     $('#addresses').show();
                     populateAddressOptions(customerAddresses);
+                    populateAddressForm(customerAddresses[0]);
                 } else {
                     $('#addresses').hide();
                 }
-
+                
                 // check if the customer has more than 1 saved address information
                 if (customerPayments.length > 0) {
                     $('#payment_infos').show();
-                    populatePaymentOptions(customerPayments);
+                    // populatePaymentForm(customerPayments[0]);
+                    checkPaymentMethod();
                 } else {
                     $('#payment_infos').hide();
                 }
-                populateAddressForm(customerAddresses[0]);
-                populatePaymentForm(customerPayments[0]);
                 
                 checkOrderMethod();
-                checkPaymentMethod();
             }
         })
     }
 
-    $('[name="order_method"]').on('click', checkOrderMethod);
-    $('[name="payment_method"]').on('click', checkPaymentMethod);
+    $('[name="order_method"]').on('change', checkOrderMethod);
+    $('[name="payment_method"]').on('change', checkPaymentMethod);
 
     function checkOrderMethod() {
         if ($("input[name='order_method']:checked").attr("id") === 'delivery') {
@@ -64,15 +63,21 @@ $(document).ready(function() {
     }
 
     function checkPaymentMethod() {
-        if ($("input[name='payment_method']:checked").attr("id") === 'card') {
+        const selectedPaymentMethod = $("input[name='payment_method']:checked").attr("id");
+
+        // if ($("input[name='payment_method']:checked").attr("id") === 'creditcard' || $("input[name='payment_method']:checked").attr("id") === 'debitcard') {
+        if (selectedPaymentMethod !== 'cash') {
             if (customerPayments.length > 0) {
+                populatePaymentOptions(customerPayments, selectedPaymentMethod);
                 toggleCardFields(true);
-                populatePaymentForm(customerPayments[0]);
+                populatePaymentForm(customerPayments[0], selectedPaymentMethod);
+                $('#payment_infos').show();
             } else {
                 toggleCardFields(false);
                 clearPaymentForm()
             }
         } else {
+            $('#payment_infos').hide();
             toggleCardFields(true);
             clearPaymentForm();
         }
@@ -84,6 +89,7 @@ $(document).ready(function() {
             clearAddressForm();
         } else {
             let index = $(this).attr("id").split('-')[1];
+            toggleAddressFields(true, true);
             populateAddressForm(customerAddresses[index]);
         }
     });
@@ -94,7 +100,8 @@ $(document).ready(function() {
             clearPaymentForm();
         } else {
             let index = $(this).attr("id").split('-')[1];
-            populatePaymentForm(customerPayments[index]);
+            toggleCardFields(true);
+            populatePaymentForm(customerPayments[index], $("input[name='payment_method']:checked").attr("id"));
         }
     })
 
@@ -119,7 +126,7 @@ $(document).ready(function() {
 
     $('#place-order').click(function () {
         if (validate()) {
-            transaction = { ...transaction, ...getTransactionDetails()};
+            transaction = { ...calculateTotal(), ...getTransactionDetails()};
             addTransaction(transaction);    
         } else {
             $('.invalid').first().focus();
@@ -159,15 +166,17 @@ function populateAddressOptions(customerAddresses) {
     })
 }
 
-function populatePaymentOptions(customerPayments) {
+function populatePaymentOptions(customerPayments, selectedPaymentMethod) {
     $('#payment_list').empty();
     $('#payment_list').append(`
         <li class="dropdown-item" name="selected_payment" id="payment-manual">Manual Input</li> 
      `);
     customerPayments.forEach((payment, index) => {
-        $('#payment_list').append(`
-           <li class="dropdown-item" name="selected_payment" id="payment-${index}">${payment.card_number}</li> 
-        `);
+        if (payment.payment_method.toLowerCase().replace(/\s+/g, '') === selectedPaymentMethod) {
+            $('#payment_list').append(`
+               <li class="dropdown-item" name="selected_payment" id="payment-${index}">${payment.card_number}</li> 
+            `);
+        }
     })
 }
 
@@ -178,10 +187,15 @@ function populateAddressForm(customerAddress) {
     $('#postal_code').val(customerAddress.postal_code);
 }
 
-function populatePaymentForm(customerPayment) {
-    $('#card_num').val(parseInt(customerPayment.card_number));
-    $('#expiry_date').val(customerPayment.expiry_date);
-    $('#cvv').val(customerPayment.cvv);
+function populatePaymentForm(customerPayment, selectedPaymentMethod) {
+    if (customerPayment.payment_method.toLowerCase().replace(/\s+/g, '') === selectedPaymentMethod) {
+        $('#card_num').val(parseInt(customerPayment.card_number));
+        $('#expiry_date').val(customerPayment.expiry_date);
+        $('#cvv').val(customerPayment.cvv);
+    } else {
+        toggleCardFields(false);
+        clearPaymentForm();
+    }
 }
 
 function clearAddressForm() {
@@ -206,13 +220,16 @@ function addTransaction(transaction) {
         },
         dataType: 'json',
         success: function(data) {
-            if (data.success === true) {
-                $.removeCookie('cartItems');
-                alert("Order Placed Successfully!");
+            $('#output').html(data.html);
+            console.log(data.msg);
+
+            const modal = new bootstrap.Modal(document.getElementById('orderModal'));
+            modal.show();
+
+            $('#orderModal').on('hidden.bs.modal', function () {
                 window.location.href = '?page=o';
-            } else {
-                alert("There was an issue with placing the order. Please try again.");
-            }
+                $.removeCookie('cartItems');
+            });
         },
         error: function(xhr, status, error) {
             console.error("Error: " + error, status, xhr);
@@ -223,7 +240,7 @@ function addTransaction(transaction) {
 
 function calculateTotal() {
     const urlParams = new URLSearchParams(window.location.search);
-    let cartItems = JSON.parse($.cookie('cartItems'));;
+    let cartItems = JSON.parse($.cookie('cartItems'));
     let subTotal = 0;
     let taxCost = 0;
     let total = 0;

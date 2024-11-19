@@ -54,7 +54,7 @@ class Core
     }
 
     public function getMaxTableNumberForDate($table, $numberColumn, $dateColumn, $date = null) {
-        $data = $date === null ? date('Y-m-d') : date('Y-m-d', strtotime($date));
+        $date = $date === null ? date('Y-m-d') : date('Y-m-d', strtotime($date));
 
         $sql = "SELECT MAX($numberColumn) AS max_number FROM {$table} WHERE Date({$dateColumn}) = '{$date}'";
         $query = $this->db->query($sql);
@@ -104,97 +104,178 @@ class Core
         return $orderNumber;
     }
 
-    public function alterOrder($orderid, $orderType) {
-        $sql = "UPDATE order_table SET order_type = '{$orderType}' WHERE orderid = '{$orderid}'";
+    public function alterOrder($orderid, $orderType, $phoneNumber) {
+        $sql = "UPDATE order_table SET order_type = '{$orderType}',  customer_phone_number = '{$phoneNumber}' WHERE orderid = '{$orderid}'";
 
         $this->db->query($sql);
     }
 
     public function addTransaction($transaction, $userId) {
-        // order transaction variables
-        $orderNumber = $transaction['orderNumber'];
-        $orderType = $transaction['orderType'];
-        $paymentType = $transaction['paymentType'];
-
-        // order transaction summary variables
-        $subTotal = $transaction['subTotal'];
-        $tip = $transaction['tip'];
-        $tax = $transaction['taxCost'];
-        $total = $transaction['total'];
-
-        // delivery variables
-        $deliveryDateTime = date("Y-m-d H:i:s");
-        $houseNumber = $transaction['houseNumber'];
-        $streetNumber = $transaction['streetNumber'];
-        $streetName = $transaction['streetName'];
-        $postalCode = $transaction['postalCode'];
-        $specialInstructions = $transaction['specialInstructions'];
-
-        if ($userId !== "") {
-            $customerid = $this->getTableColumns('customerid', 'customer', "userid =  '{$userId}'")[0]['customerid'];
-        }
-
-        $transactionNumber = $this->getMaxTableNumberForDate('order_transaction', 'transaction_number', 'transaction_datetime');
-        $transactionDateTime = date("Y-m-d H:i:s");
-        $deliveryNumber = $this->getMaxTableNumberForDate('delivery', 'delivery_number', 'delivery_datetime');
+        $orderDetails = $this->prepareOrderDetails($transaction, userId: $userId);
         
-        // get associated orderid
-        $result = $this->getTableColumns('orderid', 'order_table', "(order_number = {$orderNumber} AND Date(order_datetime) = Date('{$transactionDateTime}'))");
-        $orderid = $result[0]['orderid'];
-
-        // Encrypted data
-        $cardNumber = json_encode($this->db->encrypt($transaction['cardNumber'], $orderid));
-        $expiryDate = json_encode($this->db->encrypt($transaction['expiryDate'], $orderid));
-        $cvv = json_encode($this->db->encrypt($transaction['cvv'], $orderid));
-
+        $this->db->getConn()->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
         try {
             // insert to order_transaction table
-            $order_transaction = [
-                'transaction_number' => $transactionNumber,
-                'payment_type' => $paymentType,
-                'transaction_datetime' => $transactionDateTime,
-                'card_number' => $cardNumber,
-                'expiry_date' => $expiryDate,
-                'cvv' => $cvv,
-                'orderid' => $orderid
-            ];
-            $this->db->insert($order_transaction, 'order_transaction');
+            $this->addOrderTransaction($orderDetails);
     
             // insert to order_transaction_summary table
-            $order_transaction_summary = [
-                'transaction_number' => $transactionNumber,
-                'transaction_datetime' => $transactionDateTime,
-                'tax' => $tax,
-                'tip' => $tip,
-                'sub_total' => $subTotal,
-                'total' => $total
-            ];
-            $this->db->insert($order_transaction_summary, 'order_transaction_summary');
+            $order_transaction_summary = $this->addOrderTransactionSummary($orderDetails);
     
             // Modify order orderType
-            $this->alterOrder($orderid, $orderType);
+            $this->alterOrder($orderDetails['orderid'], $orderDetails['orderType'], $orderDetails['phoneNumber']);
 
             // if order is delivery, insert record to delivery table
-            if ($transaction['orderType'] == 'DELIVERY') {
-                $delivery = [
-                    'delivery_datetime' => $deliveryDateTime,
-                    'delivery_number' => $deliveryNumber,
-                    'orderid' => $orderid,
-                    'customerid' => $customerid,
-                    'delivery_status' => 'PENDING',
-                    'house_number' => $houseNumber,
-                    'street_number' => $streetNumber,
-                    'street_name' => $streetName,
-                    'postal_code' => $postalCode,
-                    'special_instructions' => $specialInstructions
-                ];
-                $this->db->insert($delivery, 'delivery');
+            $delivery = null;
+            if ($orderDetails['orderType'] == 'Delivery') {
+                $delivery = $this->addDelivery($orderDetails);
             }
-            return true;
+            $this->db->getConn()->commit();
+
+            $response = [
+                'orderNumber' => $orderDetails['orderNumber'],
+                'transactionDetails' => $order_transaction_summary,
+                'items' => $orderDetails['orderItems'],
+                'phoneNumber' => $orderDetails['phoneNumber'],
+                'orderType' => $orderDetails['orderType'],
+                'paymentType' => $orderDetails['paymentType'],
+            ];
+
+            if (!empty($orderDetails['customerName'])) {
+                $response['customerName'] = $orderDetails['customerName'];
+            }
+
+            if ($delivery !== null) {
+                $response['delivery'] = $delivery;
+            }
+
+            return $response;
         } catch (Exception $e) {
-            print_r($e);
-            return false;
+            $this->db->getConn()->rollback();
+            return ['error' => 'insertion_error', 'msg' => $e->getMessage()];
         }
+    }
+
+    public function prepareOrderDetails($transaction, $userId) {
+        $orderDetails = [];
+
+        // order transaction variables
+        $orderDetails['orderNumber'] = $transaction['orderNumber'];
+        $orderDetails['orderType'] = $transaction['orderType'];
+        $orderDetails['paymentType'] = $transaction['paymentType'];
+        $orderDetails['phoneNumber'] = $transaction['phoneNumber'];
+
+        // order transaction summary variables
+        $orderDetails['subTotal'] = $transaction['subTotal'];
+        $orderDetails['tip'] = $transaction['tip'];
+        $orderDetails['tax'] = $transaction['taxCost'];
+        $orderDetails['total'] = $transaction['total'];
+
+        // delivery variables
+        $orderDetails['deliveryDateTime'] = date("Y-m-d H:i:s");
+        $orderDetails['houseNumber'] = $transaction['houseNumber'];
+        $orderDetails['streetNumber'] = $transaction['streetNumber'];
+        $orderDetails['streetName'] = $transaction['streetName'];
+        $orderDetails['postalCode'] = $transaction['postalCode'];
+        $orderDetails['specialInstructions'] = $transaction['specialInstructions'];
+
+        if (!empty($userId)) {
+            $customerInfo = $this->getTableColumns('customerid, customer_name', 'customer', "userid =  '{$userId}'")[0];
+            $orderDetails['customerid'] = $customerInfo['customerid'];
+            $orderDetails['customerName'] = $customerInfo['customer_name'];
+        } else {
+            $orderDetails['customerid'] = null;
+            $orderDetails['customerName'] = '';
+        }
+
+        $orderDetails['transactionNumber'] = $this->getMaxTableNumberForDate('order_transaction', 'transaction_number', 'transaction_datetime');
+        $orderDetails['transactionDateTime'] = date("Y-m-d H:i:s");
+        $orderDetails['deliveryNumber'] = $this->getMaxTableNumberForDate('delivery', 'delivery_number', 'delivery_datetime');
+        
+        // get associated orderid
+        $orderResult = $this->getTableColumns('orderid', 'order_table', "(order_number = {$transaction['orderNumber']} AND Date(order_datetime) = Date('{$orderDetails['transactionDateTime']}'))");
+        $orderDetails['orderid'] = $orderResult[0]['orderid'] ?? null;
+
+        // Encrypted card data
+        if (in_array($orderDetails['paymentType'], ['Credit Card', 'Debit Card'])) {
+            if (!empty($orderDetails['orderid'])) {
+                $orderDetails['cardNumber'] = json_encode($this->db->encrypt($transaction['cardNumber'], $orderDetails['orderid']));
+                $orderDetails['expiryDate'] = json_encode($this->db->encrypt($transaction['expiryDate'], $orderDetails['orderid']));
+                $orderDetails['cvv'] = json_encode($this->db->encrypt($transaction['cvv'], $orderDetails['orderid']));
+            }
+        }
+
+        // get order details
+        $orderItems = [];
+        if (!empty($orderDetails['orderid'])) {
+            $orderItemsData = $this->getTableColumns('menu_itemid, menu_item_quantity', 'contain', "orderid = '{$orderDetails['orderid']}'");
+    
+            foreach ($orderItemsData as $item) {
+                $menuDetails = $this->getTableColumns('menu_item_name, menu_price', 'menu_item', "menu_itemid = '{$item['menu_itemid']}'")[0] ?? [];
+    
+                $menuPrice = $menuDetails['menu_price'] ?? 0;
+                $quantity = $item['menu_item_quantity'] ?? 0;
+    
+                $orderItems[] = [
+                    'menuName' => $menuDetails['menu_item_name'],
+                    'menuPrice' => $menuPrice,
+                    'quantity' => $quantity,
+                    'totalPrice' => $menuPrice * $quantity,
+                ];
+            }
+        }
+        $orderDetails['orderItems'] = $orderItems;
+
+        return $orderDetails;
+    }
+
+    public function addOrderTransaction($orderDetails) {
+        $order_transaction = [
+            'transaction_number' => $orderDetails['transactionNumber'],
+            'payment_type' => $orderDetails['paymentType'],
+            'transaction_datetime' => $orderDetails['transactionDateTime'],
+            'card_number' => $orderDetails['cardNumber'],
+            'expiry_date' => $orderDetails['expiryDate'],
+            'cvv' => $orderDetails['cvv'],
+            'orderid' => $orderDetails['orderid']
+        ];
+        $this->db->insert($order_transaction, 'order_transaction');
+
+        return $order_transaction;
+    }
+
+    public function addOrderTransactionSummary($orderDetails) {
+        $order_transaction_summary = [
+            'transaction_number' => $orderDetails['transactionNumber'],
+            'transaction_datetime' => $orderDetails['transactionDateTime'],
+            'tax' => $orderDetails['tax'],
+            'tip' => $orderDetails['tip'],
+            'sub_total' => $orderDetails['subTotal'],
+            'total' => $orderDetails['total']
+        ];
+        $this->db->insert($order_transaction_summary, 'order_transaction_summary');
+
+        return $order_transaction_summary;
+    }
+
+    public function addDelivery($orderDetails) {
+        $delivery = [
+            'delivery_datetime' => $orderDetails['deliveryDateTime'],
+            'delivery_number' => $orderDetails['deliveryNumber'],
+            'orderid' => $orderDetails['orderid'],
+            'house_number' => $orderDetails['houseNumber'],
+            'street_number' => $orderDetails['streetNumber'],
+            'street_name' => $orderDetails['streetName'],
+            'postal_code' => $orderDetails['postalCode'],
+            'special_instructions' => $orderDetails['specialInstructions']
+        ];
+
+        if ($orderDetails['customerid'] !== null) {
+            $delivery['customerid'] = $orderDetails['customerid'];
+        }
+
+        $this->db->insert($delivery, 'delivery');
+
+        return $delivery;
     }
 
     public function getTransactionDetails($userId) {
@@ -229,7 +310,7 @@ class Core
         };
 
         // Retrieve customer payment information
-        $paymentDetails = $this->getTableColumns('card_number, expiry_date, cvv', 'has_payment_information', "customerid = '{$customerId}'");
+        $paymentDetails = $this->getTableColumns('card_number, expiry_date, cvv, payment_method', 'has_payment_information', "customerid = '{$customerId}'");
         $paymentInfos = [];
         foreach ($paymentDetails as $paymentMethod) {
             $encryptedCardNumber = $paymentMethod['card_number'];
@@ -244,6 +325,7 @@ class Core
                 'card_number' => $cardNumber,
                 'expiry_date' => $expiryDate,
                 'cvv' => $cvv,
+                'payment_method' => $paymentMethod['payment_method'],
             ];
         }
 
@@ -282,24 +364,47 @@ class Core
         // Get available tables
         $availableTable = $this->getAvailableTable($partySize, $reservationDateTime);
 
+        // Check if there is no available tables
+        if ($availableTable === null) {
+            return ['error' => 'no_available_tables'];
+        }
+
         $tableId = $availableTable['tableid'];
         $tableNumber = $availableTable['table_number'];
 
+        if ($userId != "") {
+            $reservation_table = [
+                'reservation_number' => $reservationNumber,
+                'party_size' => $partySize,
+                'reservation_datetime' => $reservationDateTime,
+                'reservation_end_datetime' => $reservationEndDateTime,
+                'customer_name' => $customerName,
+                'customer_phone_number' => $customerPhoneNumber,
+                'customerid' => $customerId,
+                'tableid' => $tableId
+            ];
+        } else {
+            $reservation_table = [
+                'reservation_number' => $reservationNumber,
+                'party_size' => $partySize,
+                'reservation_datetime' => $reservationDateTime,
+                'reservation_end_datetime' => $reservationEndDateTime,
+                'customer_name' => $customerName,
+                'customer_phone_number' => $customerPhoneNumber,
+                'tableid' => $tableId
+            ];
+        }
 
-        $reservation_table = [
-            'reservation_number' => $reservationNumber,
-            'party_size' => $partySize,
-            'reservation_datetime' => $reservationDateTime,
-            'reservation__end_datetime' => $reservationEndDateTime,
-            'customer_name' => $customerName,
-            'customer_phone_number' => $customerPhoneNumber,
-            'customerid' => $customerId,
-            'tableid' => $tableId
-        ];
-
-        $this->db->insert($reservation_table, 'reservation');
-
-        return ['reservation_number' => $reservationNumber, 'table_number' => $tableNumber, 'reservation_datetime' => $reservationDateTime, 'reservation_end_datetime' => $reservationEndDateTime];
+        $this->db->getConn()->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
+        try {
+            $this->db->insert($reservation_table, 'reservation');
+    
+            $this->db->getConn()->commit();
+            return ['reservation_number' => $reservationNumber, 'table_number' => $tableNumber, 'reservation_datetime' => $reservationDateTime, 'reservation_end_datetime' => $reservationEndDateTime];
+        } catch (Exception $e) {
+            $this->db->getConn()->rollback();
+            return ['error' => 'insertion_error', 'msg' => $e->getMessage()];
+        }
     }
 
     public function getReservationDetails($userId) {
@@ -311,7 +416,6 @@ class Core
         return ['customerName' => $customerName, 'customerPhoneNumber' => $customerPhoneNumber];
     }
 
-    // public function getAvailableTable($dateTime, $size) {
     public function getAvailableTable($size, $dateTime) {
         // Check tables that meet reservation size
         $tables = $this->getTableColumns('tableid, table_number', 'restaurant_table', "seating_capacity >= '{$size}'");
@@ -325,6 +429,10 @@ class Core
             if (empty($reservation)) {
                 $availableTables[] = $table;
             }
+        }
+
+        if (empty($availableTables)) {
+            return null;
         }
 
         return $availableTables[array_rand($availableTables)];
@@ -374,42 +482,70 @@ class Core
         return $results;
     }
 
-    public function addOrderSupply($orders) {
+    public function addOrderSupply($orders, $userId) {
         $supplyOrderId = $this->getMaxTableNumberForDate('supply_order_details', 'supply_orderid', 'supply_order_datetime');
         $supplyOrderDateTime = date("Y-m-d H:i:s");
+        $employeeInfo = $this->getTableColumns('employeeid, employee_name, employee_email, employee_phone_number', 'employee', "userid = '{$userId}'")[0] ?? [];
+        $employeeId = $employeeInfo['employeeid'] ?? null;
+        $employeeName = $employeeInfo['employee_name'] ?? null;
+        $employeeEmail = $employeeInfo['employee_email'] ?? null;
+        $employeePhoneNumber = $employeeInfo['employee_phone_number'] ?? null;
 
-        $supply_order_details = [
-            'supply_orderid' => $supplyOrderId,
-            'supply_order_datetime' => $supplyOrderDateTime
+        $employeeDetails = [
+            'employeeId' => $employeeId,
+            'employeeName' => $employeeName,
+            'employeeEmail' => $employeeEmail,
+            'employeePhoneNumber' => $employeePhoneNumber
         ];
-        $this->db->insert($supply_order_details, 'supply_order_details');
 
-        foreach ($orders as $order) {
-            $itemName = $order['itemName'];
-            $costPerUnit = $order['unitPrice'];
-            $quantityOrdered = $order['quantity'];
-            $totalCost = $order['totalCost'];
-            $supplierName = $order['supplier'];
-            $inventoryId = $this->getTableColumns('inventoryid', 'inventory', "item_name = '{$itemName}'")[0]['inventoryid'];
-            $supplierId = $this->getTableColumns('supplierid', 'supplier', "supplier_name = '{$supplierName}'")[0]['supplierid'];
-
-            $supply_order = [
-                'inventoryid' => $inventoryId,
-                'supplierid' => $supplierId,
+        $this->db->getConn()->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
+        try {
+            $supply_order_details = [
                 'supply_orderid' => $supplyOrderId,
-                'cost_per_unit' => $costPerUnit,
-                'quantity_ordered' => $quantityOrdered,
-                'total_cost' => $totalCost,
-                'supply_order_datetime' => $supplyOrderDateTime
+                'supply_order_datetime' => $supplyOrderDateTime,
             ];
-            $this->db->insert($supply_order, 'supply_order');
-        };
+
+            if ($employeeId != null) {
+                $supply_order_details['employeeid'] = $employeeId;
+            }
+
+            $this->db->insert($supply_order_details, 'supply_order_details');
+
+            $orderTotal = 0;
+            foreach ($orders as $order) {
+                $itemName = $order['itemName'];
+                $costPerUnit = $order['unitPrice'];
+                $quantityOrdered = $order['quantity'];
+                $totalCost = $order['totalCost'];
+                $supplierName = $order['supplier'];
+                $inventoryId = $this->getTableColumns('inventoryid', 'inventory', "item_name = '{$itemName}'")[0]['inventoryid'];
+                $supplierId = $this->getTableColumns('supplierid', 'supplier', "supplier_name = '{$supplierName}'")[0]['supplierid'];
+                $orderTotal += $totalCost;
+
+                $supply_order = [
+                    'inventoryid' => $inventoryId,
+                    'supplierid' => $supplierId,
+                    'supply_orderid' => $supplyOrderId,
+                    'cost_per_unit' => $costPerUnit,
+                    'quantity_ordered' => $quantityOrdered,
+                    'total_cost' => $totalCost,
+                    'supply_order_datetime' => $supplyOrderDateTime
+                ];
+                $this->db->insert($supply_order, 'supply_order');
+                $this->db->getConn()->commit();
+
+                return ['orders' => $orders, 'supplyOrder' => $supply_order, 'supplyOrderDetails' => $supply_order_details, 'employeeDetails' => $employeeDetails, 'total' => $orderTotal];
+            };
+        } catch (Exception $e) {
+            $this->db->getConn()->rollback();
+            return ['error' => 'insertion_error', 'msg' => $e->getMessage()];
+        }
 
         return $supplyOrderId;
     }
 
     public function getDeliveries() {
-        $deliveries = $this->getTableColumns('*', 'delivery', "(Date('delivery_datetime') = CURDATE() AND delivery_status = 'Pending')");
+        $deliveries = $this->getTableColumns('*', 'delivery', "(CONVERT_TZ(delivery_datetime, '+00:00', @@session.time_zone) >= CURDATE() AND CONVERT_TZ(delivery_datetime, '+00:00', @@session.time_zone) < CURDATE() + INTERVAL 1 DAY) AND delivery_status = 'Pending'");
         // $deliveries = $this->getTableColumns('*', 'delivery', "(delivery_status = 'Pending')");
         $deliveryList = [];
 

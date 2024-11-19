@@ -13,9 +13,13 @@ class Database
         $this->masterKey = getenv('MASTER_KEY');
     }
 
+    public function getConn() {
+        return $this->conn;
+    }
+
     public function escapeString($string) {
-        if ($string === '') {
-            return null;
+        if ($string === '' || $string === null) {
+            return 'NULL';
         }
         return mysqli_real_escape_string($this->conn, $string);
     }
