@@ -59,7 +59,7 @@ function profile() {
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-regular fa-user"></i>
                             <?php 
-                                echo isset($_SESSION['user']) ? htmlspecialchars($core->getCustomerName($_SESSION['user']['userid'])) : 'Profile'; 
+                                echo isset($_SESSION['user']) ? htmlspecialchars($core->getUserName($_SESSION['user']['userid'])) : 'Profile'; 
                             ?>
                         </a>
                         <ul class="dropdown-menu">

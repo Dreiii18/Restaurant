@@ -36,12 +36,17 @@ function addCustomerDetails(customerDetails) {
         },
         dataType: 'json',
         success: function(data) {
-            console.log(data);
-            if (data.success === true) {
-                alert("Registered Successfully!");
-                window.location.href = 'login.php';
+            $('#staticBackdrop').remove();
+            $('#status').html(data.html);
+            const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+            modal.show();
+
+            if (data.status === true) {
+                $('#staticBackdrop').on('hidden.bs.modal', function () {
+                    window.location.href = 'login.php';
+                });
             } else {
-                alert("There was an issue with registering the details. Please try again.")
+                console.log(data.msg);
             }
         },
         error: function(xhr, status, error) {

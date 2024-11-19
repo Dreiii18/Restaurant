@@ -20,6 +20,10 @@ $(document).ready(function() {
                     $("#cust-phone").val("");
                 }
             },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error, status, xhr);
+                alert("An error occurred while processing your request.");
+            } 
         })
     }    
 
@@ -61,6 +65,10 @@ function addReservation(reservation) {
             $('#reservationMessage').html(data.html);
             const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
             modal.show();
+        },
+        error: function(xhr, status, error) {
+            console.error("Error: " + error, status, xhr);
+            alert("An error occurred while processing your request.");
         } 
     });
 }

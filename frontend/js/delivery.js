@@ -7,7 +7,11 @@ $(document).ready(function () {
             dataType: 'json',
             success: function(data) {
                 $('#pendingDeliveries').html(data);
-            }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error, status, xhr);
+                alert("An error occurred while processing your request.");
+            } 
         });
     }
 
@@ -48,6 +52,10 @@ function updateDeliveryStatus(delivery) {
         },
         success: function(data) {
             alert("Delivery Completed!");
-        }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error: " + error, status, xhr);
+            alert("An error occurred while processing your request.");
+        } 
     })
 }

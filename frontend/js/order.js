@@ -67,10 +67,23 @@ function addOrder(orders) {
         data: {
             'orders' : orders
         },
+        dataType: "json",
         success: function(data){ 
-            if (data !== false ){
-                window.location.href = '?page=co&order_number=' + JSON.parse(data); 
+            if (data.status !== false ){
+                window.location.href = '?page=co&order_number=' + JSON.parse(data.value); 
+            } else {
+                $('#staticBackdrop').remove();
+                $('#test').html(data.html);
+                console.log(data.msg);
+
+                const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+                modal.show();
+                $.removeCookie('cartItems');
             }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error: " + error, status, xhr);
+            alert("An error occurred while processing your request.");
         } 
     });
 }
@@ -81,6 +94,10 @@ function displayMenu() {
         success: function(data) {
             $('#menu').html(data);
         },
+        error: function(xhr, status, error) {
+            console.error("Error: " + error, status, xhr);
+            alert("An error occurred while processing your request.");
+        } 
     });
 
     updateCartDisplay();

@@ -26,6 +26,7 @@ foreach ($js_files as $js) {
 
 ?>
 
+<div id="status"></div>
 <div id="initForms">
     <section class="vh-200 gradient-custom">
         <div class="container-xlg py-5 h-100">

@@ -69,7 +69,11 @@ function updateOrderRequest(supplyOrder, status) {
         success: function(data) {
             console.log(data);
             getOrderRequests();
-        }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error: " + error, status, xhr);
+            alert("An error occurred while processing your request.");
+        } 
     })
 }
 
@@ -86,6 +90,10 @@ function getOrderRequests() {
                 noOrders.show();
             }
         },
+        error: function(xhr, status, error) {
+            console.error("Error: " + error, status, xhr);
+            alert("An error occurred while processing your request.");
+        } 
     })
 }
 

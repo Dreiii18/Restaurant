@@ -40,7 +40,11 @@ $(document).ready(function() {
                 }
                 
                 checkOrderMethod();
-            }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error, status, xhr);
+                alert("An error occurred while processing your request.");
+            } 
         })
     }
 

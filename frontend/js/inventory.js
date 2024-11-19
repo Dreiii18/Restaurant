@@ -129,7 +129,11 @@ $(document).ready(function () {
                 itemDetails = data.items;
                 categories = data.categories;
                 suppliers = data.suppliers;
-            }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error, status, xhr);
+                alert("An error occurred while processing your request.");
+            } 
         });
     }
 });
@@ -139,7 +143,11 @@ function displayItems() {
         url: "frontend/ajax/inventory.php",
         success: function(data) {
             $('#inventoryList').html(data);
-        }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error: " + error, status, xhr);
+            alert("An error occurred while processing your request.");
+        } 
     })
 }
 

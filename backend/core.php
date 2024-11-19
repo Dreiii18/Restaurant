@@ -42,9 +42,18 @@ class Core
         return true;
     }
 
-    public function getCustomerName($id) {
-        $customerName = $this->getTableColumns('customer_name', 'customer', "userid = '{$id}'");
-        return !empty($customerName) ? htmlspecialchars($customerName[0]['customer_name']) : 'Unknown User';
+    public function getUserName($id) {
+        $role = $this->getTableColumns('role', 'user', "userid = '{$id}'")[0]['role'];
+        $userName = ';';
+
+        if ($role === 'Employee') {
+            $userName = $this->getTableColumns('employee_name', 'employee', "userid = '{$id}'")[0]['employee_name'] ?? '';
+        }
+
+        if ($role === 'Customer') {
+            $userName = $this->getTableColumns('customer_name', 'customer', "userid = '{$id}'")[0]['customer_name'] ?? '';
+        }
+        return !empty($userName) ? htmlspecialchars($userName) : 'Unknown User';
     }
 
     public function getTableColumns($columns, $table, $condition) {
@@ -90,18 +99,25 @@ class Core
     }
 
     public function addOrder($orders) {
-        [$orderId, $orderNumber] = $this->generateOrder();
+        $this->db->getConn()->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
+        try {
+            [$orderId, $orderNumber] = $this->generateOrder();
+    
+            foreach ($orders as $order) {
+                $data = [
+                    'menu_itemid' => $order['menuid'],
+                    'orderid' => $orderId,
+                    'menu_item_quantity' => $order['quantity']
+                ];
+                $this->db->insert($data, 'contain');
+            };
 
-        foreach ($orders as $order) {
-            $data = [
-                'menu_itemid' => $order['menuid'],
-                'orderid' => $orderId,
-                'menu_item_quantity' => $order['quantity']
-            ];
-            $this->db->insert($data, 'contain');
+            $this->db->getConn()->commit();
+            return $orderNumber;
+        } catch (Exception $e) {
+            $this->db->getConn()->rollback();
+            return ['error'=> 'insertion_error', 'msg' => $e->getMessage()];
         }
-
-        return $orderNumber;
     }
 
     public function alterOrder($orderid, $orderType, $phoneNumber) {
@@ -663,6 +679,7 @@ class Core
             default => "Visa",
         };
 
+        $this->db->getConn()->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
         try {
             // Insert data to user table
             $user = [
@@ -728,10 +745,12 @@ class Core
                 $this->db->insert($has_payment_information, 'has_payment_information');
             }
 
+            $this->db->getConn()->commit();
             return true;
         } catch (Exception $e){
             // return false;
-            return $e;
+            // return $e;
+            return ['error' => 'insertion_error', 'msg' => $e->getMessage()];
         }
     }
 

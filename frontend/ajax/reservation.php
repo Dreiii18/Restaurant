@@ -28,7 +28,7 @@ function displaySuccessMessage($reservationNumber, $tableNumber, $reservationDat
     <div class='modal fade' id='staticBackdrop' data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true'>
         <div class='modal-dialog'>
             <div class='modal-content'>
-                <div class='modal-header'>
+                <div class='modal-header text-success'>
                     <h1 class='modal-title fs-5' id='staticBackdropLabel'>Reservation Confirmed!</h1>
                     <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
                 </div>
@@ -53,7 +53,7 @@ function displayErrorMessage($msg) {
     <div class='modal fade' id='staticBackdrop' data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true'>
         <div class='modal-dialog'>
             <div class='modal-content'>
-                <div class='modal-header'>
+                <div class='modal-header text-danger'>
                     <h1 class='modal-title fs-5' id='staticBackdropLabel'>Reservation Failed!</h1>
                     <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
                 </div>
