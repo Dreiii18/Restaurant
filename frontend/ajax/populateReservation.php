@@ -6,6 +6,17 @@ require_once($config["path"] . "/backend/core.php");
 $core = new Core();
 
 $isLoggedIn = isset($_SESSION['user']);
-$userData = $isLoggedIn ? $core->getReservationDetails($_SESSION['user']['userid']) : [];
+if ($isLoggedIn) {
+    $userId = $_SESSION['user']['userid'];
+    $userRole = $core->getTableColumns('role', 'user', "userid = '{$userId}'")[0]['role'];
+
+    if ($userRole !== 'Customer') {
+        $userData = [];
+    } else {
+        $userData = $core->getReservationDetails($userId);
+    }
+} else {
+    $userData = [];
+}
 
 echo json_encode($userData);
