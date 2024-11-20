@@ -565,21 +565,27 @@ class Core
                     'supply_order_datetime' => $supplyOrderDateTime
                 ];
                 $this->db->insert($supply_order, 'supply_order');
-                $this->db->getConn()->commit();
-
-                return ['orders' => $orders, 'supplyOrder' => $supply_order, 'supplyOrderDetails' => $supply_order_details, 'employeeDetails' => $employeeDetails, 'total' => $orderTotal];
             };
+            $this->db->getConn()->commit();
+
+            return ['orders' => $orders, 'supplyOrder' => $supply_order, 'supplyOrderDetails' => $supply_order_details, 'employeeDetails' => $employeeDetails, 'total' => $orderTotal];
         } catch (Exception $e) {
             $this->db->getConn()->rollback();
             return ['error' => 'insertion_error', 'msg' => $e->getMessage()];
         }
-
-        return $supplyOrderId;
     }
 
     public function getDeliveries() {
-        $deliveries = $this->getTableColumns('*', 'delivery', "(CONVERT_TZ(delivery_datetime, '+00:00', @@session.time_zone) >= CURDATE() AND CONVERT_TZ(delivery_datetime, '+00:00', @@session.time_zone) < CURDATE() + INTERVAL 1 DAY) AND delivery_status = 'Pending'");
-        // $deliveries = $this->getTableColumns('*', 'delivery', "(delivery_status = 'Pending')");
+        $pendingDeliveries = $this->getTableColumns('*', 'delivery', "(CONVERT_TZ(delivery_datetime, '+00:00', @@session.time_zone) >= CURDATE() AND CONVERT_TZ(delivery_datetime, '+00:00', @@session.time_zone) < CURDATE() + INTERVAL 1 DAY) AND delivery_status = 'Pending'");
+        $inTransitDeliveries = $this->getTableColumns('*', 'delivery', "(CONVERT_TZ(delivery_datetime, '+00:00', @@session.time_zone) >= CURDATE() AND CONVERT_TZ(delivery_datetime, '+00:00', @@session.time_zone) < CURDATE() + INTERVAL 1 DAY) AND delivery_status = 'In Transit'");
+
+        $pendingList = $this->processDeliveries($pendingDeliveries);
+        $inTransitList = $this->processDeliveries($inTransitDeliveries);
+
+        return ['pending' => $pendingList, 'in_transit' => $inTransitList];
+    }
+
+    function processDeliveries($deliveries) {
         $deliveryList = [];
 
         foreach($deliveries as $delivery) {
@@ -600,12 +606,14 @@ class Core
         return $deliveryList;
     }
 
-    public function updateDelivery($deliveryNumber) {
+    public function updateDelivery($deliveryNumber, $deliveryStatus) {
         $delivery_datetime = date('Y-m-d H:i:s');
+        $delivery_date = date('Y-m-d');
 
-        $sql = "UPDATE delivery SET delivery_status = 'Delivered', delivery_datetime = '{$delivery_datetime}' WHERE delivery_number = '{$deliveryNumber}'";
+        $sql = "UPDATE delivery SET delivery_status = '{$deliveryStatus}', delivery_datetime = '{$delivery_datetime}' WHERE delivery_number = '{$deliveryNumber}' AND Date(delivery_datetime) = '{$delivery_date}'";
 
         $this->db->query($sql);
+        return ['success' => true, 'status' => $deliveryStatus];
     }
 
     public function getOrderRequests() {

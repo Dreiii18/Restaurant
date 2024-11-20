@@ -6,7 +6,8 @@ $(document).ready(function () {
             url: "frontend/ajax/delivery.php",
             dataType: 'json',
             success: function(data) {
-                $('#pendingDeliveries').html(data);
+                $('#pendingDeliveries').html(data.pending);
+                $('#completedDeliveries').html(data.in_transit);
             },
             error: function(xhr, status, error) {
                 console.error("Error: " + error, status, xhr);
@@ -15,11 +16,11 @@ $(document).ready(function () {
         });
     }
 
-    $(document).on('click', '[id^="btn-"]', function () {
+    $(document).on('click', '[id^="pendingDeliveries-btn-"]', function () {
         let buttonId = $(this).attr('id');
-        let deliveryKey = buttonId.replace('btn-', ''); 
+        let deliveryKey = buttonId.replace('pendingDeliveries-btn-', ''); 
 
-        let deliveryItemDiv = $('#delivery-' + deliveryKey); 
+        let deliveryItemDiv = $('#pendingDeliveries-' + deliveryKey); 
         let targetDiv = $('#completedDeliveries'); 
         deliveryItemDiv.detach().appendTo(targetDiv);
 
@@ -28,6 +29,7 @@ $(document).ready(function () {
         if ($(this).val() === "Accept") {
             $(this).val('In Transit');
             $(this).removeClass('btn-primary').addClass('btn-outline-warning').attr("disabled", true);
+            updateDeliveryStatus(deliveryKey, "In Transit");
         }
             
         deliveryItemDiv.find('.accordion-body').append(deliveredButton);
@@ -37,21 +39,26 @@ $(document).ready(function () {
         let buttonId = $(this).attr('id');
         let deliveryKey = buttonId.replace('btn-delivered-', '');
 
-        let deliveryItemDiv = $('#delivery-' + deliveryKey); 
+        let deliveryItemDiv = $('#intransitDeliveries-' + deliveryKey); 
         deliveryItemDiv.remove();
-        updateDeliveryStatus(deliveryKey);
+        updateDeliveryStatus(deliveryKey, "Delivered");
     })
-
 });
 
-function updateDeliveryStatus(delivery) {
+function updateDeliveryStatus(delivery, status) {
+    console.log(delivery, status);
     $.ajax({
         url: "frontend/ajax/updateDelivery.php",
         data: {
             delivery: delivery,
+            status: status,
         },
+        dataType: "json",
         success: function(data) {
-            alert("Delivery Completed!");
+            $('#staticBackdrop').remove();
+            $('#output').html(data.html);
+            const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+            modal.show();
         },
         error: function(xhr, status, error) {
             console.error("Error: " + error, status, xhr);
