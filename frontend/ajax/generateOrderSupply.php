@@ -71,7 +71,7 @@ if (isset($response['error'])) {
             <p class='col text-end'>Total</p>
         </div>
         {$itemsHtml}
-        <p class='col text-end'><strong>Grand Total:</strong> {$response['total']}</p>
+        <p class='col text-end'><strong>Grand Total: </strong>" . number_format($response['total'], 2) . "</p>
 
         <p><strong>Order Status:</strong> Waiting for Approval</p>";
 
