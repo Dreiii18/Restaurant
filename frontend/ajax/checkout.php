@@ -9,7 +9,8 @@ $transaction = $_REQUEST['transaction'];
 
 $userId = isset($_SESSION['user']) ? $_SESSION['user']['userid'] : "";
 
-$response = $core->addTransaction((array)$transaction, $userId);
+// $response = $core->addTransaction((array)$transaction, $userId);
+$response = $core->addTransaction($transaction, $userId);
 
 function displayOrderItems($items) {
     $output = '';
@@ -74,10 +75,10 @@ if (isset($response['error'])) {
             <p class='col text-end'>Total</p>
         </div>
         {$itemsHtml}
-        <p><strong>Subtotal:</strong> {$response['transactionDetails']['sub_total']}</p>
-        <p><strong>Tax:</strong> {$response['transactionDetails']['tax']}</p>
-        <p><strong>Tip:</strong> {$response['transactionDetails']['tip']}</p>
-        <p><strong>Grand Total:</strong> {$response['transactionDetails']['total']}</p>
+        <p><strong>Subtotal:</strong>" . number_format($response['transactionDetails']['sub_total'], 2) . "</p>";
+        "<p><strong>Tax:</strong>" . number_format($response['transactionDetails']['tax'], 2) . "</p>";
+        "<p><strong>Tip:</strong>" . number_format($response['transactionDetails']['tip'], 2) . "</p>";
+        "<p><strong>Grand Total:</strong>" . number_format($response['transactionDetails']['total'], 2) . "</p>
         {$deliveryHtml}
         <p>Thank you for your order!</p>";
 

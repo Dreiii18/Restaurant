@@ -154,14 +154,11 @@ class Core
                 'phoneNumber' => $orderDetails['phoneNumber'],
                 'orderType' => $orderDetails['orderType'],
                 'paymentType' => $orderDetails['paymentType'],
+                'delivery' => $delivery,
             ];
 
             if (!empty($orderDetails['customerName'])) {
                 $response['customerName'] = $orderDetails['customerName'];
-            }
-
-            if ($delivery !== null) {
-                $response['delivery'] = $delivery;
             }
 
             return $response;
@@ -218,6 +215,10 @@ class Core
                 $orderDetails['expiryDate'] = json_encode($this->db->encrypt($transaction['expiryDate'], $orderDetails['orderid']));
                 $orderDetails['cvv'] = json_encode($this->db->encrypt($transaction['cvv'], $orderDetails['orderid']));
             }
+        } else {
+            $orderDetails['cardNumber'] = null;
+            $orderDetails['expiryDate'] = null;
+            $orderDetails['cvv'] = null;
         }
 
         // get order details

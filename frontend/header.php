@@ -7,8 +7,6 @@ $core = new Core();
 function profile() {
     if (isset($_SESSION['user'])) {
         echo "
-            <li><a class='dropdown-item' href='#'>Check Profile</a></li>
-            <li><hr class='dropdown-divider'></li>
             <li><a class='dropdown-item' href='./logout.php'>Log Out</a></li>
         ";
     } else {

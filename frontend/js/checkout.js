@@ -354,7 +354,7 @@ function validate() {
         }
     }
 
-    if ($("input[name='payment_method']:checked").attr("id") === 'card') {
+    if ($("input[name='payment_method']:checked").attr("id") !== 'cash') {
         const paymentFields = document.querySelectorAll('.payment');
         paymentFields.forEach(selector => {
             const field = $(selector);
