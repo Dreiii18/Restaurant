@@ -14,6 +14,9 @@ $pageTitles = [
     'o' => 'Smoke & Caviar',
     'co' => 'Checkout',
     'r' => 'Reservation',
+    'i' => 'Inventory',
+    'd' => 'Delivery',
+    'sor' => 'Supply Order Request'
 ];
 
 $title = $pageTitles[$page] ?? 'Home Page';
@@ -38,4 +41,8 @@ require dirname(__FILE__) . '/header.php';
         }
     ?>    
 </div>
-<?php require dirname(__FILE__) . '/footer.php'; ?>
+
+<?php
+    if ($page !== 'sor') {
+        require dirname(__FILE__) . '/footer.php';
+    }

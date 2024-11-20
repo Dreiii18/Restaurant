@@ -365,7 +365,10 @@ class Core
 
         // If customer is logged in set customer ID
         if ($userId != "") {
-            $customerId = $this->getTableColumns('customerid', 'customer', "userid = '{$userId}'")[0]['customerid'];
+            $userRole = $this->getTableColumns('role', 'user', "userid = '{$userId}'")[0]['role'];
+            if ($userRole === 'Customer') {
+                $customerId = $this->getTableColumns('customerid', 'customer', "userid = '{$userId}'")[0]['customerid'];
+            }
         }
 
         // Concatenate and format reservation start and end date time
@@ -391,16 +394,28 @@ class Core
         $tableNumber = $availableTable['table_number'];
 
         if ($userId != "") {
-            $reservation_table = [
-                'reservation_number' => $reservationNumber,
-                'party_size' => $partySize,
-                'reservation_datetime' => $reservationDateTime,
-                'reservation_end_datetime' => $reservationEndDateTime,
-                'customer_name' => $customerName,
-                'customer_phone_number' => $customerPhoneNumber,
-                'customerid' => $customerId,
-                'tableid' => $tableId
-            ];
+            if ($userRole === 'Customer') {
+                $reservation_table = [
+                    'reservation_number' => $reservationNumber,
+                    'party_size' => $partySize,
+                    'reservation_datetime' => $reservationDateTime,
+                    'reservation_end_datetime' => $reservationEndDateTime,
+                    'customer_name' => $customerName,
+                    'customer_phone_number' => $customerPhoneNumber,
+                    'customerid' => $customerId,
+                    'tableid' => $tableId
+                ];
+            } else {
+                $reservation_table = [
+                    'reservation_number' => $reservationNumber,
+                    'party_size' => $partySize,
+                    'reservation_datetime' => $reservationDateTime,
+                    'reservation_end_datetime' => $reservationEndDateTime,
+                    'customer_name' => $customerName,
+                    'customer_phone_number' => $customerPhoneNumber,
+                    'tableid' => $tableId
+                ];
+            }
         } else {
             $reservation_table = [
                 'reservation_number' => $reservationNumber,
