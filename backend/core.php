@@ -328,15 +328,16 @@ class Core
 
         // Retrieve customer payment information
         $paymentDetails = $this->getTableColumns('card_number, expiry_date, cvv, payment_method', 'has_payment_information', "customerid = '{$customerId}'");
+
         $paymentInfos = [];
         foreach ($paymentDetails as $paymentMethod) {
             $encryptedCardNumber = $paymentMethod['card_number'];
             $encryptedExpiryDate = $paymentMethod['expiry_date'];
             $encryptedCVV = $paymentMethod['cvv'];
             
-            $cardNumber = $this->db->decrypt($encryptedCardNumber, $userId);
-            $expiryDate = $this->db->decrypt($encryptedExpiryDate, $userId);
-            $cvv = $this->db->decrypt($encryptedCVV, $userId);
+            $cardNumber = $this->db->decrypt($encryptedCardNumber, $customerId);
+            $expiryDate = $this->db->decrypt($encryptedExpiryDate, $customerId);
+            $cvv = $this->db->decrypt($encryptedCVV, $customerId);
 
             $paymentInfos[] = [
                 'card_number' => $cardNumber,
