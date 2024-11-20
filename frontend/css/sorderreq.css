@@ -117,7 +117,7 @@ h2 {
 .footer{
     position:fixed;
     right: 0;
-    bottom: 3em;
+    bottom: 0;
     width: 30%;
     display: flex;
     justify-content: flex-end;
