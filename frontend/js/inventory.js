@@ -112,6 +112,7 @@ $(document).ready(function () {
             const modalElement = document.getElementById('exampleModalToggle');
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
             modalInstance.hide();
+            $('.item-row').remove();
         } else {
             $('.invalid').first().focus();
         }
