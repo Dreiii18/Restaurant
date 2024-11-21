@@ -4,7 +4,12 @@ require_once($config["path"] . "/backend/core.php");
 
 $core = new Core();
 
-$deliveries = $core->getDeliveries();
+if (!$core->isAllowed('delivery')) {
+    echo json_encode("not_found");
+    die();
+} 
+
+$deliveries = $core->getDeliveries($_SESSION['user']['userid']);
 
 function displayDeliveries($key, $orderNumber, $address, $itemCount, $status) {
     $accordionId = strtolower(str_replace(' ', '', $status)) . "Deliveries";

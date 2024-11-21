@@ -11,14 +11,12 @@ $(document).ready(function() {
         let allOrders = getAllOrders();
 
         showConfirmationModal("approve", allOrders);
-        // updateOrderRequest(allOrders, "Approve");
     });
 
     $('#reject-all').on("click", function() {
-        let allOrders = getAllOrders;
+        let allOrders = getAllOrders();
 
         showConfirmationModal("reject", allOrders);
-        // updateOrderRequest(allOrders, "Reject");
     });
 
     $('#confirm-yes').on("click", function() {
@@ -53,7 +51,6 @@ $(document).ready(function() {
             let supplyOrder = [orderDetails];
     
             showConfirmationModal(action, supplyOrder);
-            // updateOrderRequest(supplyOrder, action.charAt(0).toUpperCase() + action.slice(1));
         })
     }
 })
@@ -66,9 +63,16 @@ function updateOrderRequest(supplyOrder, status) {
             'supplyOrders' : supplyOrder,
             'status' : status
         },
+        beforeSend: function() {
+            $('.loading-spiner-holder').show();
+        },
         success: function(data) {
-            console.log(data);
-            getOrderRequests();
+            $('.loading-spiner-holder').hide();
+            if (data == 1) {
+                getOrderRequests();
+            } else {
+                alert("An error occurred while processing your request.");
+            }
         },
         error: function(xhr, status, error) {
             console.error("Error: " + error, status, xhr);
@@ -82,6 +86,9 @@ function getOrderRequests() {
         url: "frontend/ajax/sorderreq.php",
         dataType: "json",
         success: function (data) {
+            if (data == 'not_found') {
+                window.location.href = '404.html';
+            };
             $('#orders').html(data.html);
             if (data.status === "success") {
                 attachCollapsibleListeners();

@@ -30,7 +30,18 @@ function displayErrorMessage($msg) {
     return $itemRow;
 }
 
-$response = $core->addOrder($orderList);
+if (isset($_SESSION['user'])) {
+    $userId = $_SESSION['user']['userid'];
+    if ($_SESSION['user']['role'] === 'Customer') {
+        $response = $core->addOrder($orderList, null);
+    }
+
+    if ($_SESSION['user']['role'] === 'Employee') {
+        $response = $core->addOrder($orderList, (int)$_SESSION['user']['roleid']);
+    }
+} else {
+    $response = $core->addOrder($orderList, null);
+}
 
 $html = '';
 $status = true;

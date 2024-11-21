@@ -4,6 +4,11 @@ require_once($config["path"] . "/backend/core.php");
 
 $core = new Core();
 
+if (!$core->isAllowed('inventory')) {
+    echo "not_found";
+    die();
+} 
+
 $categories = $core->getItemDetails()[1];
 $items = $core->getInventoryItems();
 

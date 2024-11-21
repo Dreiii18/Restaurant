@@ -8,6 +8,9 @@ $(document).ready(function() {
             url: "frontend/ajax/populateReservation.php",
             dataType: 'json',
             success: function(data) {
+                if (data == 'not_found') {
+                    window.location.href = '404.html';
+                };
                 if (data.customerName !== "") {
                     $('#cust-name').val(data.customerName);
                 } else {
@@ -59,12 +62,16 @@ function addReservation(reservation) {
         data: {
             'reservation' : reservation
         },
+        beforeSend: function() {
+            $('.loading-spiner-holder').show();
+        },
         dataType: "json",
         success: function(data){   
             console.log(data.msg);
             $('#reservationMessage').html(data.html);
             const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
             modal.show();
+            $('.loading-spiner-holder').hide();
         },
         error: function(xhr, status, error) {
             console.error("Error: " + error, status, xhr);

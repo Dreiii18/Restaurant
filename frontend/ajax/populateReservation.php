@@ -1,9 +1,15 @@
 <?php
-session_start();
 require_once(dirname(__FILE__) . "/../../config/config.php");
 require_once($config["path"] . "/backend/core.php");
 
 $core = new Core();
+
+if (isset($_SESSION['user'])) {
+    if (!$core->isAllowed('reservation')) {
+        echo json_encode("not_found");
+        die();
+    } 
+}
 
 $isLoggedIn = isset($_SESSION['user']);
 if ($isLoggedIn) {

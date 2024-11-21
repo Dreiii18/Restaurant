@@ -4,6 +4,11 @@ require_once($config["path"] . "/backend/core.php");
 
 $core = new Core();
 
+if (!$core->isAllowed('supply_order')) {
+    echo json_encode("not_found");
+    die();
+} 
+
 $orderRequests = $core->getOrderRequests();
 
 function displayOrderItems($itemName, $supplierName, $costPerUnit, $quantityOrdered, $totalCost) {

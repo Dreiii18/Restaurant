@@ -35,21 +35,28 @@ function profile() {
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
             <a class="navbar-brand" href="#">Hidden brand</a>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="?page=o">Order</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="?page=r">Reservation</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="?page=i">Inventory</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="?page=d">Delivery</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="?page=sor">Order Request</a>
-                </li>
+                <?php
+                if (isset($_SESSION['user'])) {
+                    foreach ($pages as $key => $p) {
+                        if ($core->isAllowed($p['access'])) {
+                            echo "
+                            <li class='nav-item'>
+                                <a class='nav-link active' aria-current='page' href='?page={$key}'>{$p['text']}</a>
+                            </li>
+                            ";
+                        }
+                    }
+                } else {
+                    echo "
+                        <li class='nav-item'>
+                            <a class='nav-link active' aria-current='page' href='?page=o'>Order</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link active' aria-current='page' href='?page=r'>Reservation</a>
+                        </li>
+                    ";
+                }
+                ?>
             </ul>
             <div class="d-flex">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">

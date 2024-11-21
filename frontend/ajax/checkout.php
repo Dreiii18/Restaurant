@@ -1,15 +1,14 @@
 <?php
-session_start();
 require_once(dirname(__FILE__) . "/../../config/config.php");
 require_once($config["path"] . "/backend/core.php");
 
 $core = new Core();
 
+sleep(3);
 $transaction = $_REQUEST['transaction'];
 
 $userId = isset($_SESSION['user']) ? $_SESSION['user']['userid'] : "";
 
-// $response = $core->addTransaction((array)$transaction, $userId);
 $response = $core->addTransaction($transaction, $userId);
 
 function displayOrderItems($items) {

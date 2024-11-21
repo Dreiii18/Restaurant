@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once dirname(__FILE__) . '/pages.php';
 
 // Gets all the main page and content page css and js files ...	  
@@ -39,7 +38,11 @@ require dirname(__FILE__) . '/header.php';
         foreach ($pages[$page]['html'] as $content) {
             require "html/{$content}";
         }
-    ?>    
+    ?>   
+    
+    <div class="loading-spiner-holder" data-loading="" style="display: none;">
+        <div class="loading-spiner"><img class="loading-spinner-image" src="frontend/images/spinner.gif"></div>
+    </div>
 </div>
 
 <?php

@@ -41,3 +41,19 @@ html, body {
     margin: 0;
     padding: 0;
 }
+
+.loading-spiner-holder {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+    z-index: 100;
+}
+
+.loading-spiner {
+    top: 45%;
+    left: 45%;
+    position: absolute;
+}

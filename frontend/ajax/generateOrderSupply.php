@@ -1,10 +1,10 @@
 <?php
-session_start();
 require_once(dirname(__FILE__) . "/../../config/config.php");
 require_once($config["path"] . "/backend/core.php");
 
 $core = new Core();
 
+sleep(3);
 $orders = $_REQUEST['orders'];
 
 $userId = isset($_SESSION['user']) ? $_SESSION['user']['userid'] : "";

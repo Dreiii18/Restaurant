@@ -4,6 +4,13 @@ require_once($config["path"] . "/backend/core.php");
 
 $core = new Core();
 
+if (isset($_SESSION['user'])) {
+    if (!$core->isAllowed('order')) {
+        echo "not_found";
+        die();
+    } 
+}
+
 function displayMainItem($id) {
     global $core;
     [$menuName, $menuDescription, $menuPrice] = $core->getMenuItem($id);

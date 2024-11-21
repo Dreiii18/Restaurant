@@ -143,6 +143,9 @@ function displayItems() {
     $.ajax({
         url: "frontend/ajax/inventory.php",
         success: function(data) {
+            if (data == 'not_found') {
+                window.location.href = '404.html';
+            };
             $('#inventoryList').html(data);
         },
         error: function(xhr, status, error) {
@@ -158,6 +161,9 @@ function orderItems(orders) {
         data: {
             'orders' : orders,
         },
+        beforeSend: function() {
+            $('.loading-spiner-holder').show();
+        },
         dataType: "json",
         success: function(data) {
             $('#supplyOrderModal').remove();
@@ -165,6 +171,7 @@ function orderItems(orders) {
             console.log(data.msg);
 
             const modal = new bootstrap.Modal(document.getElementById('supplyOrderModal'));
+            $('.loading-spiner-holder').hide();
             modal.show();
         },
         error: function(xhr, status, error) {

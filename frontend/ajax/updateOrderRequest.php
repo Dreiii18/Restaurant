@@ -18,4 +18,4 @@ switch ($status) {
         break;
 }
 
-print_r($core->updateOrderRequest($supplyOrders, $status));
+echo $core->updateOrderRequest($supplyOrders, $status);

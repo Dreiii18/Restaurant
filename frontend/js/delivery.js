@@ -6,6 +6,9 @@ $(document).ready(function () {
             url: "frontend/ajax/delivery.php",
             dataType: 'json',
             success: function(data) {
+                if (data == 'not_found') {
+                    window.location.href = '404.html';
+                };
                 $('#pendingDeliveries').html(data.pending);
                 $('#completedDeliveries').html(data.in_transit);
             },
@@ -46,7 +49,6 @@ $(document).ready(function () {
 });
 
 function updateDeliveryStatus(delivery, status) {
-    console.log(delivery, status);
     $.ajax({
         url: "frontend/ajax/updateDelivery.php",
         data: {

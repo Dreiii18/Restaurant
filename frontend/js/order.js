@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    // let cartItems = updateCartDisplay();
     let cartItems = getCartItems();
 
     displayMenu();
@@ -10,13 +9,10 @@ $(document).ready(function() {
         let quantity = parseInt(quantityInput.val());
 
         if ($(this).hasClass('add')) {
-            // item.quantity += 1;
             quantityInput.val(++quantity);
         } 
 
-        // if ($(this).hasClass('subtract') && item.quantity > 0) {
         if ($(this).hasClass('subtract') && quantity > 0) {
-            // item.quantity -= 1;
             quantityInput.val(--quantity);
         }
 
@@ -91,8 +87,15 @@ function addOrder(orders) {
 function displayMenu() {
     $.ajax({
         url: "frontend/ajax/order.php",
+        beforeSend: function() {
+            $('.loading-spiner-holder').show();
+        },
         success: function(data) {
+            if (data == 'not_found') {
+                window.location.href = '404.html';
+            };
             $('#menu').html(data);
+            $('.loading-spiner-holder').hide();
         },
         error: function(xhr, status, error) {
             console.error("Error: " + error, status, xhr);

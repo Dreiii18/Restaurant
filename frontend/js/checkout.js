@@ -9,8 +9,14 @@ $(document).ready(function() {
         $.ajax({
             url: "frontend/ajax/populateCheckout.php",
             dataType: 'json',
+            beforeSend: function() {
+                $('.loading-spiner-holder').show();
+            },
             success: function(data) {
-                // console.log(data);
+                if (data == 'not_found') {
+                    window.location.href = '404.html';
+                }
+
                 customerAddresses = Array.isArray(data.addresses) ? data.addresses : [];
                 customerPayments = Array.isArray(data.payment_infos) ? data.payment_infos : [];
 
@@ -40,6 +46,7 @@ $(document).ready(function() {
                 }
                 
                 checkOrderMethod();
+                $('.loading-spiner-holder').hide();
             },
             error: function(xhr, status, error) {
                 console.error("Error: " + error, status, xhr);
@@ -69,7 +76,6 @@ $(document).ready(function() {
     function checkPaymentMethod() {
         const selectedPaymentMethod = $("input[name='payment_method']:checked").attr("id");
 
-        // if ($("input[name='payment_method']:checked").attr("id") === 'creditcard' || $("input[name='payment_method']:checked").attr("id") === 'debitcard') {
         if (selectedPaymentMethod !== 'cash') {
             if (customerPayments.length > 0) {
                 populatePaymentOptions(customerPayments, selectedPaymentMethod);
@@ -222,12 +228,16 @@ function addTransaction(transaction) {
         data: {
             'transaction' : transaction
         },
+        beforeSend: function() {
+            $('.loading-spiner-holder').show();
+        },
         dataType: 'json',
         success: function(data) {
             $('#output').html(data.html);
             console.log(data.msg);
 
             const modal = new bootstrap.Modal(document.getElementById('orderModal'));
+            $('.loading-spiner-holder').hide();
             modal.show();
 
             $('#orderModal').on('hidden.bs.modal', function () {

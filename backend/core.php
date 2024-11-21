@@ -1,26 +1,23 @@
 <?php
-// session_start();
 require_once(dirname(__FILE__)."/../config/config.php");
 
 class Core
 {
     /** @var Database */
     protected $db;
-    protected $orderType;
     protected $active;
     protected $role;
 
     public function __construct()
     {        
       $this->db = new Database();   
-      $this->orderType = 'Delivery';
       $this->active = 1;
       $this->role = 'Customer';
     }
 
     public function login($username, $password)
 	{
-        $results = $this->getTableColumns('userid, username, password', 'user', "(username = '{$username}' AND password = '{$password}')");
+        $results = $this->getTableColumns('userid, username, password, role', 'user', "(username = '{$username}' AND password = '{$password}')");
 
         if (!is_array($results) || count($results) == 0) {
             $_SESSION['logged_in'] = false;
@@ -29,16 +26,19 @@ class Core
                 unset($_SESSION['user']);
             }
         } else {
+            $user = $results[0];
+            $user['roleid'] = $this->getEmployeeRole($user['userid']);
             $_SESSION['logged_in'] = true;
-            $_SESSION['user'] = $results[0];
+            $_SESSION['user'] = $user;
         }
         return $_SESSION['logged_in'];
     }
 
     public function logout()
     {  
-        session_unset();
         session_destroy();
+        session_unset();
+        header("Location: login.php");
         return true;
     }
 
@@ -56,10 +56,33 @@ class Core
         return !empty($userName) ? htmlspecialchars($userName) : 'Unknown User';
     }
 
+    public function getEmployeeRole($id) {
+        $employeeInfo = $this->getTableColumns('roleid', 'employee', "userid = {$id}");
+        return $employeeInfo[0]['roleid'] ?? 6; // 6 = customer
+    }
+    
+    public function getPermissions($permissions) {
+        $permissionid = implode(',', array_column($permissions, 'permissionid'));
+        return $this->getTableColumns('access_level', 'permission', "permissionid IN ($permissionid)");
+    }
+
+    public function getAllowedPages() {
+        $roleid = $_SESSION['user']['roleid'];
+
+        $permissions = $this->getTableColumns('permissionid', 'role_has_permission', "roleid = {$roleid}");
+
+        return $this->getPermissions($permissions);
+    }
+
+    public function isAllowed($accessLevel) {
+        $allowedPages = array_column($this->getAllowedPages(), 'access_level');
+        return in_array($accessLevel, $allowedPages);
+    }
+
     public function getTableColumns($columns, $table, $condition) {
         $sql = "SELECT {$columns} FROM {$table} WHERE {$condition}";
         $result = $this->db->getResults($this->db->query($sql));
-        return $result ? $result : [];
+        return $result ?? [];
     }
 
     public function getMaxTableNumberForDate($table, $numberColumn, $dateColumn, $date = null) {
@@ -73,24 +96,23 @@ class Core
     }
 
     // Get list of employees based on the order_type
-    public function autoAssignEmployeeToOrder($order_type) {
-        $roleId = $order_type == 'Delivery' ? 4 : [1, 2];
-        $roleCondition = is_array($roleId) ? "IN (" . implode(',', $roleId) . ")" : "{$roleId}";
-        
-        $results = $this->getTableColumns('employeeid', 'employee', "roleid = {$roleCondition}");
+    public function autoAssignEmployeeToOrder() {
+        $sql = "SELECT DISTINCT rhp.roleid FROM role_has_permission rhp JOIN permission p ON rhp.permissionid = p.permissionid WHERE p.access_level = 'order' AND rhp.roleid <> 6"; //Get all roleids who has order permission except customer role
+        $orderRoles = $this->db->getResults($this->db->query($sql));
+        $roleId = $orderRoles[array_rand($orderRoles)]['roleid'];
+        $results = $this->getTableColumns('employeeid', 'employee', "roleid = {$roleId}");
 
         return $results[array_rand($results)]['employeeid'];
     }
 
-    public function generateOrder() {
+    public function generateOrder($id) {
         $orderNumber = $this->getMaxTableNumberForDate('order_table', 'order_number', 'order_datetime');
-        $orderType = $this->orderType;
         $orderDateTime = date('Y-m-d H:i:s');
-        $employeeId = $this->autoAssignEmployeeToOrder($orderType);
+
+        $employeeId = $id !== null ? $id : $this->autoAssignEmployeeToOrder();
 
         $order = [
             'order_number' => $orderNumber, 
-            'order_type' => $orderType, 
             'order_datetime' => $orderDateTime,
             'employeeid' => $employeeId
         ];
@@ -98,10 +120,10 @@ class Core
         return [$orderId, $orderNumber];
     }
 
-    public function addOrder($orders) {
+    public function addOrder($orders, $id) {
         $this->db->getConn()->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
         try {
-            [$orderId, $orderNumber] = $this->generateOrder();
+            [$orderId, $orderNumber] = $this->generateOrder($id);
     
             foreach ($orders as $order) {
                 $data = [
@@ -191,7 +213,12 @@ class Core
         $orderDetails['postalCode'] = $transaction['postalCode'];
         $orderDetails['specialInstructions'] = $transaction['specialInstructions'];
 
+        // check if its a customer ordering or an employee
         if (!empty($userId)) {
+            $role = $this->getTableColumns('role', 'user', "userid = {$userId}")[0]['role'];
+        }
+
+        if ($role === 'Customer') {
             $customerInfo = $this->getTableColumns('customerid, customer_name', 'customer', "userid =  '{$userId}'")[0];
             $orderDetails['customerid'] = $customerInfo['customerid'];
             $orderDetails['customerName'] = $customerInfo['customer_name'];
@@ -279,12 +306,15 @@ class Core
             'delivery_datetime' => $orderDetails['deliveryDateTime'],
             'delivery_number' => $orderDetails['deliveryNumber'],
             'orderid' => $orderDetails['orderid'],
-            'house_number' => $orderDetails['houseNumber'],
             'street_number' => $orderDetails['streetNumber'],
             'street_name' => $orderDetails['streetName'],
             'postal_code' => $orderDetails['postalCode'],
             'special_instructions' => $orderDetails['specialInstructions']
         ];
+
+        if (!empty($orderDetails['houseNumber'])) {
+            $delivery['house_number'] = $orderDetails['houseNumber'];
+        }
 
         if ($orderDetails['customerid'] !== null) {
             $delivery['customerid'] = $orderDetails['customerid'];
@@ -574,10 +604,12 @@ class Core
             return ['error' => 'insertion_error', 'msg' => $e->getMessage()];
         }
     }
-
-    public function getDeliveries() {
+    
+    public function getDeliveries($id) {
+        $employeeId = $this->getTableColumns('employeeid', 'employee', "userid = {$id}")[0]['employeeid'];
         $pendingDeliveries = $this->getTableColumns('*', 'delivery', "(CONVERT_TZ(delivery_datetime, '+00:00', @@session.time_zone) >= CURDATE() AND CONVERT_TZ(delivery_datetime, '+00:00', @@session.time_zone) < CURDATE() + INTERVAL 1 DAY) AND delivery_status = 'Pending'");
-        $inTransitDeliveries = $this->getTableColumns('*', 'delivery', "(CONVERT_TZ(delivery_datetime, '+00:00', @@session.time_zone) >= CURDATE() AND CONVERT_TZ(delivery_datetime, '+00:00', @@session.time_zone) < CURDATE() + INTERVAL 1 DAY) AND delivery_status = 'In Transit'");
+        $sql = "SELECT d.* FROM delivery d JOIN order_table o ON d.orderid = o.orderid WHERE CONVERT_TZ(d.delivery_datetime, '+00:00', @@session.time_zone) >= CURDATE() AND CONVERT_TZ(d.delivery_datetime, '+00:00', @@session.time_zone) < CURDATE() + INTERVAL 1 DAY AND d.delivery_status = 'In Transit' AND o.employeeid = {$employeeId}";
+        $inTransitDeliveries = $this->db->query($sql);
 
         $pendingList = $this->processDeliveries($pendingDeliveries);
         $inTransitList = $this->processDeliveries($inTransitDeliveries);
@@ -606,13 +638,21 @@ class Core
         return $deliveryList;
     }
 
-    public function updateDelivery($deliveryNumber, $deliveryStatus) {
+    public function updateDelivery($deliveryNumber, $deliveryStatus, $id) {
         $delivery_datetime = date('Y-m-d H:i:s');
         $delivery_date = date('Y-m-d');
+        $orderId = $this->getTableColumns('orderid', 'delivery', "delivery_number = {$deliveryNumber} AND Date(delivery_datetime) = CURDATE()")[0]['orderid'];
+        $employeeId = $this->getTableColumns('employeeid', 'employee', "userid = {$id}")[0]['employeeid'];
 
-        $sql = "UPDATE delivery SET delivery_status = '{$deliveryStatus}', delivery_datetime = '{$delivery_datetime}' WHERE delivery_number = '{$deliveryNumber}' AND Date(delivery_datetime) = '{$delivery_date}'";
-
+        // Update assigned employee in order table
+        $sql = "UPDATE order_table SET employeeid = {$employeeId} WHERE orderid = {$orderId}";
         $this->db->query($sql);
+
+        // Update delivery status
+        $sql = "UPDATE delivery SET delivery_status = '{$deliveryStatus}', delivery_datetime = '{$delivery_datetime}' WHERE delivery_number = '{$deliveryNumber}' AND Date(delivery_datetime) = '{$delivery_date}'";
+        $this->db->query($sql);
+
+
         return ['success' => true, 'status' => $deliveryStatus];
     }
 
@@ -659,11 +699,12 @@ class Core
 
     function updateOrderRequest($supplyOrders, $status) {
         if ($status === "Approved") {
+            $employeeId = $this->getTableColumns('employeeid', 'employee', "userid = {$_SESSION['user']['userid']}")[0]['employeeid'];
             foreach ($supplyOrders as $order) {
                 $supplyOrderId = $order['orderId'];
                 $supplyOrderDateTime = $order['orderDateTime'];
                 
-                $sql = "UPDATE supply_order_details SET order_status = '{$status}' WHERE supply_orderid = '{$supplyOrderId}' AND supply_order_datetime = '{$supplyOrderDateTime}'";
+                $sql = "UPDATE supply_order_details SET order_status = '{$status}', employeeid = {$employeeId} WHERE supply_orderid = '{$supplyOrderId}' AND supply_order_datetime = '{$supplyOrderDateTime}'";
                 $this->db->query($sql);
             }
         } else {

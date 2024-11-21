@@ -1,10 +1,10 @@
 <?php
-session_start();
 require_once(dirname(__FILE__) . "/../../config/config.php");
 require_once($config["path"] . "/backend/core.php");
 
 $core = new Core();
 
+sleep(3);
 $reservation = $_REQUEST['reservation'];
 
 $userId = isset($_SESSION['user']) ? $_SESSION['user']['userid'] : "";
@@ -73,7 +73,6 @@ function displayErrorMessage($msg) {
 $html = "";
 $msg = "";
 
-// print_r($confirmedReservation[0] == "error" ? "ERROR" : "GOOD");
 
 if (isset($confirmedReservation['error'])) {
     // Reservation failed, display error message

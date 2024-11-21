@@ -4,7 +4,7 @@ require_once($config["path"] . "/backend/core.php");
 
 $core = new Core();
 
-$response = $core->updateDelivery($_REQUEST['delivery'], $_REQUEST['status']);
+$response = $core->updateDelivery($_REQUEST['delivery'], $_REQUEST['status'], $_SESSION['user']['userid']);
 
 function displayModal($title, $content, $type = 'success') {
     $headerClass = $type === 'success' ? 'text-success' : 'text-danger';
