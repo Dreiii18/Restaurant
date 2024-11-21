@@ -15,11 +15,19 @@
 }
 
 .cart-checkout{
-    border: 10px solid slategrey;
-    background-color: slategrey;
+    border: 10px solid rgb(182,161,132);
+    background-color: rgb(182,161,132);
     border-radius: 9999px;
     padding: 5px;
 }
+
+.cart-checkout:hover{
+    border: 10px solid #5c5444;
+    background-color: #5c5444;
+    border-radius: 9999px;
+    padding: 5px;
+}
+
 
 .carouselTitle{
     margin-left: 10px;
@@ -56,6 +64,7 @@ dt, dd {
 
 .badge:hover {
     cursor: grab;
+    background-color: #5c5444;
 }
 
 .row img {
@@ -77,10 +86,17 @@ dt, dd {
     color: white;
 }
 
+
+
 #checkout {
     background-color: white;
     color: black;
     border: 1px solid black;
+}
+
+#checkout:hover {
+   background-color: rgb(182,161,132);
+   color: white;
 }
 
 .text-align-center {
@@ -88,7 +104,7 @@ dt, dd {
 }
 
 #restaurant_background {
-    background-image: url("../images/restaurantbg.jpg");
+    background-image: url("../images/background.jpg");
     background-size: cover;
     min-height: 100vh;
     background-position: center;
@@ -123,7 +139,7 @@ dt, dd {
 }
 
 .nav a:hover{
-    color: slategrey;
+    color: rgb(182,161,132);;
 }
 
 .section-title {

@@ -51,6 +51,11 @@ label {
     border: 1px solid black;
 }
 
+#place-order:hover{
+    background-color:rgb(182,161,132);
+    color: white;
+}
+
 #tip-cost{
     display: flex;
     justify-content: flex-end;
