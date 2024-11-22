@@ -19,11 +19,11 @@
 }
 
 .nav-link, .navbar-nav .nav-link.active, footer {
-    color: rgb(182,161,132);
+    color: wheat;
 }
 
 .nav-link:hover, .navbar-nav .nav-link.active:hover{
-    color: wheat;
+    color: rgb(182,161,132);
 }
 
 .bg-body-tertiary{

@@ -14,6 +14,10 @@
     margin: auto;   
 }
 
+.row, .row.sticky-top.filter {
+    background-color: rgb(182,161,132);
+}
+
 .cart-checkout{
     border: 10px solid rgb(182,161,132);
     background-color: rgb(182,161,132);
@@ -87,8 +91,6 @@ dt, dd {
     color: white;
 }
 
-
-
 #checkout {
     background-color: white;
     color: black;
@@ -140,7 +142,7 @@ dt, dd {
 }
 
 .nav a:hover{
-    color: rgb(182,161,132);;
+    color: #5c5444;
 }
 
 .section-title {
