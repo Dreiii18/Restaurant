@@ -13,6 +13,24 @@
     }
 }
 
+/* nav bar styling */
+.container-fluid{
+    background-color: rgb(51, 50, 47);
+}
+
+.nav-link, .navbar-nav .nav-link.active, footer {
+    color: rgb(182,161,132);
+}
+
+.nav-link:hover, .navbar-nav .nav-link.active:hover{
+    color: wheat;
+}
+
+.bg-body-tertiary{
+    background-color: rgb(51, 50, 47) !important;
+}
+/*******************/
+
 .content {
     flex: 1;  
     padding: 20px;

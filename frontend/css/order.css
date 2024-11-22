@@ -32,6 +32,7 @@
 .carouselTitle{
     margin-left: 10px;
     border-bottom: 1px solid slategrey;
+    padding-top: 15px;
 }
 
 .carousel-item img{

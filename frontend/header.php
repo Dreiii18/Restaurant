@@ -33,7 +33,9 @@ function profile() {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <a class="navbar-brand" href="#">Hidden brand</a>
+            <a class="navbar-brand" href="index.php">
+                <img src="frontend/images/navbarlogo.png" style="width:150px;" class="logo" alt="Smoke & Caviar">
+            </a>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <?php
                 if (isset($_SESSION['user'])) {
@@ -78,3 +80,4 @@ function profile() {
             </div>
         </div>
     </nav>
+    
