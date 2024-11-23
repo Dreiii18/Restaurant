@@ -1,5 +1,11 @@
 <div id="content">
     <h2 class="display-4">Supply Order Requests</h2>
+    <div id="filter">
+        <select id="statusDropdown" class="form-select">
+            <option value="0">Pending</option>
+            <option value="1">Approved</option>
+        </select>
+    </div>
     <div id="orders"></div>
 
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

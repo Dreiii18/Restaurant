@@ -14,7 +14,12 @@ if (isset($_SESSION['user'])) {
     die();
 }
 
-$orderRequests = $core->getOrderRequests();
+$filter = match ($_REQUEST['status']) {
+    '1' => 'Approved',
+    default => 'Pending',
+};
+
+$orderRequests = $core->getOrderRequests($filter);
 
 function displayOrderItems($itemName, $supplierName, $costPerUnit, $quantityOrdered, $totalCost) {
     $itemRow = "

@@ -209,3 +209,11 @@ dt, dd {
     border-radius: 50%;
     padding: 1.5em;
 }
+
+#fullMenu {
+    cursor: grab;
+}
+
+.modal-body span{
+    background-color: white;
+}

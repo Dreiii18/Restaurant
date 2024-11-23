@@ -46,6 +46,4 @@ require dirname(__FILE__) . '/header.php';
 </div>
 
 <?php
-    if ($page !== 'sor') {
-        require dirname(__FILE__) . '/footer.php';
-    }
+    require dirname(__FILE__) . '/footer.php';

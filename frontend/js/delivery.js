@@ -1,16 +1,31 @@
 $(document).ready(function () {
-    getPendingDeliveries();
+    $('footer').remove();
+    adjustContentHeight();
+    setupDate();
+    getDeliveries();
 
-    function getPendingDeliveries() {
+    function getDeliveries() {
         $.ajax({
             url: "frontend/ajax/delivery.php",
             dataType: 'json',
+            data: {
+                'date': $('#deliveryDate').val()
+            },
             success: function(data) {
                 if (data == 'not_found') {
                     window.location.href = '404.html';
                 };
-                $('#pendingDeliveries').html(data.pending);
-                $('#completedDeliveries').html(data.in_transit);
+
+                if (data.has_record) {
+                    $('#pendingDeliveries').html(data.pending);
+                    $('#completedDeliveries').html(data.in_transit);
+                } else {
+                    clearRecord();
+                    $('#staticBackdrop1').remove();
+                    $('#output').html(data.htmlNoDelivery);
+                    const modal = new bootstrap.Modal(document.getElementById('noDeliveries'));
+                    modal.show();
+                }
             },
             error: function(xhr, status, error) {
                 console.error("Error: " + error, status, xhr);
@@ -18,6 +33,20 @@ $(document).ready(function () {
             } 
         });
     }
+
+    $('#deliveryDate').on('change', function() {
+        getDeliveries();
+    })
+
+    $(document).on('click', '.accordion-button', function () {
+        if ($(this).hasClass('collapsed')) {
+            $(this).css('background-color', 'rgb(51, 50, 47)'); 
+            $(this).css('color', 'white'); 
+        } else {
+            $(this).css('background-color', 'rgb(51, 50, 47)'); 
+            $(this).css('color', 'white'); 
+        }
+    });
 
     $(document).on('click', '[id^="pendingDeliveries-btn-"]', function () {
         let buttonId = $(this).attr('id');
@@ -67,4 +96,22 @@ function updateDeliveryStatus(delivery, status) {
             alert("An error occurred while processing your request.");
         } 
     })
+}
+
+function setupDate() {
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString('en-CA');
+    document.getElementById('deliveryDate').value = formattedDate;
+    return formattedDate;
+}
+
+function clearRecord() {
+    $('#pendingDeliveries').empty();
+    $('#completedDeliveries').empty();
+}
+
+function adjustContentHeight() {
+    const navHeight = $('nav').outerHeight(); 
+    $('#content').css('min-height', `calc(100vh - ${navHeight}px)`);
+    $('#content').css('height', `calc(100vh - ${navHeight}px)`); 
 }

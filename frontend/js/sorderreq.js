@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    $('footer').remove();
+    adjustContentHeight();
     let actionType = "";
     let supplyOrders = "";
 
@@ -33,6 +35,10 @@ $(document).ready(function() {
 
     $('#confirm-no').on("click", function() {
         $('#staticBackdrop').modal("hide");
+    })
+
+    $(document).on('change', "#statusDropdown", function() {
+        getOrderRequests();
     })
 
     function showConfirmationModal(action, supplyOrder) {
@@ -85,6 +91,9 @@ function getOrderRequests() {
     $.ajax({
         url: "frontend/ajax/sorderreq.php",
         dataType: "json",
+        data: {
+            'status' : $("#statusDropdown").val(),
+        },
         success: function (data) {
             if (data == 'not_found') {
                 window.location.href = '404.html';
@@ -142,3 +151,8 @@ function getAllOrders() {
     return allOrders;
 }
 
+function adjustContentHeight() {
+    const navHeight = $('nav').outerHeight(); 
+    $('#content').css('min-height', `calc(100vh - ${navHeight}px)`);
+    $('#content').css('height', `calc(100vh - ${navHeight}px)`); 
+}

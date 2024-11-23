@@ -11,10 +11,10 @@
 }
 
 #content {
-    min-height: 100%;
-    max-height: max-content;
+    min-height: 100vh;
     height: auto;
-    padding-bottom: 0.5rem;
+    padding-bottom: 1.5em;
+    overflow: auto;
 }
 
 h2 {
@@ -129,4 +129,16 @@ h2 {
     width: 30%;
     display: flex;
     justify-content: flex-end;
+}
+
+#filter {
+    width: 10em;
+    float: right;
+    margin: 20px 40px 20px 40px;
+}
+
+#statusDropdown {
+    background-color: rgb(51, 50, 47);
+    color: white;
+    border: none;
 }

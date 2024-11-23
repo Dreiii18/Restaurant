@@ -79,3 +79,7 @@ html, body {
     left: 45%;
     position: absolute;
 }
+
+.navbar-toggler-icon  {
+    filter: invert(1) brightness(100%);;
+}

@@ -44,7 +44,7 @@ class Core
 
     public function getUserName($id) {
         $role = $this->getTableColumns('role', 'user', "userid = '{$id}'")[0]['role'];
-        $userName = ';';
+        $userName = '';
 
         if ($role === 'Employee') {
             $userName = $this->getTableColumns('employee_name', 'employee', "userid = '{$id}'")[0]['employee_name'] ?? '';
@@ -551,7 +551,6 @@ class Core
     }
 
     public function getItemDetails() {
-        // $sql = "SELECT * FROM inventory_item";
         $sql = "SELECT inventory.inventoryid, inventory_item.* FROM inventory JOIN inventory_item ON inventory.item_name = inventory_item.item_name ORDER BY inventoryid";
         $items = $this->db->getResults($this->db->query($sql));
 
@@ -629,10 +628,10 @@ class Core
         }
     }
     
-    public function getDeliveries($id) {
+    public function getDeliveries($id, $date) {
         $employeeId = $this->getTableColumns('employeeid', 'employee', "userid = {$id}")[0]['employeeid'];
-        $pendingDeliveries = $this->getTableColumns('*', 'delivery', "(CONVERT_TZ(delivery_datetime, '+00:00', @@session.time_zone) >= CURDATE() AND CONVERT_TZ(delivery_datetime, '+00:00', @@session.time_zone) < CURDATE() + INTERVAL 1 DAY) AND delivery_status = 'Pending'");
-        $sql = "SELECT d.* FROM delivery d JOIN order_table o ON d.orderid = o.orderid WHERE CONVERT_TZ(d.delivery_datetime, '+00:00', @@session.time_zone) >= CURDATE() AND CONVERT_TZ(d.delivery_datetime, '+00:00', @@session.time_zone) < CURDATE() + INTERVAL 1 DAY AND d.delivery_status = 'In Transit' AND o.employeeid = {$employeeId}";
+        $pendingDeliveries = $this->getTableColumns('*', 'delivery', "(CONVERT_TZ(delivery_datetime, '+00:00', @@session.time_zone) >= '{$date}' AND CONVERT_TZ(delivery_datetime, '+00:00', @@session.time_zone) < '{$date}' + INTERVAL 1 DAY) AND delivery_status = 'Pending'");
+        $sql = "SELECT d.* FROM delivery d JOIN order_table o ON d.orderid = o.orderid WHERE CONVERT_TZ(d.delivery_datetime, '+00:00', @@session.time_zone) >= '{$date}' AND CONVERT_TZ(d.delivery_datetime, '+00:00', @@session.time_zone) < '{$date}' + INTERVAL 1 DAY AND d.delivery_status = 'In Transit' AND o.employeeid = {$employeeId}";
         $inTransitDeliveries = $this->db->query($sql);
 
         $pendingList = $this->processDeliveries($pendingDeliveries);
@@ -680,8 +679,8 @@ class Core
         return ['success' => true, 'status' => $deliveryStatus];
     }
 
-    public function getOrderRequests() {
-        $sql = "SELECT so.* FROM supply_order so WHERE NOT EXISTS (SELECT 1 FROM supply_order_details sod WHERE (sod.supply_orderid = so.supply_orderid AND sod.supply_order_datetime = so.supply_order_datetime)AND sod.order_status <> 'Waiting for Approval')";
+    public function getOrderRequests($status) {
+        $sql = "SELECT so.* FROM supply_order so WHERE NOT EXISTS (SELECT 1 FROM supply_order_details sod WHERE (sod.supply_orderid = so.supply_orderid AND sod.supply_order_datetime = so.supply_order_datetime)AND sod.order_status <> '{$status}')";
         $supplyOrderIds = $this->db->getResults($this->db->query($sql));
 
         $supplyOrders = [];

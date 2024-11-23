@@ -18,3 +18,24 @@ h1{
 h2 {
     font-family: "Roboto", sans-serif;
 }
+
+#content {
+    min-height: 100vh;
+    height: auto;
+    padding-bottom: 1.5em;
+    overflow: auto;
+}
+
+#date {
+    width: 20em;
+    background-color: rgb(51, 50, 47);
+    padding: 2em;
+    border-radius: 20px;
+    margin-top: 1em;
+    color: white;
+}
+
+.accordion-button, .btn-clicked {
+    background-color: rgb(51, 50, 47);
+    color: white;
+}

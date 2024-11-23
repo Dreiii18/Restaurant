@@ -14,7 +14,8 @@ if (isset($_SESSION['user'])) {
     die();
 }
 
-$deliveries = $core->getDeliveries($_SESSION['user']['userid']);
+$date = $_REQUEST['date'];
+$deliveries = $core->getDeliveries($_SESSION['user']['userid'], $date);
 
 function displayDeliveries($key, $orderNumber, $address, $itemCount, $status) {
     $accordionId = strtolower(str_replace(' ', '', $status)) . "Deliveries";
@@ -53,19 +54,51 @@ function displayDeliveries($key, $orderNumber, $address, $itemCount, $status) {
     return $itemRow;
 }
 
-$htmlPending = "";
-$htmlInTransit = "";
+function displayNoDeliveries() {
+    $noDeliveries = "
+        <div class='modal fade' id='noDeliveries' data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel1' aria-hidden='true'>
+            <div class='modal-dialog'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h2 class='modal-title fs-5' id='staticBackdropLabel1'>No Deliveries Found</h2>
+                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                    </div>
+                    <div class='modal-body'>
+                        No deliveries found for this date. Please select another date or check back later.
+                    </div>
+                    <div class='modal-footer'>
+                        <button type='button' id='close' class='btn btn-primary' data-bs-dismiss='modal'>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    ";
 
-foreach($deliveries['pending'] as $key => $value) {
-    $htmlPending .= displayDeliveries($value['deliveryNumber'], $value['deliveryNumber'], $value['address'], $value['itemCount'], 'Pending');
+    return $noDeliveries;
 }
 
-foreach($deliveries['in_transit'] as $key => $value) {
-    $htmlInTransit .= displayDeliveries($value['deliveryNumber'], $value['deliveryNumber'], $value['address'], $value['itemCount'], 'In Transit');
+$htmlPending = "";
+$htmlInTransit = "";
+$htmlNoDelivery = "";
+$hasRecord = true;
+
+if (count($deliveries['pending']) > 0|| count($deliveries['in_transit']) > 0) {
+    foreach($deliveries['pending'] as $key => $value) {
+        $htmlPending .= displayDeliveries($value['deliveryNumber'], $value['deliveryNumber'], $value['address'], $value['itemCount'], 'Pending');
+    }
+    
+    foreach($deliveries['in_transit'] as $key => $value) {
+        $htmlInTransit .= displayDeliveries($value['deliveryNumber'], $value['deliveryNumber'], $value['address'], $value['itemCount'], 'In Transit');
+    }
+} else {
+    $hasRecord = false;
+    $htmlNoDelivery = displayNoDeliveries();
 }
 
 
 echo json_encode([
     'pending' => $htmlPending,
-    'in_transit' => $htmlInTransit
+    'in_transit' => $htmlInTransit,
+    'has_record' => $hasRecord,
+    'htmlNoDelivery' => $htmlNoDelivery
 ]);

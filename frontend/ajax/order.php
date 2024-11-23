@@ -155,7 +155,6 @@ function displayMenu() {
                 </dl>
             </div>
         </div>
-    }
     ";
 
     return $output;

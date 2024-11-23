@@ -4,6 +4,10 @@ $(document).ready(function() {
     displayMenu();
     updateCosts();
 
+    $('#fullMenu').on('click', function() {
+        displayFullMenu();
+    })
+    
     $('#items-ordered').on('click', '.add, .subtract', function() {
         const quantityInput = $(this).siblings('.quantity');
         let quantity = parseInt(quantityInput.val());
@@ -105,6 +109,27 @@ function displayMenu() {
     });
 
     updateCartDisplay();
+}
+
+function displayFullMenu() {
+    $.ajax({
+        url: "frontend/ajax/menu.php",
+        dataType: 'json',
+        beforeSend: function() {
+            $('.loading-spiner-holder').show();
+        },
+        success: function(data) {
+            console.log(data.html);
+            $('#test').html(data.html);
+            const modal = new bootstrap.Modal(document.getElementById('menu'));
+            modal.show();
+            $('.loading-spiner-holder').hide();
+        },
+        error: function(xhr, status, error) {
+            console.error("Error: " + error, status, xhr);
+            alert("An error occurred while processing your request.");
+        } 
+    })
 }
 
 function getCartItems() {
