@@ -87,6 +87,7 @@ function addOrder(orders) {
 function displayMenu() {
     $.ajax({
         url: "frontend/ajax/order.php",
+        dataType: "json",
         beforeSend: function() {
             $('.loading-spiner-holder').show();
         },
@@ -94,7 +95,7 @@ function displayMenu() {
             if (data == 'not_found') {
                 window.location.href = '404.html';
             };
-            $('#menu').html(data);
+            $('#menu').html(data.html);
             $('.loading-spiner-holder').hide();
         },
         error: function(xhr, status, error) {

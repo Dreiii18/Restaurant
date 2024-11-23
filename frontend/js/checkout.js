@@ -1,3 +1,5 @@
+const urlParams = new URLSearchParams(window.location.search);
+let allowRedirect = false;
 $(document).ready(function() {
     let transaction = {};
     let customerAddresses = [];
@@ -8,7 +10,7 @@ $(document).ready(function() {
     function getCustomerInfo() {
         $.ajax({
             url: "frontend/ajax/populateCheckout.php",
-            dataType: 'json',
+            dataType: "json",
             beforeSend: function() {
                 $('.loading-spiner-holder').show();
             },
@@ -144,6 +146,17 @@ $(document).ready(function() {
     });
 });
 
+$(window).on("beforeunload", function() {
+    if (!allowRedirect) {
+        deleteOrder();
+        return "Are you sure you want to leave this page?"; 
+    }
+});
+
+$(window).on("unload", function() {
+    $.removeCookie('cartItems');
+});
+
 function handleCustomTip() {
     const selectedTip = $("input[name='tip']:checked").attr("id");
     const customTax = $('#custom-field');
@@ -233,6 +246,7 @@ function addTransaction(transaction) {
         },
         dataType: 'json',
         success: function(data) {
+            allowRedirect = true;
             $('#output').html(data.html);
             console.log(data.msg);
 
@@ -252,8 +266,21 @@ function addTransaction(transaction) {
     });
 }
 
+function deleteOrder() {
+    console.log(urlParams.get('order_number'));
+    $.ajax({
+        url: "frontend/ajax/removeOrder.php",
+        data: {
+            "orderNumber": urlParams.get('order_number')
+        },
+        error: function(xhr, status, error) {
+            console.error("Error: " + error, status, xhr);
+            alert("An error occured while processing your request.");
+        }
+    })
+}
+
 function calculateTotal() {
-    const urlParams = new URLSearchParams(window.location.search);
     let cartItems = JSON.parse($.cookie('cartItems'));
     let subTotal = 0;
     let taxCost = 0;

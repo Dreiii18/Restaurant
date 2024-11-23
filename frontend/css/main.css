@@ -36,6 +36,10 @@
     padding: 20px;
 }
 
+#content {
+    background-color: rgb(182, 161, 132);
+}
+
 #initForms {
     background: rgb(128,44,255);
     background: linear-gradient(90deg, rgb(13,12,11) 34%, rgb(102,93,76) 100%);

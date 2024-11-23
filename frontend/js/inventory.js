@@ -187,7 +187,7 @@ function filterCategory() {
 
     $("#inventoryList").find("tr:not(:first)").each(function () {
         const categoryCell = $(this).find("td:nth-child(3)").text().toLowerCase();
-        if (filter === "" || categoryCell.includes(filter)) {
+        if (filter === "0" || categoryCell.includes(filter)) {
             $(this).show();
         } else {
             $(this).hide();

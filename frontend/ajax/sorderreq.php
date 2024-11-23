@@ -4,10 +4,15 @@ require_once($config["path"] . "/backend/core.php");
 
 $core = new Core();
 
-if (!$core->isAllowed('supply_order')) {
+if (isset($_SESSION['user'])) {
+    if (!$core->isAllowed('supply_order')) {
+        echo json_encode("not_found");
+        die();
+    } 
+} else {
     echo json_encode("not_found");
     die();
-} 
+}
 
 $orderRequests = $core->getOrderRequests();
 

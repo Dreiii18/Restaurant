@@ -4,10 +4,15 @@ require_once($config["path"] . "/backend/core.php");
 
 $core = new Core();
 
-if (!$core->isAllowed('inventory')) {
+if (isset($_SESSION['user'])) {
+    if (!$core->isAllowed('inventory')) {
+        echo "not_found";
+        die();
+    } 
+} else {
     echo "not_found";
     die();
-} 
+}
 
 $categories = $core->getItemDetails()[1];
 $items = $core->getInventoryItems();
@@ -34,14 +39,18 @@ function displayItems($items) {
 
 ?>
 
-<tr>
-    <th width="150px">Item</th>
-    <th>Quantity</th>
-    <th>
-        <select id="categoryDropdown">
-            <option>Category</option>
-            <?php displayCategories($categories)?>
-        </select>
-    </th>
-</tr>
-<?php displayItems($items)?>
+<thead class="table-dark align-middle">
+    <tr>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>
+            <select id="categoryDropdown" class="form-select">
+                <option value="0">Category</option>
+                <?php displayCategories($categories)?>
+            </select>
+        </th>
+    </tr>
+</thead>
+<tbody class="table-group-divider">
+    <?php displayItems($items)?>
+</tbody>

@@ -4,10 +4,9 @@ require_once($config["path"] . "/backend/core.php");
 
 $core = new Core();
 
-
 $isLoggedIn = isset($_SESSION['user']);
 if ($isLoggedIn) {
-    if (!$core->isAllowed('order')) {
+    if (!$core->isAllowed('order') || !isset($_COOKIE['cartItems'])) {
         echo json_encode("not_found");
         die();
     } 
@@ -17,6 +16,7 @@ if ($isLoggedIn) {
     $userData = $userRole !== 'Customer' ? [] : $core->getTransactionDetails($userId);
 
 } else {
-    $userData = [];
+    echo json_encode("not_found");
+    die();
 }
 echo json_encode($userData);

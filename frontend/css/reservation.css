@@ -23,9 +23,11 @@ main {
 }
 
 #content-container{
-    background-color: white;
+    background-color: rgb(182, 161, 132);
     border: 2px solid black;
     padding: 2%;
+    opacity: 95%;
+    border-radius: 15%;
 }
 
 #restaurant-info{
@@ -44,6 +46,7 @@ p{
 
 p, label{
     font-family: "Roboto", sans-serif;
+    font-size: large;
 }
 
 #address{

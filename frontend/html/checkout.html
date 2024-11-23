@@ -3,12 +3,12 @@
 
 ?>
 
-<div id="content">
+<div id="content" class="content">
     <div id="output"></div>
     <div class="row">
         <h2>Order Number: <?php echo $order_number ?></h2>
         <div class="column-1">
-            <div class="inner-row">
+            <div class="inner-row border-bottom p-3">
                 <span class="checkout-section"><h2>Method</h2></span>
                 <div id="order_method">
                     <input type="radio" id="delivery" name="order_method" value="Delivery" checked>
@@ -18,7 +18,7 @@
                     <label for="dine_in">Pick Up</label>
                 </div>
             </div>
-            <div class="inner-row">
+            <div class="inner-row border-bottom p-3">
                 <div id="address">
                     <span><h2>Delivery Address</h2></span>
                     <div class="dropdown" id="addresses">

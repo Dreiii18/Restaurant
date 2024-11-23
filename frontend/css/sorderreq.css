@@ -10,9 +10,17 @@
     font-style: normal;
 }
 
+#content {
+    min-height: 100%;
+    max-height: max-content;
+    height: auto;
+    padding-bottom: 0.5rem;
+}
+
 h2 {
     font-family: "Bebas Neue", sans-serif;
     padding:20px 0px 40px 20px;
+    text-align: center;
 }
 
 .order{
@@ -21,9 +29,9 @@ h2 {
 
 .collapsible {
     font-family: "Bebas Neue", sans-serif;
-    background-color: rgb(199, 199, 199);
+    background-color: rgb(51, 50, 47);
     border-radius: 5px;
-    color: black;
+    color: white;
     cursor: pointer;
     padding: 18px;
     width: 100%;

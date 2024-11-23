@@ -75,7 +75,7 @@ function profile() {
                     </li>
                 </ul>
             </div>
-            <div class="cart-checkout">
+            <div class="cart-checkout" style="display: none;">
                 <i class="fa badge" value=0 data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">&#xf07a;</i>
             </div>
         </div>

@@ -14,6 +14,7 @@ h1{
     font-family: "Bebas Neue", sans-serif;
     justify-content: center;
     display: flex;
+    padding:20px 0px 40px 20px;
 }
 
 h3 {
@@ -78,15 +79,17 @@ td, th {
     padding: 5px;
 }
 
-#show, #add-item {
+#show {
     background-color: white;
     color: black;
-    border: 3px solid black;
-    font-weight: 600;
+    border: 2px solid black;
+    /* font-weight: 600; */
 }
 
 #show {
-    margin-left: 15px;
+    /* margin-left: 15px; */
+    display: flex;
+    justify-self: center;
 }
 
 #show:hover{
@@ -94,10 +97,10 @@ td, th {
     color: white;
 }
 
-#add-item:hover {
+/* #add-item:hover {
     background-color: slategray;
     color: white;
-}
+} */
 
 .modal-dialog{
     overflow-y: initial !important
@@ -110,4 +113,9 @@ td, th {
 .invalid {
     border: 2px solid red;
     background-color: #ffe6e6;
+}
+
+.form-select {
+    color: var(--bs-table-color-state, var(--bs-table-color-type, var(--bs-table-color)));
+    background-color: var(--bs-table-bg);
 }

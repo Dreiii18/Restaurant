@@ -4,10 +4,15 @@ require_once($config["path"] . "/backend/core.php");
 
 $core = new Core();
 
-if (!$core->isAllowed('delivery')) {
+if (isset($_SESSION['user'])) {
+    if (!$core->isAllowed('delivery')) {
+        echo json_encode("not_found");
+        die();
+    } 
+} else {
     echo json_encode("not_found");
     die();
-} 
+}
 
 $deliveries = $core->getDeliveries($_SESSION['user']['userid']);
 

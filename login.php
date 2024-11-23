@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                 <div class="mb-md-5 mt-md-4 pb-5">
                                     <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
                                     <p class="text-white-50 mb-5">Please enter your username and password!</p>
-                                    <p id="invalid" style="display: <?= $invalidLogin ? 'block' : 'none'; ?>;">Invalid username or password</p>
+                                    <p id="invalid" style="display: <?php echo $invalidLogin ? 'block' : 'none'; ?>;">Invalid username or password</p>
                                     <div data-mdb-input-init class="form-outline form-white mb-4">
                                         <input type="text" id="typeUsernameX" name="username" class="form-control form-control-lg" />
                                         <label class="form-label" for="typeUsernameX">Username</label>

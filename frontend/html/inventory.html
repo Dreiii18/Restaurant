@@ -1,7 +1,7 @@
 <div id="content">
-    <h1>Inventory</h1>
+    <h1 class="display-4">Inventory</h1>
     <div id="output"></div>
-    <div id="supplyOrder">
+    <div id="supplyOrder" class="content">
         <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1" data-bs-backdrop="static">
             <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
@@ -14,13 +14,13 @@
                     </div>
                     <div class="modal-footer">
                         <div id="grandTotal">Overall Cost: <span>0.00</span></div>
-                        <button class="btn btn-secondary" id="add-item">Add Item</button>
-                        <button class="btn btn-primary" id="submit">Submit Order</button>
+                        <button class="btn btn-outline-dark" id="add-item">Add Item</button>
+                        <button class="btn btn-success" id="submit">Submit Order</button>
                     </div>
                 </div>
             </div>
         </div>
-         <button class="btn btn-primary" id="show" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Place an Order</button>
-        <table id="inventoryList"></table>
+         <button class="btn btn-primary btn-lg" id="show" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Place an Order</button>
+        <table id="inventoryList" class="table table-responsive-m table-striped"></table>
     </div>
 </div>

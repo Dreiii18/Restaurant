@@ -19,6 +19,7 @@
 }
 
 .cart-checkout{
+    display: block !important;
     border: 10px solid rgb(182,161,132);
     background-color: rgb(182,161,132);
     border-radius: 9999px;
@@ -129,16 +130,12 @@ dt, dd {
     width: 100vw;
 }
 
-.nav {
-    border-bottom: 1px solid slategrey;
-}
-
 .nav h2 {
     padding-right: 10px;
 }
 
 .nav a {
-    color: black;
+    color: rgb(182,161,132);
 }
 
 .nav a:hover{
@@ -192,8 +189,10 @@ dt, dd {
 }
 
 .filter {
-    background-color: white;
+    background-color: rgb(51, 50, 47) !important;
+    padding: 0.5em;
     position: sticky;
+    color: rgb(182,161,132);
     top: var(--main-nav-height);
     z-index: 99;
 }
@@ -202,5 +201,11 @@ dt, dd {
     position: sticky;
     top: 0;
     z-index: 99;
-    padding: 0;
+    /* padding: 0; */
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    background-color: rgb(51, 50, 47);
+    border-radius: 50%;
+    padding: 1.5em;
 }

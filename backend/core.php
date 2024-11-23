@@ -142,6 +142,11 @@ class Core
         }
     }
 
+    public function deleteOrder($orderNumber) {
+        $sql = "DELETE FROM order_table WHERE order_number = {$orderNumber} AND Date(order_datetime) = CURDATE()";
+        $this->db->query($sql);
+    }
+
     public function alterOrder($orderid, $orderType, $phoneNumber) {
         $sql = "UPDATE order_table SET order_type = '{$orderType}',  customer_phone_number = '{$phoneNumber}' WHERE orderid = '{$orderid}'";
 
@@ -517,6 +522,25 @@ class Core
         $menuPrice = $result[0]['menu_price'];
 
         return [$menuName, $menuDescription, $menuPrice];
+    }
+
+    public function getBestSeller() {
+        $sql = "SELECT m.menu_itemid, m.menu_item_name, m.menu_description, m.menu_price, total_quantity
+                FROM menu_item m
+                JOIN (
+                    SELECT menu_itemid, SUM(menu_item_quantity) AS total_quantity
+                    FROM contain
+                    GROUP BY menu_itemid
+                    HAVING SUM(menu_item_quantity) = (
+                        SELECT MAX(total_quantity)
+                        FROM (
+                            SELECT SUM(menu_item_quantity) AS total_quantity
+                            FROM contain
+                            GROUP BY menu_itemid
+                        ) AS subquery
+                    )
+                ) AS most_ordered ON m.menu_itemid = most_ordered.menu_itemid";
+        return $this->db->getResults($this->db->query($sql))[0];
     }
 
     public function getInventoryItems() {
