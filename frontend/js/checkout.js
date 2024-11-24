@@ -147,14 +147,16 @@ $(document).ready(function() {
 });
 
 $(window).on("beforeunload", function() {
-    if (!allowRedirect) {
-        deleteOrder();
-        return "Are you sure you want to leave this page?"; 
-    }
-});
+    const currentUrl = location.href;
+    const nextUrl = document.activeElement?.href || location.href;
 
-$(window).on("unload", function() {
-    $.removeCookie('cartItems');
+    if (nextUrl !== currentUrl) {
+        if (!allowRedirect) {
+            deleteOrder();
+            $.removeCookie('cartItems');
+            return "Are you sure you want to leave this page?"; 
+        }
+    }
 });
 
 function handleCustomTip() {
@@ -267,7 +269,6 @@ function addTransaction(transaction) {
 }
 
 function deleteOrder() {
-    console.log(urlParams.get('order_number'));
     $.ajax({
         url: "frontend/ajax/removeOrder.php",
         data: {

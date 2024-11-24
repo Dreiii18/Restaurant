@@ -16,7 +16,10 @@ if ($isLoggedIn) {
     $userData = $userRole !== 'Customer' ? [] : $core->getTransactionDetails($userId);
 
 } else {
-    echo json_encode("not_found");
-    die();
+    if (!isset($_COOKIE['cartItems'])) {
+        echo json_encode("not_found");
+        die();
+    }
+    $userData = [];
 }
 echo json_encode($userData);
