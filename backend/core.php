@@ -5,14 +5,10 @@ class Core
 {
     /** @var Database */
     protected $db;
-    protected $active;
-    protected $role;
 
     public function __construct()
     {        
       $this->db = new Database();   
-      $this->active = 1;
-      $this->role = 'Customer';
     }
 
     public function login($username, $password)
@@ -775,8 +771,6 @@ class Core
                 'username' => $username,
                 'name' => $customerName,
                 'password' => $password,
-                'active' => $this->active,
-                'role' => $this->role,
             ];
     
             $userId = $this->db->insert($user, 'user');
