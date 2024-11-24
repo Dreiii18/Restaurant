@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 21, 2024 at 09:16 AM
+-- Generation Time: Nov 24, 2024 at 08:19 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -166,10 +166,10 @@ CREATE TABLE `delivery` (
 --
 
 INSERT INTO `delivery` (`deliveryid`, `delivery_datetime`, `delivery_number`, `orderid`, `customerid`, `delivery_status`, `house_number`, `street_number`, `street_name`, `postal_code`, `special_instructions`) VALUES
-(1, '2024-12-12 08:45:00', 1, 2, 2, 'Pending', 324, 8, 'Avenue', 'V6Z 1W5', NULL),
-(2, '2024-12-03 21:05:00', 2, 3, 3, 'Pending', 9876, 16, 'Avenue', 'V5T3E6', NULL),
-(3, '2024-11-24 15:20:00', 3, 4, 5, 'Pending', 675, 4, 'Avenue', 'V6K2P3', NULL),
-(4, '2024-11-23 11:44:00', 4, 1, 4, 'Pending', 4502, 33, 'Avenue', 'V5R4V4', NULL),
+(1, '2024-11-25 08:45:00', 1, 2, 2, 'Pending', 324, 8, 'Avenue', 'V6Z 1W5', NULL),
+(2, '2024-11-25 21:05:00', 2, 3, 3, 'Pending', 9876, 16, 'Avenue', 'V5T3E6', NULL),
+(3, '2024-11-25 15:20:00', 3, 4, 5, 'Pending', 675, 4, 'Avenue', 'V6K2P3', NULL),
+(4, '2024-11-25 00:01:10', 4, 1, 4, 'In Transit', 4502, 33, 'Avenue', 'V5R4V4', NULL),
 (5, '2024-11-25 13:50:00', 5, 5, 1, 'Pending', 1234, 45, 'Avenue', 'V5Z3A8', NULL);
 
 -- --------------------------------------------------------
@@ -244,7 +244,8 @@ INSERT INTO `encryption_keys` (`id`, `encrypted_key`, `iv`, `tag`) VALUES
 (3, 0x4f4a446561514d492f765962516664746d4f654e3072375455324d4d443439327a3255456737634e7976673d, 0xd339f3a898481fb5533cbe9e6cd85424, 0x3264343763336537613730646330616332373564663531333438386462663139),
 (4, 0x4558595576704e35586f326f656955564235682b694e645665696641797a5233717365616170616b754c773d, 0x7238dd99dd4f7f9ef61a3f1669edb2dd, 0x3937363638633831396332303033353236386131383561393462376538343831),
 (5, 0x52737477552b66416431544c423954556673366165314a7a70486d534a6851615a756870333472393578513d, 0x28435ce0d1bd04ea25e74031497a11e2, 0x3135393333376262623565346264663238633831386637303666303538373936),
-(6, 0x70443065785a314b584f49796a6b61737746624e444d655a47487a4468517a306d435433452b59696b33343d, 0x2252bd56642dc34ece54af40ea0889fa, 0x3232663838393963663032333438393033616433383761383462656532306463);
+(6, 0x70443065785a314b584f49796a6b61737746624e444d655a47487a4468517a306d435433452b59696b33343d, 0x2252bd56642dc34ece54af40ea0889fa, 0x3232663838393963663032333438393033616433383761383462656532306463),
+(7, 0x4a4c58584a4e4d734a496e68675742504f5a30685568656177396e4939575751754d5557565747524f43343d, 0x2fac6b06a1bf598430f7aaf42722cf81, 0x3938666537343864663961396235363763643563646236313734383761306537);
 
 -- --------------------------------------------------------
 
@@ -428,11 +429,11 @@ CREATE TABLE `order_table` (
 --
 
 INSERT INTO `order_table` (`orderid`, `order_number`, `order_type`, `order_datetime`, `employeeid`, `customer_phone_number`) VALUES
-(1, 1, 'Delivery', '2024-12-12 08:10:00', 4, NULL),
-(2, 2, 'Delivery', '2024-12-03 20:30:00', 4, NULL),
-(3, 3, 'Delivery', '2024-11-24 14:45:00', 4, NULL),
-(4, 4, 'Delivery', '2024-11-23 11:09:00', 4, NULL),
-(5, 5, 'Delivery', '2024-11-25 13:15:00', 4, NULL);
+(1, 1, 'Delivery', '2024-11-25 08:10:00', 1, '+14035554679'),
+(2, 2, 'Delivery', '2024-11-25 20:30:00', 4, '+16045552187'),
+(3, 3, 'Delivery', '2024-11-25 14:45:00', 4, '+15145553410'),
+(4, 4, 'Delivery', '2024-11-25 11:09:00', 4, '+16135555823'),
+(5, 5, 'Delivery', '2024-11-25 13:15:00', 4, '+14165551024');
 
 -- --------------------------------------------------------
 
@@ -456,10 +457,10 @@ CREATE TABLE `order_transaction` (
 --
 
 INSERT INTO `order_transaction` (`transactionid`, `transaction_number`, `payment_type`, `transaction_datetime`, `orderid`, `card_number`, `expiry_date`, `cvv`) VALUES
-(1, 1, 'Debit Card', '2024-12-12 08:15:00', 1, '\"{\\\"ciphertext\\\":\\\"iS9t23N0NJpEeagSHBEFGg==\\\",\\\"iv\\\":\\\"z9GwJTaHPumLESZu\\\",\\\"tag\\\":\\\"ps6RcGxUmunfsr5n09PVFw==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"2V+lRh+uQQ==\\\",\\\"iv\\\":\\\"A9xQvITt3nsPyDoK\\\",\\\"tag\\\":\\\"OXoozlidnNZUsV4xKdXEug==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"7oa+\\\",\\\"iv\\\":\\\"AGPBvK4aTcVp6+gX\\\",\\\"tag\\\":\\\"ljLcgON8MKYeZ3lxZ55mmg==\\\"}\"'),
-(2, 2, 'Credit Card', '2024-12-03 20:35:00', 2, '\"{\\\"ciphertext\\\":\\\"wVCqUV3GECpmbcHOZaMqcw==\\\",\\\"iv\\\":\\\"TJN3fA7YRekfThMg\\\",\\\"tag\\\":\\\"bEMiTlJGuXYeyLGvd5xAZg==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"BpbG7GFzCg==\\\",\\\"iv\\\":\\\"tFG8X1xELhffJcpw\\\",\\\"tag\\\":\\\"CXr+hZMO5H6SrouhGs\\\\\\/dLA==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"L8h5\\\",\\\"iv\\\":\\\"cnGLQG6QdIIrpjyC\\\",\\\"tag\\\":\\\"BhXi\\\\\\/6J3TB+ykMue7wADAA==\\\"}\"'),
-(3, 3, 'Debit Card', '2024-11-24 14:50:00', 3, '\"{\\\"ciphertext\\\":\\\"lnNHXRj3FNfWrWL\\\\\\/zvMlZg==\\\",\\\"iv\\\":\\\"y9znLNu03yPd2Tjs\\\",\\\"tag\\\":\\\"ynl7n02A8qUEHw6lsqCcqQ==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"ZO0q8awxAg==\\\",\\\"iv\\\":\\\"FPJL9H\\\\\\/P2yrqoEGJ\\\",\\\"tag\\\":\\\"8TXrw8aZlTLmUIXyethuvA==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"Jj0J\\\",\\\"iv\\\":\\\"wmEjLrqid29LFHge\\\",\\\"tag\\\":\\\"gC8XsT7PVouC\\\\\\/JMOr+GVbA==\\\"}\"'),
-(4, 4, 'Credit Card', '2024-11-23 11:14:00', 4, '\"{\\\"ciphertext\\\":\\\"ZqHkwhRcYbRnRjflUDL\\\\\\/Hw==\\\",\\\"iv\\\":\\\"6FlDmTRjHUe6GeIS\\\",\\\"tag\\\":\\\"Z56YU0\\\\\\/WmWRbaUSqMB0Sng==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"oPXhRbWRpw==\\\",\\\"iv\\\":\\\"k7f1DFPcp4FEtMyL\\\",\\\"tag\\\":\\\"2HD2L3Yp7xZy\\\\\\/2bsJOj+Ug==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"ptO9\\\",\\\"iv\\\":\\\"gqOC4Z1qteYdP5BY\\\",\\\"tag\\\":\\\"KofgheB003qZ13ourZhCAQ==\\\"}\"'),
+(1, 1, 'Debit Card', '2024-11-25 08:15:00', 1, '\"{\\\"ciphertext\\\":\\\"iS9t23N0NJpEeagSHBEFGg==\\\",\\\"iv\\\":\\\"z9GwJTaHPumLESZu\\\",\\\"tag\\\":\\\"ps6RcGxUmunfsr5n09PVFw==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"2V+lRh+uQQ==\\\",\\\"iv\\\":\\\"A9xQvITt3nsPyDoK\\\",\\\"tag\\\":\\\"OXoozlidnNZUsV4xKdXEug==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"7oa+\\\",\\\"iv\\\":\\\"AGPBvK4aTcVp6+gX\\\",\\\"tag\\\":\\\"ljLcgON8MKYeZ3lxZ55mmg==\\\"}\"'),
+(2, 2, 'Credit Card', '2024-11-25 20:35:00', 2, '\"{\\\"ciphertext\\\":\\\"wVCqUV3GECpmbcHOZaMqcw==\\\",\\\"iv\\\":\\\"TJN3fA7YRekfThMg\\\",\\\"tag\\\":\\\"bEMiTlJGuXYeyLGvd5xAZg==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"BpbG7GFzCg==\\\",\\\"iv\\\":\\\"tFG8X1xELhffJcpw\\\",\\\"tag\\\":\\\"CXr+hZMO5H6SrouhGs\\\\\\/dLA==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"L8h5\\\",\\\"iv\\\":\\\"cnGLQG6QdIIrpjyC\\\",\\\"tag\\\":\\\"BhXi\\\\\\/6J3TB+ykMue7wADAA==\\\"}\"'),
+(3, 3, 'Debit Card', '2024-11-25 14:50:00', 3, '\"{\\\"ciphertext\\\":\\\"lnNHXRj3FNfWrWL\\\\\\/zvMlZg==\\\",\\\"iv\\\":\\\"y9znLNu03yPd2Tjs\\\",\\\"tag\\\":\\\"ynl7n02A8qUEHw6lsqCcqQ==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"ZO0q8awxAg==\\\",\\\"iv\\\":\\\"FPJL9H\\\\\\/P2yrqoEGJ\\\",\\\"tag\\\":\\\"8TXrw8aZlTLmUIXyethuvA==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"Jj0J\\\",\\\"iv\\\":\\\"wmEjLrqid29LFHge\\\",\\\"tag\\\":\\\"gC8XsT7PVouC\\\\\\/JMOr+GVbA==\\\"}\"'),
+(4, 4, 'Credit Card', '2024-11-25 11:14:00', 4, '\"{\\\"ciphertext\\\":\\\"ZqHkwhRcYbRnRjflUDL\\\\\\/Hw==\\\",\\\"iv\\\":\\\"6FlDmTRjHUe6GeIS\\\",\\\"tag\\\":\\\"Z56YU0\\\\\\/WmWRbaUSqMB0Sng==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"oPXhRbWRpw==\\\",\\\"iv\\\":\\\"k7f1DFPcp4FEtMyL\\\",\\\"tag\\\":\\\"2HD2L3Yp7xZy\\\\\\/2bsJOj+Ug==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"ptO9\\\",\\\"iv\\\":\\\"gqOC4Z1qteYdP5BY\\\",\\\"tag\\\":\\\"KofgheB003qZ13ourZhCAQ==\\\"}\"'),
 (5, 5, 'Credit Card', '2024-11-25 13:20:00', 5, '\"{\\\"ciphertext\\\":\\\"gsmN8aWrU6kzXYjSRnhoBQ==\\\",\\\"iv\\\":\\\"tqWulcXKKbRl2+2R\\\",\\\"tag\\\":\\\"N5dXJii1dm5l+lFjG1byXQ==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"MJtu6UKVmA==\\\",\\\"iv\\\":\\\"artZcKOHAFMJPRaZ\\\",\\\"tag\\\":\\\"dDrRUIigh6ykdn+t5nTGpA==\\\"}\"', '\"{\\\"ciphertext\\\":\\\"gam+\\\",\\\"iv\\\":\\\"RROC8w5UBw6yrWA\\/\\\",\\\"tag\\\":\\\"mljjhIKcEbxQoG3wNA46wg==\\\"}\"');
 
 -- --------------------------------------------------------
@@ -482,10 +483,10 @@ CREATE TABLE `order_transaction_summary` (
 --
 
 INSERT INTO `order_transaction_summary` (`transaction_number`, `transaction_datetime`, `tax`, `tip`, `sub_total`, `total`) VALUES
-(1, '2024-12-12 08:15:00', 25.44, 25.00, 211.96, 262.40),
-(2, '2024-12-03 20:35:00', 22.32, 10.00, 185.97, 218.29),
-(3, '2024-11-24 14:50:00', 18.71, 35.00, 155.94, 209.65),
-(4, '2024-11-23 11:14:00', 53.99, 50.00, 449.91, 553.90),
+(1, '2024-11-25 08:15:00', 25.44, 25.00, 211.96, 262.40),
+(2, '2024-11-25 20:35:00', 22.32, 10.00, 185.97, 218.29),
+(3, '2024-11-25 14:50:00', 18.71, 35.00, 155.94, 209.65),
+(4, '2024-11-25 11:14:00', 53.99, 50.00, 449.91, 553.90),
 (5, '2024-11-25 13:20:00', 57.95, 40.00, 482.93, 580.88);
 
 -- --------------------------------------------------------
@@ -666,11 +667,11 @@ CREATE TABLE `supply_order` (
 --
 
 INSERT INTO `supply_order` (`supply_orderid`, `inventoryid`, `supplierid`, `cost_per_unit`, `quantity_ordered`, `total_cost`, `supply_order_datetime`) VALUES
-(1, 1, 5, 18.00, 10, 180.00, '2024-12-21 23:28:00'),
+(1, 1, 5, 18.00, 10, 180.00, '2024-11-25 23:28:00'),
 (2, 2, 2, 40.07, 15, 601.05, '2024-11-25 20:42:00'),
-(3, 3, 3, 20.00, 17, 340.00, '2025-01-07 13:02:00'),
+(3, 3, 3, 20.00, 17, 340.00, '2024-11-25 13:02:00'),
 (4, 4, 4, 15.75, 22, 346.50, '2024-11-25 04:46:00'),
-(5, 5, 5, 8.04, 25, 201.00, '2024-11-24 21:16:00');
+(5, 5, 5, 8.04, 25, 201.00, '2024-11-25 21:16:00');
 
 -- --------------------------------------------------------
 
@@ -681,7 +682,7 @@ INSERT INTO `supply_order` (`supply_orderid`, `inventoryid`, `supplierid`, `cost
 CREATE TABLE `supply_order_details` (
   `supply_orderid` int(11) NOT NULL,
   `supply_order_datetime` datetime NOT NULL,
-  `order_status` varchar(20) NOT NULL DEFAULT 'Waiting for Approval',
+  `order_status` varchar(20) NOT NULL DEFAULT 'Pending',
   `employeeid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -690,11 +691,11 @@ CREATE TABLE `supply_order_details` (
 --
 
 INSERT INTO `supply_order_details` (`supply_orderid`, `supply_order_datetime`, `order_status`, `employeeid`) VALUES
-(1, '2024-12-21 23:28:00', 'Waiting for Approval', 3),
-(2, '2024-11-25 20:42:00', 'Waiting for Approval', 3),
-(3, '2025-01-07 13:02:00', 'Waiting for Approval', 3),
-(4, '2024-11-25 04:46:00', 'Waiting for Approval', 3),
-(5, '2024-11-24 21:16:00', 'Waiting for Approval', 3);
+(1, '2024-11-25 23:28:00', 'Pending', 3),
+(2, '2024-11-25 20:42:00', 'Pending', 3),
+(3, '2024-11-25 13:02:00', 'Pending', 3),
+(4, '2024-11-25 04:46:00', 'Pending', 3),
+(5, '2024-11-25 21:16:00', 'Pending', 3);
 
 -- --------------------------------------------------------
 
@@ -707,8 +708,8 @@ CREATE TABLE `user` (
   `username` varchar(50) NOT NULL,
   `name` varchar(20) NOT NULL,
   `password` varchar(32) NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT 0,
-  `role` varchar(10) NOT NULL
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `role` varchar(10) NOT NULL DEFAULT 'Customer'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -930,7 +931,7 @@ ALTER TABLE `address`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customerid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `customerid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `delivery`
@@ -948,7 +949,7 @@ ALTER TABLE `employee`
 -- AUTO_INCREMENT for table `encryption_keys`
 --
 ALTER TABLE `encryption_keys`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `has_payment_information`
