@@ -75,28 +75,36 @@ $(document).ready(function () {
         deliveryItemDiv.remove();
         updateDeliveryStatus(deliveryKey, "Delivered");
     })
+
+    function updateDeliveryStatus(delivery, status) {
+        $.ajax({
+            url: "frontend/ajax/updateDelivery.php",
+            data: {
+                delivery: delivery,
+                status: status,
+            },
+            dataType: "json",
+            success: function(data) {
+                $('#staticBackdrop').remove();
+                $('#output').html(data.html);
+                const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+                modal.show();
+    
+                if (status == 'Delivered') {
+                    $('#staticBackdrop').on('hidden.bs.modal', function() {
+                        getDeliveries();
+                        console.log('TRUE');
+                    })
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error, status, xhr);
+                alert("An error occurred while processing your request.");
+            } 
+        })
+    }
 });
 
-function updateDeliveryStatus(delivery, status) {
-    $.ajax({
-        url: "frontend/ajax/updateDelivery.php",
-        data: {
-            delivery: delivery,
-            status: status,
-        },
-        dataType: "json",
-        success: function(data) {
-            $('#staticBackdrop').remove();
-            $('#output').html(data.html);
-            const modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
-            modal.show();
-        },
-        error: function(xhr, status, error) {
-            console.error("Error: " + error, status, xhr);
-            alert("An error occurred while processing your request.");
-        } 
-    })
-}
 
 function setupDate() {
     const today = new Date();
